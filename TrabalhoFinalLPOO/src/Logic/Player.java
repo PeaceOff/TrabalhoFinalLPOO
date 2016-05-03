@@ -2,20 +2,24 @@ package Game.Logic;
 
 
 /**
- * Singleton
- * @author David
+ * @author PeaceOff
  * @version 1.0
- * @created 03-mai-2016 15:30:34
+ * @created 03-mai-2016 15:30:42
  */
-public class Fisica {
+public class Player extends GameObject {
 
-	public Collider m_Collider;
+	private int id;
+	private String nome;
 
-	public Fisica(){
+	public Player(){
 
 	}
 
 	public void finalize() throws Throwable {
+		super.finalize();
+	}
+
+	public start(){
 
 	}
 

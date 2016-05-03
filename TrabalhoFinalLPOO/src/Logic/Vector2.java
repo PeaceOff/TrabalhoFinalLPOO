@@ -1,38 +1,53 @@
-package Logic;
+package Game.Logic;
 
+
+/**
+ * @author David
+ * @version 1.0
+ * @created 03-mai-2016 15:30:46
+ */
 public class Vector2 {
-	float x;
-	float y;
-	
-	Vector2(){}
-	
-	Vector2(float x,float y){
-		this.x = x;
-		this.y = y;
+
+	public float x;
+	public float y;
+
+	public Vector2(){
+
 	}
-	
-	Vector2 add(Vector2 v){
-		Vector2 temp = new Vector2();
-		temp.x = this.x + v.x;
-		temp.y = this.y + v.y;
-		return temp;
+
+	public void finalize() throws Throwable {
+
 	}
-	
-	void normalize(){
-		//TODO
+
+	/**
+	 * 
+	 * @param v
+	 */
+	public void add(Vector2 v){
+
 	}
-	
-	public float getX() {
-		return x;
+
+	/**
+	 * 
+	 * @param v1
+	 * @param v2
+	 */
+	public static float distance(Vector2 v1, Vector2 v2){
+		return null;
 	}
-	public void setX(float x) {
-		this.x = x;
+
+	/**
+	 * 
+	 * @param v1
+	 * @param v2
+	 * @param t
+	 */
+	public static Vector2 lerp(Vector2 v1, Vector2 v2, float t){
+		return null;
 	}
-	public float getY() {
-		return y;
+
+	public void normalize(){
+
 	}
-	public void setY(float y) {
-		this.y = y;
-	}
-	
+
 }
