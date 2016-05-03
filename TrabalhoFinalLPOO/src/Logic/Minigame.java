@@ -9,12 +9,12 @@ import java.util.ArrayList;
  */
 public abstract class Minigame {
 
-	private ArrayList<Integer> scores = null;
+	private ArrayList<Integer> scores;
 	public Fisica m_Fisica;
 	public GameObject m_GameObject;
 
 	public Minigame(){
-
+		scores = new ArrayList<Integer>();
 	}
 
 	public void finalize() throws Throwable {

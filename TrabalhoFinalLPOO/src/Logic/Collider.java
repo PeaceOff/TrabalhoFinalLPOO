@@ -20,7 +20,9 @@ public abstract class Collider {
 	public iCollider m_iCollider;
 
 	public Collider(){
-
+		drag = new Vector2();
+		position = new Vector2();
+		velocity = new Vector2();
 	}
 
 	public void finalize() throws Throwable {
@@ -38,7 +40,7 @@ public abstract class Collider {
 	 * @param v
 	 */
 	public void addVelocity(Vector2 v){
-
+		velocity.add(v);
 	}
 
 	public abstract Rectangulo getBoundingBox();
