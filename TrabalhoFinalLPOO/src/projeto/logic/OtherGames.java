@@ -1,14 +1,15 @@
-package Logic;
+package projeto.logic;
 
 
 /**
+ * Example
  * @author PeaceOff
  * @version 1.0
- * @created 03-mai-2016 15:30:45
+ * @created 03-mai-2016 15:30:41
  */
-public class SoccerGame extends Minigame {
+public class OtherGames extends Minigame {
 
-	public SoccerGame(){
+	public OtherGames(){
 
 	}
 

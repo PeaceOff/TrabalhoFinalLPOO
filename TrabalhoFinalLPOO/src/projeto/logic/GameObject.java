@@ -1,5 +1,4 @@
-package Logic;
-
+package projeto.logic;
 
 /**
  * @author David

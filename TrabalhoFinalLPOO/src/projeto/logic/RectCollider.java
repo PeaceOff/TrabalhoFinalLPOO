@@ -1,16 +1,16 @@
-package Logic;
-
+package projeto.logic;
 
 /**
  * @author David
  * @version 1.0
- * @created 03-mai-2016 15:30:30
+ * @created 03-mai-2016 15:30:43
  */
-public class CircleCollider extends Collider {
+public class RectCollider extends Collider {
 
-	private float radius;
+	private float height;
+	private float width;
 
-	public CircleCollider(){
+	public RectCollider(){
 
 	}
 

@@ -1,15 +1,16 @@
-package Logic;
-
+package projeto.logic;
 
 /**
- * Example
  * @author PeaceOff
  * @version 1.0
- * @created 03-mai-2016 15:30:41
+ * @created 03-mai-2016 15:30:42
  */
-public class OtherGames extends Minigame {
+public class Player extends GameObject {
 
-	public OtherGames(){
+	private int id;
+	private String nome;
+
+	public Player(){
 
 	}
 
@@ -17,14 +18,13 @@ public class OtherGames extends Minigame {
 		super.finalize();
 	}
 
-	public void initGame(){
+	public void start(){
 
 	}
 
 	/**
 	 * 
 	 * @param timeLapsed
-	 * @return 
 	 */
 	public void update(float timeLapsed){
 

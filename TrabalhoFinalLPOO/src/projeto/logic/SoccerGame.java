@@ -1,17 +1,14 @@
-package Logic;
+package projeto.logic;
 
 
 /**
  * @author PeaceOff
  * @version 1.0
- * @created 03-mai-2016 15:30:42
+ * @created 03-mai-2016 15:30:45
  */
-public class Player extends GameObject {
+public class SoccerGame extends Minigame {
 
-	private int id;
-	private String nome;
-
-	public Player(){
+	public SoccerGame(){
 
 	}
 
@@ -19,13 +16,14 @@ public class Player extends GameObject {
 		super.finalize();
 	}
 
-	public void start(){
+	public void initGame(){
 
 	}
 
 	/**
 	 * 
 	 * @param timeLapsed
+	 * @return 
 	 */
 	public void update(float timeLapsed){
 

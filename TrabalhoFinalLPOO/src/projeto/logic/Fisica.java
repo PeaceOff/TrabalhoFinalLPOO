@@ -1,4 +1,4 @@
-package Logic;
+package projeto.logic;
 
 import java.util.ArrayList;
 
