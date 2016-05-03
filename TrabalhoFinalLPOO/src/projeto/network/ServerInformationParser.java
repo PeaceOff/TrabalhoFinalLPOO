@@ -34,7 +34,8 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 	 * @param index
 	 */
 	public void CommandReceived(byte[] cmd, int index){
-		commandParser.parseCMD(cmd, index); 
+		if(udp) index %= (m_InformationParser.length/2);
+		commandParser.parseCMD(cmd, index);  
 	}
 
 	/**

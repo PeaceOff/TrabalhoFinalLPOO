@@ -45,7 +45,6 @@ public class UDPConnection extends Thread{
 			
 			DatagramPacket packet =new DatagramPacket(info, info.length, addr, port);
 			
-			if(packet == null)return;
 			
 			socket.send(packet);
 			
@@ -74,6 +73,9 @@ public class UDPConnection extends Thread{
 
 			try {
 				socket.receive(packet);
+				
+				if(packet.getAddress().getHostAddress() != ipConfirmation) continue;  
+				
 				m_IMessage.OnMessageReceived(packet.getData(), id);
 
 			} catch (IOException e) {

@@ -1,6 +1,5 @@
 package projeto.network;
 
-import java.awt.Image;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
