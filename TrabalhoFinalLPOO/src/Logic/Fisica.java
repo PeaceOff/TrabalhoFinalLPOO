@@ -11,9 +11,21 @@ import java.util.ArrayList;
 public class Fisica {
 
 	public ArrayList<Collider> objects;
+	private static Fisica fis = null;
 
-	public Fisica(){
+	private Fisica(){
 		objects = new ArrayList<Collider>();
+	}
+	
+	public static Fisica getInstance(){
+		if(fis == null){
+			synchronized (Fisica.class) {
+				if (fis == null) {
+					fis = new Fisica();
+				} 
+			}
+		}
+		return fis;
 	}
 	
 	public void addObject(Collider c){
