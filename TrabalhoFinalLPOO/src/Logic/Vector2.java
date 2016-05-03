@@ -1,18 +1,18 @@
 package Logic;
 
-public class Vetor2 {
+public class Vector2 {
 	float x;
 	float y;
 	
-	Vetor2(){}
+	Vector2(){}
 	
-	Vetor2(float x,float y){
+	Vector2(float x,float y){
 		this.x = x;
 		this.y = y;
 	}
 	
-	Vetor2 add(Vetor2 v){
-		Vetor2 temp = new Vetor2();
+	Vector2 add(Vector2 v){
+		Vector2 temp = new Vector2();
 		temp.x = this.x + v.x;
 		temp.y = this.y + v.y;
 		return temp;
