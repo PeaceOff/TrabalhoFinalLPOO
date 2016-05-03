@@ -1,4 +1,4 @@
-package Game.Logic;
+package Logic;
 
 
 /**
@@ -7,7 +7,7 @@ package Game.Logic;
  * @version 1.0
  * @created 03-mai-2016 15:30:41
  */
-public class OtherGames extends MINIGAME {
+public class OtherGames extends Minigame {
 
 	public OtherGames(){
 
@@ -17,15 +17,16 @@ public class OtherGames extends MINIGAME {
 		super.finalize();
 	}
 
-	public initGame(){
+	public void initGame(){
 
 	}
 
 	/**
 	 * 
 	 * @param timeLapsed
+	 * @return 
 	 */
-	public update(float timeLapsed){
+	public void update(float timeLapsed){
 
 	}
 

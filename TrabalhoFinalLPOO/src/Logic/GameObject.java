@@ -1,4 +1,4 @@
-package Game.Logic;
+package Logic;
 
 
 /**
@@ -36,7 +36,7 @@ public abstract class GameObject implements iCollider {
 
 	}
 
-	public start(){
+	public void start(){
 
 	}
 

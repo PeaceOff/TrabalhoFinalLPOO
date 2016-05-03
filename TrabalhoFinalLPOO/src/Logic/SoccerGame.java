@@ -1,4 +1,4 @@
-package Game.Logic;
+package Logic;
 
 
 /**
@@ -6,7 +6,7 @@ package Game.Logic;
  * @version 1.0
  * @created 03-mai-2016 15:30:45
  */
-public class SoccerGame extends MINIGAME {
+public class SoccerGame extends Minigame {
 
 	public SoccerGame(){
 
@@ -23,8 +23,9 @@ public class SoccerGame extends MINIGAME {
 	/**
 	 * 
 	 * @param timeLapsed
+	 * @return 
 	 */
-	public update(float timeLapsed){
+	public void update(float timeLapsed){
 
 	}
 

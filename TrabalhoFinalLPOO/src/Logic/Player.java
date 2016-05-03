@@ -1,4 +1,4 @@
-package Game.Logic;
+package Logic;
 
 
 /**
@@ -19,7 +19,7 @@ public class Player extends GameObject {
 		super.finalize();
 	}
 
-	public start(){
+	public void start(){
 
 	}
 

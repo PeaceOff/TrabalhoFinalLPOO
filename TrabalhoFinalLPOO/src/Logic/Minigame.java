@@ -1,5 +1,6 @@
-package Game.Logic;
+package Logic;
 
+import java.util.ArrayList;
 
 /**
  * @author David
@@ -8,7 +9,7 @@ package Game.Logic;
  */
 public abstract class Minigame {
 
-	private ArrayList<int> scores = null;
+	private ArrayList<Integer> scores = null;
 	public Fisica m_Fisica;
 	public GameObject m_GameObject;
 
@@ -20,15 +21,16 @@ public abstract class Minigame {
 
 	}
 
-	public initGame(){
+	public void initGame(){
 
 	}
 
 	/**
 	 * 
 	 * @param timeLapsed
+	 * @return 
 	 */
-	public update(float timeLapsed){
+	public void update(float timeLapsed){
 
 	}
 

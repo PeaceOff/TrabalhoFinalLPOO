@@ -1,4 +1,4 @@
-package Game.Logic;
+package Logic;
 
 
 /**
@@ -17,6 +17,30 @@ public class RectCollider extends Collider {
 
 	public void finalize() throws Throwable {
 		super.finalize();
+	}
+
+	@Override
+	public void addListener(iCollider iC) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Rectangulo getBoundingBox() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void onCollisionEnter(Collider c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTriggerEnter(Collider c) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,5 +1,6 @@
-package Game.Logic;
+package Logic;
 
+import java.util.ArrayList;
 
 /**
  * Singleton

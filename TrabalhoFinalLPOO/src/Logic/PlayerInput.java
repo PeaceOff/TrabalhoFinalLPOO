@@ -1,4 +1,4 @@
-package Game.Logic;
+package Logic;
 
 
 /**

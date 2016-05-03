@@ -1,4 +1,4 @@
-package Game.Logic;
+package Logic;
 
 
 /**
@@ -41,7 +41,7 @@ public abstract class Collider {
 
 	}
 
-	public abstract Rectangle getBoundingBox();
+	public abstract Rectangulo getBoundingBox();
 
 	/**
 	 * 

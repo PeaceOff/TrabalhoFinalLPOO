@@ -1,4 +1,4 @@
-package Game.Logic;
+package Logic;
 
 
 /**
@@ -12,7 +12,8 @@ public class Vector2 {
 	public float y;
 
 	public Vector2(){
-
+		x = 0;
+		y = 0;
 	}
 	
 	Vector2(float xCoord, float yCoord){
@@ -30,7 +31,7 @@ public class Vector2 {
 	 */
 	public void add(Vector2 v){
 		this.x += v.x;
-		thisy += v.y;
+		this.y += v.y;
 	}
 
 	/**
@@ -39,8 +40,9 @@ public class Vector2 {
 	 * @param v2
 	 */
 	public static float distance(Vector2 v1, Vector2 v2){
-		float res = null;
-		res = sqrt( ( (v2.x - v1.x)^2 ) + ( (v2.y - v1.y)^2) );
+		float res;
+		double formula = ( (v2.x - v1.x)*(v2.x - v1.x) ) + ( (v2.y - v1.y)*(v2.y - v1.y));
+		res = (float)Math.sqrt(formula);
 		return res;
 	}
 
@@ -51,14 +53,14 @@ public class Vector2 {
 	 * @param t
 	 */
 	public static Vector2 lerp(Vector2 v1, Vector2 v2, float t){
-		Vector2 res = null;
+		Vector2 res = new Vector2();
 		res.x = v1.x + ((v2.x - v1.x) * t);
 		res.y = v1.y + ((v2.y - v1.y) * t);
 		return res;
 	}
 
 	public float getNorm(){
-		return sqrt(this.x^2 + this.y^2);
+		return (float)Math.sqrt(this.x*this.x + this.y*this.y);
 	}
 	
 	public void normalize(){
