@@ -17,6 +17,13 @@ public class Rectangulo {
 
 	}
 
+	public Rectangulo(float h, float w, float xCoord,float yCoord){
+		height = h;
+		width = w;
+		x = xCoord;
+		y = yCoord;
+	}
+	
 	public void finalize() throws Throwable {
 
 	}

@@ -9,10 +9,14 @@ package Game.Logic;
  */
 public class Fisica {
 
-	public Collider m_Collider;
+	public ArrayList<Collider> objects;
 
 	public Fisica(){
-
+		objects = new ArrayList<Collider>();
+	}
+	
+	public void addObject(Collider c){
+		objects.add(c);
 	}
 
 	public void finalize() throws Throwable {
