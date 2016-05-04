@@ -14,20 +14,25 @@ public class UDPConnection extends Thread{
 	private String ipConfirmation;
 	private DatagramSocket socket;
 	private IMessage m_IMessage;
-	String ip = null; 
-	int port = 3333;
-	
+	private String ip = null; 
+	private int port = 3333;
+	private int sendPort = 3334;
 	/**
 	 * 
 	 * @param host
 	 * @param port
 	 * @throws SocketException 
 	 */
-	public UDPConnection(String host, int port, int id) throws SocketException{
-		this.id  = id;
-		ip = host;
+	public UDPConnection(String host, int port,int sendPort, int id) throws SocketException{
+		this.id  = id; 
+		this.sendPort=sendPort;
+		ip = host;  
+		ipConfirmation = host; 
 		this.port=port;
-		socket = new DatagramSocket(port); 
+		if(host!=null || port != 0)    
+			socket = new DatagramSocket(port); 
+		else
+			socket = new DatagramSocket(); 
 		
 	}
 
@@ -43,9 +48,9 @@ public class UDPConnection extends Thread{
 			
 			if(addr == null)return;
 			
-			DatagramPacket packet =new DatagramPacket(info, info.length, addr, port);
+			DatagramPacket packet =new DatagramPacket(info, info.length, addr, sendPort); 
 			
-			
+			 
 			socket.send(packet);
 			
 		} catch (UnknownHostException e) {
@@ -72,16 +77,16 @@ public class UDPConnection extends Thread{
 			DatagramPacket packet = new DatagramPacket(info, info.length);
 
 			try {
-				socket.receive(packet);
-				
-				if(packet.getAddress().getHostAddress() != ipConfirmation) continue;  
+				 
+				socket.receive(packet); 
+				if(!packet.getAddress().getHostAddress().equals(ipConfirmation)) continue;  
 				
 				m_IMessage.OnMessageReceived(packet.getData(), id);
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				return;
+				//e.printStackTrace();
+			} 
 			
 			
 

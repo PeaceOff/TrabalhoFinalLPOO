@@ -27,7 +27,7 @@ public class ClientInformationParser implements IMessage, ICommandReceived {
 	@Override
 	public void CommandReceived(byte[] cmd, int index) {
 		commandParser.parseCMD(cmd, index);
-		
+		 
 	}
 
 	

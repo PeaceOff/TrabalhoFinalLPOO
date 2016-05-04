@@ -14,7 +14,7 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 	private CommandParser commandParser;
 	private boolean udp = false;
 
-	/**
+	/** 
 	 * 
 	 * @param num
 	 * @param hasUDP
@@ -44,8 +44,31 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 	 * @param id
 	 */
 	public void OnMessageReceived(byte[] info, int id){
+		byte[] res = info;
+		
+		if(udp){
+			if(id >= m_InformationParser.length/2){
+				
+				int length = 0;
+				
+				for(int i = info.length-1; i > 0; i--){
+					if(info[i] == '#'){						
+						length = i;
+						break;
+					} 
+				}				
+				
+				res = new byte[length+1];
+				
+				for(int i = 0; i <= length ; i++){
+					
+					res[i] = info[i];
+				}				
+			}
+		}
+		
 		synchronized(m_InformationParser[id]){
-			m_InformationParser[id].parseInformation(info);
+			m_InformationParser[id].parseInformation(res);
 		}
 	}
 

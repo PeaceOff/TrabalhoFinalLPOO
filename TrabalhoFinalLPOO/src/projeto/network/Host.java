@@ -110,7 +110,7 @@ public class Host extends Thread implements IServerConnection{
 				DataOutputStream out = new DataOutputStream(tempClient.getOutputStream());
 				out.writeInt(newPort);
 				
-				tempClient.close();
+				tempClient.close(); 
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -137,9 +137,11 @@ public class Host extends Thread implements IServerConnection{
 			c.OnClientConnected(client, id);
 		
 		
-		
+		  
 		try {
-			m_UDPConnection[id] = new UDPConnection(client.getInetAddress().toString(), basePort + id + 1, id);
+			m_UDPConnection[id] = new UDPConnection(client.getInetAddress().getHostAddress(), basePort + id + 1, 0 , id + numClients);
+			m_UDPConnection[id].setMessageParser(messageParser); 
+			m_UDPConnection[id].start();  
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -160,7 +162,7 @@ public class Host extends Thread implements IServerConnection{
 		m_TCPConnection[id] = null; 
 		
 		m_UDPConnection[id].close();
-		m_UDPConnection[id].interrupt();
+		m_UDPConnection[id].interrupt(); 
 		m_UDPConnection[id] = null;
 		
 		
