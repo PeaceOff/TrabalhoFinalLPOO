@@ -7,27 +7,23 @@ package projeto.logic;
  */
 public class RectCollider extends Collider {
 
-	private float height;
-	private float width;
+	private double height;
+	private double width;
 
 	public RectCollider(){
-
+		height = 0;
+		width = 0;
 	}
-
-	public void finalize() throws Throwable {
-		super.finalize();
-	}
-
-	@Override
-	public void addListener(iCollider iC) {
-		// TODO Auto-generated method stub
-		
+	
+	public RectCollider(double h, double w){
+		height = h;
+		width = w;
 	}
 
 	@Override
 	public Rectangulo getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+		Rectangulo res = new Rectangulo(this.position.x,this.position.y,this.height,this.width);
+		return res;
 	}
 
 	@Override

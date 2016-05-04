@@ -15,10 +15,6 @@ public abstract class GameObject implements iCollider {
 
 	}
 
-	public void finalize() throws Throwable {
-
-	}
-
 	/**
 	 * 
 	 * @param c

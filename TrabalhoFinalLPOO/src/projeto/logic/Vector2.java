@@ -8,15 +8,15 @@ package projeto.logic;
  */
 public class Vector2 {
 
-	public float x;
-	public float y;
+	public double x;
+	public double y;
 
 	public Vector2(){
 		x = 0;
 		y = 0;
 	}
 	
-	Vector2(float xCoord, float yCoord){
+	Vector2(double xCoord, double yCoord){
 		x = xCoord;
 		y = yCoord;
 	}
@@ -39,10 +39,10 @@ public class Vector2 {
 	 * @param v1
 	 * @param v2
 	 */
-	public static float distance(Vector2 v1, Vector2 v2){
-		float res;
+	public static double distance(Vector2 v1, Vector2 v2){
+		double res;
 		double formula = ( (v2.x - v1.x)*(v2.x - v1.x) ) + ( (v2.y - v1.y)*(v2.y - v1.y));
-		res = (float)Math.sqrt(formula);
+		res = Math.sqrt(formula);
 		return res;
 	}
 
@@ -52,15 +52,15 @@ public class Vector2 {
 	 * @param v2
 	 * @param t
 	 */
-	public static Vector2 lerp(Vector2 v1, Vector2 v2, float t){
+	public static Vector2 lerp(Vector2 v1, Vector2 v2, double t){
 		Vector2 res = new Vector2();
 		res.x = v1.x + ((v2.x - v1.x) * t);
 		res.y = v1.y + ((v2.y - v1.y) * t);
 		return res;
 	}
 
-	public float getNorm(){
-		return (float)Math.sqrt(this.x*this.x + this.y*this.y);
+	public double getNorm(){
+		return Math.sqrt(this.x*this.x + this.y*this.y);
 	}
 	
 	public void normalize(){

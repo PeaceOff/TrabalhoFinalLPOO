@@ -7,32 +7,30 @@ package projeto.logic;
  */
 public abstract class Collider {
 
-	private Vector2 drag;
-	private boolean movable;
-	private Vector2 position;
-	private String tag;
+	protected Vector2 drag;
+	protected boolean movable;
+	protected Vector2 position;//Centro geometrico do objeto
+	protected String tag;
 	/**
 	 * Indicates if is trigger
 	 */
-	private boolean trigger = true;
-	private Vector2 velocity;
-	public iCollider m_iCollider;
+	protected boolean trigger = true;
+	protected Vector2 velocity;
+	protected iCollider m_iCollider;
 
 	public Collider(){
 		drag = new Vector2();
 		position = new Vector2();
 		velocity = new Vector2();
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
+	}	
+	
 	/**
 	 * 
 	 * @param iC
 	 */
-	public abstract void addListener(iCollider iC);
+	public void addListener(iCollider iC){
+		m_iCollider = iC;
+	}
 
 	/**
 	 * 
@@ -62,6 +60,54 @@ public abstract class Collider {
 	 */
 	public void update(float time){
 
+	}
+
+	public Vector2 getDrag() {
+		return drag;
+	}
+
+	public void setDrag(Vector2 drag) {
+		this.drag = drag;
+	}
+
+	public boolean isMovable() {
+		return movable;
+	}
+
+	public void setMovable(boolean movable) {
+		this.movable = movable;
+	}
+
+	public Vector2 getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vector2 position) {
+		this.position = position;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
+
+	public boolean isTrigger() {
+		return trigger;
+	}
+
+	public void setTrigger(boolean trigger) {
+		this.trigger = trigger;
+	}
+
+	public Vector2 getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector2 velocity) {
+		this.velocity = velocity;
 	}
 
 }

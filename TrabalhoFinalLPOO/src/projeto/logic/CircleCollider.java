@@ -7,26 +7,26 @@ package projeto.logic;
  */
 public class CircleCollider extends Collider {
 
-	private float radius;
+	private double radius;
 
 	public CircleCollider(){
-
+		radius = 0;
 	}
-
-	public void finalize() throws Throwable {
-		super.finalize();
+	
+	public CircleCollider(double r){
+		radius = r;
 	}
-
-	@Override
-	public void addListener(iCollider iC) {
-		// TODO Auto-generated method stub
-		
+	
+	public CircleCollider(double r, double x, double y){
+		radius = r;
+		this.position.x = x;
+		this.position.y = y;
 	}
 
 	@Override
 	public Rectangulo getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+		Rectangulo res = new Rectangulo(this.position.x,this.position.y,radius * 2);
+		return res;
 	}
 
 	@Override
@@ -39,6 +39,14 @@ public class CircleCollider extends Collider {
 	public void onTriggerEnter(Collider c) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
 	}
 
 }
