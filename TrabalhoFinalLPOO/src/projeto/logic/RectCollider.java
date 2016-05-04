@@ -28,7 +28,10 @@ public class RectCollider extends Collider {
 
 	@Override
 	public void onCollisionEnter(Collider c) {
-		// TODO Auto-generated method stub
+		if(c.tag == "Ball" && this.tag == "Goal"){//Nao havera colisao entre dois rectangulos (em principio)
+			//Score++
+			return;
+		}
 		
 	}
 

@@ -60,11 +60,14 @@ public class Fisica {
 	}
 	
 	private boolean checkCollisionTwo(RectCollider rC,CircleCollider circle){//THE PROBLEM LIES HERE
+		
 		Rectangulo bound = rC.getBoundingBox();
+		
 		Rectangulo r1 = new Rectangulo(bound.getxI() - (circle.getRadius()/2),rC.getPosition().y,bound.getHeight(),circle.getRadius());
 		Rectangulo r2 = new Rectangulo(rC.getPosition().x,bound.getyF() + (circle.getRadius()/2),circle.getRadius(),bound.getWidth());
 		Rectangulo r3 = new Rectangulo(bound.getxF() + (circle.getRadius()/2),rC.getPosition().y,bound.getHeight(),circle.getRadius());
 		Rectangulo r4 = new Rectangulo(rC.getPosition().x,bound.getyI() - (circle.getRadius()/2),circle.getRadius(),bound.getWidth());
+		
 		if (pointInRect(r1,circle.getPosition()) ||
 			pointInRect(r2,circle.getPosition()) ||
 			pointInRect(r3,circle.getPosition()) ||
@@ -75,6 +78,7 @@ public class Fisica {
 		CircleCollider c2 = new CircleCollider(circle.getRadius(),bound.getxF(),bound.getyF());
 		CircleCollider c3 = new CircleCollider(circle.getRadius(),bound.getxI(),bound.getyI());
 		CircleCollider c4 = new CircleCollider(circle.getRadius(),bound.getxF(),bound.getyI());
+		
 		if (pointInCircle(c1,circle.getPosition()) ||
 			pointInCircle(c2,circle.getPosition()) ||
 			pointInCircle(c3,circle.getPosition()) ||
@@ -99,21 +103,13 @@ public class Fisica {
 		return (distCenters <= distMin);
 	}
 
-	/**
-	 * 
-	 * @param timeLapsed
-	 */
 	public void update(float timeLapsed){
 		
 		for(Collider c : objects){
-			
-			c.position.x += c.getVelocity().x * timeLapsed;
-			c.position.y += c.getVelocity().y * timeLapsed;
-			Vector2 newVelocity = new Vector2();
-			newVelocity.x = c.getVelocity().x - (c.getDrag().x  * timeLapsed);
-			newVelocity.y = c.getVelocity().y - (c.getDrag().y * timeLapsed);
-			c.setVelocity(newVelocity);
-			
+			c.update(timeLapsed);
+		}
+		
+		for(Collider c : objects){
 			for(int k = objects.indexOf(c) + 1; k < objects.size(); k++){
 				if(checkColision(c,objects.get(k))){//True = colisao
 					c.onCollisionEnter(objects.get(k));

@@ -9,29 +9,20 @@ import java.util.ArrayList;
  */
 public abstract class Minigame {
 
-	private ArrayList<Integer> scores;
+	public ArrayList<Integer> scores;
 	public Fisica m_Fisica;
-	public GameObject m_GameObject;
-
+	public ArrayList<GameObject> game_objects;
+	
 	public Minigame(){
 		scores = new ArrayList<Integer>();
+		m_Fisica = Fisica.getInstance();
+		game_objects = new ArrayList<GameObject>();
 	}
 
-	public void finalize() throws Throwable {
-
-	}
-
-	public void initGame(){
-
-	}
-
-	/**
-	 * 
-	 * @param timeLapsed
-	 * @return 
-	 */
+	public abstract void initGame();
+	
 	public void update(float timeLapsed){
-
+		m_Fisica.update(timeLapsed);
 	}
 
 }
