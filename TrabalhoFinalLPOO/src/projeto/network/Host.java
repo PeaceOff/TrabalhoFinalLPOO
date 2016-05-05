@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -21,7 +22,7 @@ public class Host extends Thread implements IServerConnection{
 	private UDPConnection[] m_UDPConnection = null; 
 	private ArrayList<IServerConnection> m_IServerConnection = new ArrayList<IServerConnection>();
 	private int numClients = 10;
-	private int numClientsConnected = 0;
+	private AtomicInteger numClientsConnected = new AtomicInteger();
 	private IMessage messageParser = null;
 
 	public Host(int port, int numClients) throws IOException{
@@ -30,8 +31,7 @@ public class Host extends Thread implements IServerConnection{
 		
 		m_TCPConnection = new TCPServerClient[numClients];
 		m_UDPConnection = new UDPConnection[numClients];
-		
-		svSocket = new ServerSocket(port);
+		svSocket = new ServerSocket(basePort); 
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class Host extends Thread implements IServerConnection{
 	}
 
 	public int getConnectionsNumber(){	
-		return numClientsConnected; 
+		return numClientsConnected.get(); 
 	}
 
 	private int getOpenPort(){
@@ -90,10 +90,12 @@ public class Host extends Thread implements IServerConnection{
 	
 	@Override
 	public void run() {
+	
 		
-		while(numClientsConnected < numClients){
-			
-			try {
+		
+		while(numClientsConnected.get() < numClients){
+			 System.out.println("C:" + numClientsConnected +"/" + numClients);
+			try { 
 				
 				Socket tempClient = svSocket.accept();
 				int pos = getOpenPort();
@@ -113,11 +115,25 @@ public class Host extends Thread implements IServerConnection{
 				tempClient.close(); 
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
+				try { 
+					synchronized (this) { 
+						this.wait();
+					}
+					
+					
+					svSocket = new ServerSocket(basePort);
+					
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+					return;
+				} catch (IOException e1) {
+					return;
+				}
 			}
 		}
 		
+		System.out.println("Thread Server Acabou!");
 	}
 
 	@Override
@@ -130,8 +146,24 @@ public class Host extends Thread implements IServerConnection{
 
 	@Override
 	public void OnClientConnected(Socket client, int id) {
+		System.out.print("CONNECTEDDDDDDDD" + numClientsConnected);
 		
-		numClientsConnected++;
+		numClientsConnected.incrementAndGet();
+		
+		if(numClients == numClientsConnected.get()){ 
+			synchronized(Host.class){
+				try { 
+					svSocket.close();
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 	
+			
+			}
+		}
+		
+		
 		
 		for(IServerConnection c : m_IServerConnection)
 			c.OnClientConnected(client, id);
@@ -154,7 +186,19 @@ public class Host extends Thread implements IServerConnection{
 
 	@Override
 	public void OnClientDisconnected(Socket client, int id) {
-		numClientsConnected--;
+		numClientsConnected.decrementAndGet();
+
+		System.out.println("Disconnected: " + numClientsConnected.get() + numClients);
+		if(numClients - 1 == numClientsConnected.get()){
+
+			System.out.println("Ready To Receive!");
+			synchronized (this) {
+				this.notify(); 
+			}
+			
+		}
+		
+		
 		
 		for(IServerConnection c : m_IServerConnection)
 			c.OnClientDisconnected(client, id);

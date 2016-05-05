@@ -46,7 +46,6 @@ public class TCPClient extends TCPBasic implements Runnable {
 	private void rebindConnection(String ip) throws IOException{
 		DataInputStream in = new DataInputStream(socket.getInputStream());
 		int newPort = in.readInt(); 
-		
 		socket.close();
 		
 		socket = new Socket(ip,newPort);
