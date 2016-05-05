@@ -14,5 +14,6 @@ public interface IMessage {
 	 * @param id
 	 */
 	public void OnMessageReceived(byte[] info, int id);
-
+	
+	public void ClearBuffer(int index);
 }

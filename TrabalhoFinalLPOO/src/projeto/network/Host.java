@@ -82,7 +82,7 @@ public class Host extends Thread implements IServerConnection{
 		synchronized(m_TCPConnection){
 			for(TCPServerClient c : m_TCPConnection){
 				if(c == null) continue;
-				
+				 
 				c.sendInfo(info);
 			}
 		}
@@ -94,7 +94,6 @@ public class Host extends Thread implements IServerConnection{
 		
 		
 		while(numClientsConnected.get() < numClients){
-			 System.out.println("C:" + numClientsConnected +"/" + numClients);
 			try { 
 				
 				Socket tempClient = svSocket.accept();
@@ -133,7 +132,6 @@ public class Host extends Thread implements IServerConnection{
 			}
 		}
 		
-		System.out.println("Thread Server Acabou!");
 	}
 
 	@Override
@@ -146,7 +144,6 @@ public class Host extends Thread implements IServerConnection{
 
 	@Override
 	public void OnClientConnected(Socket client, int id) {
-		System.out.print("CONNECTEDDDDDDDD" + numClientsConnected);
 		
 		numClientsConnected.incrementAndGet();
 		
@@ -187,12 +184,14 @@ public class Host extends Thread implements IServerConnection{
 	@Override
 	public void OnClientDisconnected(Socket client, int id) {
 		numClientsConnected.decrementAndGet();
-
-		System.out.println("Disconnected: " + numClientsConnected.get() + numClients);
+		
+		synchronized (messageParser) {
+			messageParser.ClearBuffer(id); 
+		}
+		
 		if(numClients - 1 == numClientsConnected.get()){
 
-			System.out.println("Ready To Receive!");
-			synchronized (this) {
+			synchronized (this) { 
 				this.notify(); 
 			}
 			

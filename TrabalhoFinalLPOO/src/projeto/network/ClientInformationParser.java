@@ -40,4 +40,10 @@ public class ClientInformationParser implements IMessage, ICommandReceived {
 		
 	}
 
+	@Override
+	public void ClearBuffer(int index) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -55,6 +55,10 @@ public class InformationParser {
 		
 		
 	} 
+	
+	public void clear(){
+		information.clear();
+	}
 
 	/**
 	 * 
