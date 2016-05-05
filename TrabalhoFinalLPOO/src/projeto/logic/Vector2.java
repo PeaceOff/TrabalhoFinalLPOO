@@ -16,7 +16,7 @@ public class Vector2 {
 		y = 0;
 	}
 	
-	Vector2(double xCoord, double yCoord){
+	public Vector2(double xCoord, double yCoord){
 		x = xCoord;
 		y = yCoord;
 	}
@@ -25,20 +25,18 @@ public class Vector2 {
 
 	}
 
-	/**
-	 * 
-	 * @param v
-	 */
 	public void add(Vector2 v){
 		this.x += v.x;
 		this.y += v.y;
 	}
+	
+	public static Vector2 sub(Vector2 v1,Vector2 v2){
+		Vector2 res = new Vector2();
+		res.x = v1.x - v2.x;
+		res.y = v1.y - v2.y;
+		return res;
+	}
 
-	/**
-	 * 
-	 * @param v1
-	 * @param v2
-	 */
 	public static double distance(Vector2 v1, Vector2 v2){
 		double res;
 		double formula = ( (v2.x - v1.x)*(v2.x - v1.x) ) + ( (v2.y - v1.y)*(v2.y - v1.y));
@@ -46,12 +44,6 @@ public class Vector2 {
 		return res;
 	}
 
-	/**
-	 * 
-	 * @param v1
-	 * @param v2
-	 * @param t
-	 */
 	public static Vector2 lerp(Vector2 v1, Vector2 v2, double t){
 		Vector2 res = new Vector2();
 		res.x = v1.x + ((v2.x - v1.x) * t);

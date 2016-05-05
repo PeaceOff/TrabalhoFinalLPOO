@@ -8,6 +8,14 @@ package projeto.logic;
  */
 public class PlayerInput {
 
+	public Vector2 getDirection() {
+		return direction;
+	}
+
+	public void setDirection(Vector2 direction) {
+		this.direction = direction;
+	}
+
 	private Vector2 direction;
 
 	public PlayerInput(){

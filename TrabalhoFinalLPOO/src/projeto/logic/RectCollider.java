@@ -10,12 +10,13 @@ public class RectCollider extends Collider {
 	private double height;
 	private double width;
 
-	public RectCollider(){
-		height = 0;
-		width = 0;
+	public RectCollider(double h, double w){
+		height = h;
+		width = w;
 	}
 	
-	public RectCollider(double h, double w){
+	public RectCollider(double h, double w, Vector2 pos, String t,boolean m){
+		super(pos,t,m);
 		height = h;
 		width = w;
 	}
@@ -27,12 +28,7 @@ public class RectCollider extends Collider {
 	}
 
 	@Override
-	public void onCollisionEnter(Collider c) {
-		if(c.tag == "Ball" && this.tag == "Goal"){//Nao havera colisao entre dois rectangulos (em principio)
-			//Score++
-			return;
-		}
-		
+	public void onCollisionEnter(Collider c) {	
 	}
 
 	@Override

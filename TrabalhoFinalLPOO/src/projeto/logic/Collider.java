@@ -46,6 +46,9 @@ public abstract class Collider {
 
 	public void update(float time){
 		
+		if(!movable)
+			return;
+		
 		this.position.x += this.getVelocity().x * time;
 		this.position.y += this.getVelocity().y * time;
 		Vector2 newVelocity = new Vector2();

@@ -10,7 +10,8 @@ public class Player extends GameObject {
 	private int id;
 	private String nome;
 
-	public Player(int _id, String n){
+	public Player(int _id, String n, Collider c, Input i, Obj o){
+		super(c, i, o);
 		id = _id;
 		nome = n;
 	}
@@ -20,7 +21,8 @@ public class Player extends GameObject {
 	}
 
 	public void update(float timeLapsed){
-
+		PlayerInput pIn = this.m_Input.getPlayerInput(id);
+		this.m_Collider.velocity.add(pIn.getDirection());
 	}
 
 	public int getId() {

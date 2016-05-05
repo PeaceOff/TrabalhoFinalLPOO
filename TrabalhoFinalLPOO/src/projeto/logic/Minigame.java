@@ -19,9 +19,16 @@ public abstract class Minigame {
 		game_objects = new ArrayList<GameObject>();
 	}
 
+	public void addGameObject(GameObject g){
+		game_objects.add(g);
+		m_Fisica.addObject(g.m_Collider);
+	}
+	
 	public abstract void initGame();
 	
 	public void update(float timeLapsed){
+		for(GameObject g : game_objects)
+			g.update(timeLapsed);
 		m_Fisica.update(timeLapsed);
 	}
 

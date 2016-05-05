@@ -11,22 +11,16 @@ public abstract class GameObject implements iCollider {
 	public Input m_Input;
 	public Obj m_Obj;
 
-	public GameObject(){
-
+	public GameObject(Collider c, Input i, Obj o){
+		m_Collider = c;
+		m_Input = i;
+		m_Obj = o;
 	}
 
-	/**
-	 * 
-	 * @param c
-	 */
 	public void onCollisionEnter(Collider c){
 
 	}
 
-	/**
-	 * 
-	 * @param c
-	 */
 	public void onTriggerEnter(Collider c){
 
 	}
@@ -35,12 +29,6 @@ public abstract class GameObject implements iCollider {
 
 	}
 
-	/**
-	 * 
-	 * @param timeLapsed
-	 */
-	public void update(float timeLapsed){
-
-	}
+	public abstract void update(float timeLapsed);
 
 }
