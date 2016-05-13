@@ -51,13 +51,14 @@ public abstract class Collider {
 		if(!movable)
 			return;
 		
-		this.position.x += this.getVelocity().x * time;
-		this.position.y += this.getVelocity().y * time;
+		this.position.x += this.velocity.x * time;
+		this.position.y += this.velocity.y * time;
 		Vector2 newVelocity = new Vector2();
-		newVelocity.x = this.getVelocity().x - (this.getDrag().x  * time);
-		newVelocity.y = this.getVelocity().y - (this.getDrag().y * time);
-		this.setVelocity(newVelocity);
-	
+		newVelocity.x = this.velocity.x - (this.drag.x  * time);
+		newVelocity.y = this.velocity.y - (this.drag.y * time);
+		synchronized(this){ 
+			this.setVelocity(newVelocity);
+		}
 	}
 
 	public Vector2 getDrag() {

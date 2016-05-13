@@ -28,9 +28,9 @@ public class SoccerGame extends Minigame {
 		addGameObject(parede3);
 		addGameObject(parede4);  
 		
-		GameObject bola = new Bola(m_Input, new Vector2(400,215),10, new Vector2(800,800));
-		GameObject bola2 = new Bola(m_Input, new Vector2(700,200),10, new Vector2(-800,-800));
-		
+		GameObject bola = new Bola(m_Input, new Vector2(400,215),10, new Vector2(100,0));
+		GameObject bola2 = new Bola(m_Input, new Vector2(500,200),10, new Vector2(-100,0));
+		bola2.getCollider().movable=false; 
 		addGameObject(bola);  
 		addGameObject(bola2); 
 	}

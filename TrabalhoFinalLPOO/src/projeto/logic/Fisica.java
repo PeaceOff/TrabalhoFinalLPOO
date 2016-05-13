@@ -134,22 +134,7 @@ public class Fisica {
 		Vector2 newVel1 = new Vector2();
 		Vector2 newVel2 = new Vector2();
 		
-		if(c1.movable){
-			newVel1.x = (c1.velocity.x * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.x)) 
-				/ (c1.getMass() + secondBall.getMass());
-			newVel1.y = (c1.velocity.y * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.y)) 
-				/ (c1.getMass() + secondBall.getMass());
-			c1.setVelocity(newVel1);
-		}
-		
-		if(c2.movable){
-			newVel2.x = (secondBall.velocity.x * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.x)) 
-				/ (secondBall.getMass() + c1.getMass());
-			newVel2.y = (secondBall.velocity.y * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.y)) 
-				/ (secondBall.getMass() + c1.getMass());
-			secondBall.setVelocity(newVel2);
-			
-		}
+
 		
 		Vector2 colPoint = new Vector2();
 		colPoint.x = ((c1.position.x * secondBall.getRadius()) + (secondBall.position.x * c1.getRadius())) /
@@ -172,8 +157,27 @@ public class Fisica {
 			temp2.normalize();
 			newPos2.x = colPoint.x + (temp2.x * secondBall.getRadius());
 			newPos2.y = colPoint.y + (temp2.y * secondBall.getRadius());
-			secondBall.setPosition(newPos2);
+			secondBall.setPosition(newPos2); 
+		}/**/
+		
+		if(c1.movable){
+			newVel1.x = (c1.velocity.x * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.x)) 
+				/ (c1.getMass() + secondBall.getMass());
+			newVel1.y = (c1.velocity.y * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.y)) 
+				/ (c1.getMass() + secondBall.getMass());
+			c1.setVelocity(newVel1);
+			
+			System.out.println("V:" + newVel1.x + ":" + newVel1.y)  ;
 		}
+		
+		if(c2.movable){
+			newVel2.x = (secondBall.velocity.x * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.x)) 
+				/ (secondBall.getMass() + c1.getMass());
+			newVel2.y = (secondBall.velocity.y * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.y)) 
+				/ (secondBall.getMass() + c1.getMass());
+			secondBall.setVelocity(newVel2);
+			System.out.println("V:" + newVel2.x + ":" + newVel2.y);
+		}  
 		
 		return;
 	}
