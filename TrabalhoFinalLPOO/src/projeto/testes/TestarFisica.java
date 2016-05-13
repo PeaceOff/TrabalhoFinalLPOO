@@ -35,13 +35,13 @@ public class TestarFisica {
 		v2.y = 8;
 		c3.setPosition(v2);
 		
-		RectCollider r1 = new RectCollider(4,6);
+		RectCollider r1 = new RectCollider(6,4);
 		Vector2 center = new Vector2();
 		center.x = 16;
 		center.y = 8;
 		r1.setPosition(center);
 		
-		RectCollider r2 = new RectCollider(5,3);
+		RectCollider r2 = new RectCollider(3,5);
 		Vector2 v3 = new Vector2();
 		v3.x = 7.5;
 		v3.y = 12.5;
@@ -61,9 +61,9 @@ public class TestarFisica {
 		
 		assertEquals(true,f.checkColision(c2, c3));
 		assertEquals(false,f.checkColision(r2, r1));
-		//NAO PASSOU//assertEquals(true,f.checkColision(r1, r3));
+		assertEquals(true,f.checkColision(r1, r3));
 		assertEquals(false,f.checkColision(c3, c4));
-		//NAO PASSOU//assertEquals(true,f.checkColision(r2, c3));
+		assertEquals(true,f.checkColision(r2, c3));
 		assertEquals(false,f.checkColision(c1, c2));
 		assertEquals(false,f.checkColision(c2, r1));
 		
