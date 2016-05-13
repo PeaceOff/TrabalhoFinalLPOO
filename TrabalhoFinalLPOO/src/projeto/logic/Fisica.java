@@ -41,7 +41,7 @@ public class Fisica {
 			rect1.getyI() < rect2.getyF() && rect1.getyF() > rect2.getyI() ){//Houve colisao
 			
 			if(c1.getClass() == RectCollider.class && c2.getClass() == RectCollider.class){//Se ambos sao rectangulos existe colisao
-				return true;
+				return true; 
 			} else {//Ha colisao mas um é circulo e outro rectangulo ou ambos sao circulos
 				
 				if(c1.getClass() == CircleCollider.class && c2.getClass() == CircleCollider.class){

@@ -10,21 +10,21 @@ public class RectCollider extends Collider {
 	private double height;
 	private double width;
 
-	public RectCollider(double h, double w){
-		height = h;
+	public RectCollider(double w, double h){ 
+		height = h; 
 		width = w;
 	}
 	
-	public RectCollider(Vector2 pos, double h, double w,String t,boolean m,double ms){
-		super(pos,t,m,ms);
+	public RectCollider(Vector2 pos, double w, double h,String t,boolean m,double ms){
+		super(pos,t,m,ms);  
 		height = h;
 		width = w;
 	}
 
 	@Override
-	public Rectangulo getBoundingBox() {
-		Rectangulo res = new Rectangulo(this.position.x,this.position.y,this.height,this.width);
-		return res;
+	public Rectangulo getBoundingBox() {   
+		Rectangulo res = new Rectangulo(this.position.x,this.position.y,this.width,this.height);
+		return res; 
 	}
 
 	@Override

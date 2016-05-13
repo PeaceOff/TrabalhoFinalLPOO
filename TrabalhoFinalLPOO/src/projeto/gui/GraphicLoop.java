@@ -48,6 +48,12 @@ public class GraphicLoop extends JPanel implements Runnable{
 			Rectangulo dims = obj.getDimensions();
 			Rectangulo subI = obj.getSubImage();
 			
+			System.out.println("Coords:" 
+							+dims.getxI() +" , " 
+							+dims.getyI() +" , " 
+							+dims.getxF() +" , " 
+							+dims.getyF()); 
+													
 			g.drawImage(img
 					, (int)dims.getxI(), (int)dims.getyI(), (int)dims.getxF(), (int)dims.getyF()
 					,(int) (subI.getxI() * img.getWidth()) 
@@ -62,9 +68,9 @@ public class GraphicLoop extends JPanel implements Runnable{
 	
 	@Override
 	public void run() {
-		System.out.println("Thread GraphicsLoop Start");
+		
 		while(running.get()){
-			System.out.println("Thread GraphicsLoop update");
+		
 			if(lastTime == 0){
 				lastTime = System.currentTimeMillis();
 				continue;
@@ -75,11 +81,11 @@ public class GraphicLoop extends JPanel implements Runnable{
 				mg.update((float)deltaTime);
 			} 
 			revalidate();
-			 
+			repaint();
 			
 			lastTime = System.currentTimeMillis();
 			try {
-				Thread.sleep(2);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

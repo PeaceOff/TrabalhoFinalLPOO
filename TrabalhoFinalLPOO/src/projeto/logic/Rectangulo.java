@@ -19,20 +19,20 @@ public class Rectangulo {
 
 	}
 
-	public Rectangulo(double xCoord,double yCoord,double h, double w){//Para rectagunlos
+	public Rectangulo(double xCoord,double yCoord,double w, double h){//Para rectagunlos
 		height = h;
 		width = w;
-		xI = xCoord - (w/2);
-		yI = yCoord - (h/2);
+		xI = xCoord;  
+		yI = yCoord;
 		xF = xI + w;
 		yF = yI + h;
 	}
 	
 	public Rectangulo(double xCoord, double yCoord, double edge){//Para circulos (x e y do centro do circulo)
 		height = edge;
-		width = edge;
-		xI = xCoord - (edge/2);
-		yI = yCoord - (edge/2);
+		width = edge; 
+		xI = xCoord;
+		yI = yCoord;
 		xF = xI + edge;
 		yF = yI + edge;
 	}
@@ -59,6 +59,7 @@ public class Rectangulo {
 
 	public void setxI(double xI) {
 		this.xI = xI;
+		this.xF = xI + width;
 	}
 
 	public double getyI() {
@@ -67,6 +68,7 @@ public class Rectangulo {
 
 	public void setyI(double yI) {
 		this.yI = yI;
+		this.yI = yI + height;  
 	}
 
 	public double getxF() {
@@ -74,7 +76,7 @@ public class Rectangulo {
 	}
 
 	public void setxF(double xF) {
-		this.xF = xF;
+		this.xF = xF; 
 	}
 
 	public double getyF() {

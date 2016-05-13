@@ -35,7 +35,7 @@ public abstract class Minigame {
 	}
 
 	public void update(float timeLapsed){
-		for(GameObject g : game_objects)
+		for(GameObject g : game_objects) 
 			g.update(timeLapsed);
 		m_Fisica.update(timeLapsed);
 		System.out.println("timeLapsed" + timeLapsed); 
