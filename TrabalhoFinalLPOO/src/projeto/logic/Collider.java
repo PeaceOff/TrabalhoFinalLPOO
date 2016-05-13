@@ -14,6 +14,7 @@ public abstract class Collider {
 	protected boolean trigger = false;
 	protected Vector2 velocity;
 	protected iCollider m_iCollider;
+	protected double mass;
 
 	public Collider(){
 		drag = new Vector2();
@@ -21,12 +22,13 @@ public abstract class Collider {
 		velocity = new Vector2();
 	}
 	
-	public Collider(Vector2 pos, String t,boolean m){
+	public Collider(Vector2 pos, String t,boolean m, double ms){
 		drag = new Vector2();
 		position = pos;
 		velocity = new Vector2();
 		tag = t;
 		movable = m;
+		mass = ms;
 	}
 	
 	public void addListener(iCollider iC){

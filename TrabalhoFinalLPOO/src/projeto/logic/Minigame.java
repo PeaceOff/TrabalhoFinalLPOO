@@ -9,27 +9,36 @@ import java.util.ArrayList;
  */
 public abstract class Minigame {
 
-	public ArrayList<Integer> scores;
-	public Fisica m_Fisica;
-	public ArrayList<GameObject> game_objects;
+	protected ArrayList<Integer> scores;
+	protected Fisica m_Fisica;
+	protected ArrayList<GameObject> game_objects;
+	protected Input m_Input;
 	
-	public Minigame(){
+	public Minigame(Input i){
 		scores = new ArrayList<Integer>();
-		m_Fisica = Fisica.getInstance();
+		m_Fisica = new Fisica() ; //Fisica.getInstance();
 		game_objects = new ArrayList<GameObject>();
+		m_Input = i; 
 	}
 
 	public void addGameObject(GameObject g){
 		game_objects.add(g);
 		m_Fisica.addObject(g.m_Collider);
-	}
+	} 
 	
 	public abstract void initGame();
 	
+	
+	
+	public ArrayList<GameObject> getGame_objects() {
+		return game_objects;
+	}
+
 	public void update(float timeLapsed){
 		for(GameObject g : game_objects)
 			g.update(timeLapsed);
 		m_Fisica.update(timeLapsed);
+		System.out.println("timeLapsed" + timeLapsed); 
 	}
 
 }

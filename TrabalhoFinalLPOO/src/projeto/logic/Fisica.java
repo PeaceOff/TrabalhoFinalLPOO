@@ -12,12 +12,12 @@ public class Fisica {
 
 	public ArrayList<Collider> objects;
 	private static Fisica fis = null;
-
-	private Fisica(){
+	 
+	public Fisica(){
 		objects = new ArrayList<Collider>();
 	}
 	
-	public static Fisica getInstance(){
+	/*public static Fisica getInstance(){
 		if(fis == null){
 			synchronized (Fisica.class) {
 				if (fis == null) {
@@ -26,7 +26,7 @@ public class Fisica {
 			}
 		}
 		return fis;
-	}
+	}**/
 	
 	public void addObject(Collider c){
 		objects.add(c);
@@ -125,10 +125,10 @@ public class Fisica {
 			dealWithCollision((CircleCollider)c1, (CircleCollider)c2);
 			return;
 		}
-		if(c1.getClass() == RectCollider.class){
+		if(c1.getClass() == RectCollider.class && c2 instanceof CircleCollider ){
 			dealWithCollision((CircleCollider)c2, (RectCollider)c1);
 			return;
-		} else {
+		} else if (c2 instanceof CircleCollider && c1 instanceof RectCollider){
 			dealWithCollision((CircleCollider)c1, (RectCollider)c2);
 			return;
 		}
@@ -139,14 +139,23 @@ public class Fisica {
 		CircleCollider secondBall = (CircleCollider)c2;
 		Vector2 newVel1 = new Vector2();
 		Vector2 newVel2 = new Vector2();
-		newVel1.x = (c1.velocity.x * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.x)) 
+		
+		if(c1.movable){
+			newVel1.x = (c1.velocity.x * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.x)) 
 				/ (c1.getMass() + secondBall.getMass());
-		newVel1.y = (c1.velocity.y * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.y)) 
+			newVel1.y = (c1.velocity.y * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.y)) 
 				/ (c1.getMass() + secondBall.getMass());
-		newVel2.x = (secondBall.velocity.x * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.x)) 
+			c1.setVelocity(newVel1);
+		}
+		
+		if(c2.movable){
+			newVel2.x = (secondBall.velocity.x * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.x)) 
 				/ (secondBall.getMass() + c1.getMass());
-		newVel2.y = (secondBall.velocity.y * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.y)) 
+			newVel2.y = (secondBall.velocity.y * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.y)) 
 				/ (secondBall.getMass() + c1.getMass());
+			secondBall.setVelocity(newVel2);
+			
+		}
 		
 		Vector2 colPoint = new Vector2();
 		colPoint.x = ((c1.position.x * secondBall.getRadius()) + (secondBall.position.x * c1.getRadius())) /
@@ -154,21 +163,23 @@ public class Fisica {
 		colPoint.y = ((c1.position.y * secondBall.getRadius()) + (secondBall.position.y * c1.getRadius())) /
 					(c1.getRadius() + secondBall.getRadius());
 		
-		c1.setVelocity(newVel1);
-		Vector2 newPos1 = new Vector2();
-		Vector2 temp = Vector2.sub(c1.getPosition(), colPoint);
-		temp.normalize();
-		newPos1.x = colPoint.x + (temp.x * c1.getRadius());
-		newPos1.y = colPoint.y + (temp.y * c1.getRadius());
-		c1.setPosition(newPos1);
+		if(c1.movable){
+			Vector2 newPos1 = new Vector2();
+			Vector2 temp = Vector2.sub(c1.getPosition(), colPoint);
+			temp.normalize();
+			newPos1.x = colPoint.x + (temp.x * c1.getRadius());
+			newPos1.y = colPoint.y + (temp.y * c1.getRadius());
+			c1.setPosition(newPos1);
+		}
 		
-		secondBall.setVelocity(newVel2);
-		Vector2 newPos2 = new Vector2();
-		Vector2 temp2 = Vector2.sub(secondBall.getPosition(), colPoint);
-		temp2.normalize();
-		newPos1.x = colPoint.x + (temp2.x * secondBall.getRadius());
-		newPos1.y = colPoint.y + (temp2.y * secondBall.getRadius());
-		secondBall.setPosition(newPos2);
+		if(c2.movable){
+			Vector2 newPos2 = new Vector2();
+			Vector2 temp2 = Vector2.sub(secondBall.getPosition(), colPoint);
+			temp2.normalize();
+			newPos2.x = colPoint.x + (temp2.x * secondBall.getRadius());
+			newPos2.y = colPoint.y + (temp2.y * secondBall.getRadius());
+			secondBall.setPosition(newPos2);
+		}
 		
 		return;
 	}

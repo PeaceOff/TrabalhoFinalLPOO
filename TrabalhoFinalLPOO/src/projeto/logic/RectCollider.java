@@ -15,8 +15,8 @@ public class RectCollider extends Collider {
 		width = w;
 	}
 	
-	public RectCollider(double h, double w, Vector2 pos, String t,boolean m){
-		super(pos,t,m);
+	public RectCollider(Vector2 pos, double h, double w,String t,boolean m,double ms){
+		super(pos,t,m,ms);
 		height = h;
 		width = w;
 	}

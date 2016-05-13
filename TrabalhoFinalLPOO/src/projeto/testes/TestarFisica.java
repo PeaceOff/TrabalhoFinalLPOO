@@ -11,14 +11,11 @@ import projeto.logic.Vector2;
 
 public class TestarFisica {
 
-	@Test
-	public void testFisicaSingleton() {
-		assertEquals(Fisica.class,Fisica.getInstance().getClass());
-	}
 
 	@Test
 	public void testCheckCollision() {
 		
+		Fisica f = new Fisica();
 		
 		CircleCollider c1 = new CircleCollider(2);
 		Vector2 v = new Vector2();
@@ -62,13 +59,13 @@ public class TestarFisica {
 		v5.y = 11;
 		c4.setPosition(v5);
 		
-		assertEquals(true,Fisica.getInstance().checkColision(c2, c3));
-		assertEquals(false,Fisica.getInstance().checkColision(r2, r1));
-		assertEquals(true,Fisica.getInstance().checkColision(r1, r3));
-		assertEquals(false,Fisica.getInstance().checkColision(c3, c4));
-		assertEquals(true,Fisica.getInstance().checkColision(r2, c3));
-		assertEquals(false,Fisica.getInstance().checkColision(c1, c2));
-		assertEquals(false,Fisica.getInstance().checkColision(c2, r1));
+		assertEquals(true,f.checkColision(c2, c3));
+		assertEquals(false,f.checkColision(r2, r1));
+		assertEquals(true,f.checkColision(r1, r3));
+		assertEquals(false,f.checkColision(c3, c4));
+		assertEquals(true,f.checkColision(r2, c3));
+		assertEquals(false,f.checkColision(c1, c2));
+		assertEquals(false,f.checkColision(c2, r1));
 		
 	}
 }

@@ -10,14 +10,10 @@ public class Player extends GameObject {
 	private int id;
 	private String nome;
 
-	public Player(int _id, String n, Collider c, Input i, Obj o){
-		super(c, i, o);
+	public Player(int _id, String n, Input i){
+		super(null,i,null);
 		id = _id;
 		nome = n;
-	}
-
-	public void start(){
-
 	}
 
 	public void update(float timeLapsed){

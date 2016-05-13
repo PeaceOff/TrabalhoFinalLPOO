@@ -11,23 +11,25 @@ public class CircleCollider extends Collider {
 
 	public CircleCollider(double r){
 		radius = r;
-	}
+	} 
 	
-	public CircleCollider(double r, Vector2 pos, String t,boolean m){
-		super(pos,t,m);
+	public CircleCollider(double r, Vector2 pos, String t,boolean m,double ms){
+		super(pos,t,m,ms);
 		radius = r;
 	}
 	
 	public CircleCollider(double r, double x, double y){
 		radius = r;
 		this.position.x = x;
-		this.position.y = y;
+		this.position.y = y; 
 	}
 
 	public double getMass(){
-		if(this.tag == "Ball")
-			return 0.8;//Bola 800grams
-		return 1;//Jogador 1 kilo
+		return mass;
+	}
+	
+	public void setMass(double m){
+		this.mass = m;
 	}
 	
 	@Override
