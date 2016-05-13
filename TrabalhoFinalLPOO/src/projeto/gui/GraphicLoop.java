@@ -26,7 +26,7 @@ public class GraphicLoop extends JPanel implements Runnable{
 	AtomicBoolean running = new AtomicBoolean(true);
 	double lastTime = 0;
 	BufferedImage img;
-	
+	BufferedImage img2;
 	
 	public GraphicLoop(){
 		in = new Input(); 
@@ -34,6 +34,7 @@ public class GraphicLoop extends JPanel implements Runnable{
 		mg.initGame();
 		try {
 			img =  ImageIO.read(new File("colors-originals.png"));
+			img2 =  ImageIO.read(new File("circulo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,19 +48,23 @@ public class GraphicLoop extends JPanel implements Runnable{
 			Obj obj = gO.getObj();
 			Rectangulo dims = obj.getDimensions();
 			Rectangulo subI = obj.getSubImage();
+			BufferedImage temp = img;
+			if(obj.getPath() == "circulo.png"){
+				temp=img2;
+			}
 			
-			System.out.println("Coords:" 
+			/*System.out.println("Coords:" 
 							+dims.getxI() +" , " 
 							+dims.getyI() +" , " 
 							+dims.getxF() +" , " 
 							+dims.getyF()); 
-													
-			g.drawImage(img
+				/**/ 									
+			g.drawImage(temp
 					, (int)dims.getxI(), (int)dims.getyI(), (int)dims.getxF(), (int)dims.getyF()
-					,(int) (subI.getxI() * img.getWidth()) 
-					,(int) (subI.getyI() * img.getHeight())
-					,(int) (subI.getxF() * img.getWidth())
-					,(int) (subI.getyF() * img.getHeight()) 
+					,(int) (subI.getxI() * temp.getWidth()) 
+					,(int) (subI.getyI() * temp.getHeight())
+					,(int) (subI.getxF() * temp.getWidth())
+					,(int) (subI.getyF() * temp.getHeight()) 
 					, null); 
 			
 		}

@@ -33,8 +33,8 @@ public class CircleCollider extends Collider {
 	}
 	
 	@Override
-	public Rectangulo getBoundingBox() {
-		Rectangulo res = new Rectangulo(this.position.x,this.position.y,radius * 2);
+	public Rectangulo getBoundingBox() {  
+		Rectangulo res = new Rectangulo(this.position.x - radius,this.position.y - radius,radius * 2);
 		return res;
 	}
 

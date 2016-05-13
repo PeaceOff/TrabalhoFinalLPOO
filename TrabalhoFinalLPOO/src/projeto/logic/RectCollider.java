@@ -16,14 +16,16 @@ public class RectCollider extends Collider {
 	}
 	
 	public RectCollider(Vector2 pos, double w, double h,String t,boolean m,double ms){
-		super(pos,t,m,ms);  
+		super(pos,t,m,ms);   
+		position.x = pos.x + w/2;
+		position.y = pos.y + h/2; 
 		height = h;
 		width = w;
 	}
 
 	@Override
-	public Rectangulo getBoundingBox() {   
-		Rectangulo res = new Rectangulo(this.position.x,this.position.y,this.width,this.height);
+	public Rectangulo getBoundingBox() {    
+		Rectangulo res = new Rectangulo(this.position.x - this.width/2 ,this.position.y - this.height/2,this.width,this.height);
 		return res; 
 	}
 

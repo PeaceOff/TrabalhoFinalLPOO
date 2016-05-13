@@ -26,36 +26,39 @@ public class Fisica {
 		Rectangulo rect2 = c2.getBoundingBox();
 		
 		if(	rect1.getxI() < rect2.getxF() && rect1.getxF() > rect2.getxI() &&
-			rect1.getyI() < rect2.getyF() && rect1.getyF() > rect2.getyI() ){//Houve colisao
+			rect1.getyI() < rect2.getyF() && rect1.getyF() > rect2.getyI() ){//Houve colisao 
 			
-			if(c1.getClass() == RectCollider.class && c2.getClass() == RectCollider.class){//Se ambos sao rectangulos existe colisao
+			if(c1 instanceof RectCollider && c2 instanceof RectCollider)//Se ambos sao rectangulos existe colisao
 				return true; 
-			} else {//Ha colisao mas um é circulo e outro rectangulo ou ambos sao circulos
+			else if(c1 instanceof CircleCollider && c2 instanceof CircleCollider)
+				return checkCirclesColision((CircleCollider)c1,(CircleCollider)c2);
+			
+			else if(c1 instanceof RectCollider && c2 instanceof CircleCollider)
+				return checkCollisionTwo((RectCollider)c1,(CircleCollider)c2);
 				
-				if(c1.getClass() == CircleCollider.class && c2.getClass() == CircleCollider.class){
-					return checkCirclesColision((CircleCollider)c1,(CircleCollider)c2);
-				}
-				
-				if(c1.getClass() == RectCollider.class){
-					return checkCollisionTwo((RectCollider)c1,(CircleCollider)c2);
-				} else {
-					return checkCollisionTwo((RectCollider)c2,(CircleCollider)c1);
-				}
-				
-			}
-		}
+			else if(c2 instanceof RectCollider && c1 instanceof CircleCollider)
+				return checkCollisionTwo((RectCollider)c2,(CircleCollider)c1);	
+		} 
+		
 		return false;
 	}
 	
 	private boolean checkCollisionTwo(RectCollider rC,CircleCollider circle){//THE PROBLEM LIES HERE
 		
 		Rectangulo bound = rC.getBoundingBox();
+		System.out.println("bound"	+ bound.getxI() + ","
+									+ bound.getyI() + "," 
+									+ bound.getxF() + ","
+									+ bound.getyF()); 
 		
-		Rectangulo r1 = new Rectangulo(bound.getxI() - (circle.getRadius()/2),rC.getPosition().y,bound.getHeight(),circle.getRadius());
-		Rectangulo r2 = new Rectangulo(rC.getPosition().x,bound.getyF() + (circle.getRadius()/2),circle.getRadius(),bound.getWidth());
-		Rectangulo r3 = new Rectangulo(bound.getxF() + (circle.getRadius()/2),rC.getPosition().y,bound.getHeight(),circle.getRadius());
-		Rectangulo r4 = new Rectangulo(rC.getPosition().x,bound.getyI() - (circle.getRadius()/2),circle.getRadius(),bound.getWidth());
-		
+		Rectangulo r1 = new Rectangulo(bound.getxI() - circle.getRadius(), bound.getyI(),circle.getRadius(),bound.getHeight());
+		Rectangulo r2 = new Rectangulo(bound.getxI() ,bound.getyF() , bound.getWidth(), circle.getRadius());
+		Rectangulo r3 = new Rectangulo(bound.getxF(), bound.getyI(), circle.getRadius(),bound.getHeight());  
+		Rectangulo r4 = new Rectangulo(bound.getxI() ,bound.getyI() - circle.getRadius(),bound.getWidth(),circle.getRadius()); 
+		System.out.println(circle.getPosition().x + " " + circle.getPosition().y);
+		System.out.println(r1.getxI() + " , " + r1.getxF() );
+		System.out.println(r1.getyI() + " - " + r1.getyF() ); 
+		 
 		if (pointInRect(r1,circle.getPosition()) ||
 			pointInRect(r2,circle.getPosition()) ||
 			pointInRect(r3,circle.getPosition()) ||
@@ -69,10 +72,11 @@ public class Fisica {
 		
 		if (pointInCircle(c1,circle.getPosition()) ||
 			pointInCircle(c2,circle.getPosition()) ||
-			pointInCircle(c3,circle.getPosition()) ||
+			pointInCircle(c3,circle.getPosition()) ||  
 			pointInCircle(c4,circle.getPosition()))
 			return true;
-		return false;
+		
+		return pointInRect(bound,circle.getPosition());
 		
 	}
 	
@@ -82,7 +86,8 @@ public class Fisica {
 	
 	private boolean pointInCircle(CircleCollider c, Vector2 p){
 		double distCenter = Vector2.distance(c.getPosition(), p);
-		return (distCenter <= c.getRadius());
+		System.out.println("Distancia ao Centro" + distCenter); 
+		return (distCenter <= c.getRadius()); 
 	}
 	
 	private boolean checkCirclesColision(CircleCollider c1, CircleCollider c2){
@@ -99,13 +104,14 @@ public class Fisica {
 		for(Collider c : objects){
 			for(int k = objects.indexOf(c) + 1; k < objects.size(); k++){
 				if(checkColision(c,objects.get(k))){//True = colisao
+					if(c instanceof CircleCollider || objects.get(k) instanceof CircleCollider)
+						System.out.println("Colisao!!");  
 					c.onCollisionEnter(objects.get(k));
 					objects.get(k).onCollisionEnter(c);
 					dealWithCollision(c,objects.get(k));
 				}
 			}
 		}
-		return;
 	}
 	
 	private void dealWithCollision(Collider c1, Collider c2){
@@ -173,30 +179,29 @@ public class Fisica {
 	}
 	
 	private void dealWithCollision(CircleCollider c1, RectCollider r1){
-		if(c1.tag == "Ball" && r1.tag == "Goal"){
-			//Score++
-			//Jogo Reinicia
-		}
+		
 		Rectangulo r = r1.getBoundingBox();
 		if(c1.position.x > r.getxI() && c1.position.x < r.getxF()) 
-			{
+		{
 			c1.velocity.y = -c1.velocity.y;
-			if(c1.position.y > r.getyF())//Circulo em baixo
-				{
+			if(c1.position.y > r1.getPosition().y)//Circulo em baixo
+			{
 					c1.position.y = r.getyF() + c1.getRadius();
-				} else {
-					c1.position.y = r.getyI() - c1.getRadius();
-				}
-			return;
 			} else {
-			c1.velocity.x = -c1.velocity.x;
-			if(c1.position.x > r.getxF())
-				{
-					c1.position.x = r.getxF() + c1.getRadius();
-				} else {
-					c1.position.x = r.getxI() - c1.getRadius();
-				}
-			return;
+					c1.position.y = r.getyI() - c1.getRadius();
 			}
+			return; 
+		}
+		
+		if(c1.position.y > r.getyI() && c1.position.y < r.getyF()){
+			c1.velocity.x = -c1.velocity.x;   
+			if(c1.position.x > r1.getPosition().x) 
+			{
+					c1.position.x = r.getxF() + c1.getRadius();
+			} else {
+					c1.position.x = r.getxI() - c1.getRadius();
+			}
+			return;
+		}
 	}
 }
