@@ -23,7 +23,7 @@ public abstract class Collider {
 	}
 	
 	public Collider(Vector2 pos, String t,boolean m, double ms){
-		drag = new Vector2();
+		drag = new Vector2(10,10);
 		position = pos;
 		velocity = new Vector2();
 		tag = t;
@@ -54,8 +54,8 @@ public abstract class Collider {
 		this.position.x += this.velocity.x * time;
 		this.position.y += this.velocity.y * time;
 		Vector2 newVelocity = new Vector2();
-		newVelocity.x = this.velocity.x - (this.drag.x  * time);
-		newVelocity.y = this.velocity.y - (this.drag.y * time);
+		newVelocity.x = (this.velocity.x > 0)? this.velocity.x - (this.drag.x  * time) : this.velocity.x + (this.drag.x  * time);
+		newVelocity.y = (this.velocity.y > 0)? this.velocity.y - (this.drag.y * time) : this.velocity.y + (this.drag.y * time);
 		synchronized(this){ 
 			this.setVelocity(newVelocity);
 		}

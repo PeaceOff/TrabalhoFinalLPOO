@@ -40,6 +40,7 @@ public class Vector2 {
 	public static double distance(Vector2 v1, Vector2 v2){
 		double res;
 		double formula = ( (v2.x - v1.x)*(v2.x - v1.x) ) + ( (v2.y - v1.y)*(v2.y - v1.y));
+		
 		res = Math.sqrt(formula);
 		return res;
 	}
@@ -57,7 +58,30 @@ public class Vector2 {
 	
 	public void normalize(){
 		this.x /= this.getNorm();
+		
 		this.y /= this.getNorm();
+	}
+	
+	public double dot(Vector2 v){
+		return this.x * v.x + this.y * v.y;
+	}
+	
+	public void multiply(double v){
+		this.x *= v;
+		this.y *= v;
+		return;
+	}
+	
+	public Vector2 clone(){
+		return new Vector2(x,y);
+	}
+	
+	public static Vector2 multiply(Vector2 v1,double valor){
+		return new Vector2(v1.x * valor, v1.y * valor);
+	}
+	
+	public static Vector2 add(Vector2 v1, Vector2 v2){
+		return new Vector2(v1.x + v2.x,v1.y + v2.y);
 	}
 
 }

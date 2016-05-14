@@ -130,56 +130,36 @@ public class Fisica {
 	
 	private void dealWithCollision(CircleCollider c1, CircleCollider c2){//Player x Player || Player x Ball
 		
-		CircleCollider secondBall = (CircleCollider)c2;
-		Vector2 newVel1 = new Vector2();
-		Vector2 newVel2 = new Vector2();
-		
-
-		
+		/*
 		Vector2 colPoint = new Vector2();
-		colPoint.x = ((c1.position.x * secondBall.getRadius()) + (secondBall.position.x * c1.getRadius())) /
-					(c1.getRadius() + secondBall.getRadius());
-		colPoint.y = ((c1.position.y * secondBall.getRadius()) + (secondBall.position.y * c1.getRadius())) /
-					(c1.getRadius() + secondBall.getRadius());
-		
-		if(c1.movable){
-			Vector2 newPos1 = new Vector2();
-			Vector2 temp = Vector2.sub(c1.getPosition(), colPoint);
-			temp.normalize();
-			newPos1.x = colPoint.x + (temp.x * c1.getRadius());
-			newPos1.y = colPoint.y + (temp.y * c1.getRadius());
-			c1.setPosition(newPos1);
-		}
-		
-		if(c2.movable){
-			Vector2 newPos2 = new Vector2();
-			Vector2 temp2 = Vector2.sub(secondBall.getPosition(), colPoint);
-			temp2.normalize();
-			newPos2.x = colPoint.x + (temp2.x * secondBall.getRadius());
-			newPos2.y = colPoint.y + (temp2.y * secondBall.getRadius());
-			secondBall.setPosition(newPos2); 
-		}/**/
-		
-		if(c1.movable){
-			newVel1.x = (c1.velocity.x * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.x)) 
-				/ (c1.getMass() + secondBall.getMass());
-			newVel1.y = (c1.velocity.y * (c1.getMass() - secondBall.getMass()) + (2 * secondBall.getMass() * secondBall.velocity.y)) 
-				/ (c1.getMass() + secondBall.getMass());
-			c1.setVelocity(newVel1);
-			
-			System.out.println("V:" + newVel1.x + ":" + newVel1.y)  ;
-		}
-		
-		if(c2.movable){
-			newVel2.x = (secondBall.velocity.x * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.x)) 
-				/ (secondBall.getMass() + c1.getMass());
-			newVel2.y = (secondBall.velocity.y * (secondBall.getMass() - c1.getMass()) + (2 * c1.getMass() * c1.velocity.y)) 
-				/ (secondBall.getMass() + c1.getMass());
-			secondBall.setVelocity(newVel2);
-			System.out.println("V:" + newVel2.x + ":" + newVel2.y);
-		}  
-		
-		return;
+		colPoint.x = ((c1.position.x * c2.getRadius()) + (c2.position.x * c1.getRadius())) /
+					(c1.getRadius() + c2.getRadius());
+		colPoint.y = ((c1.position.y * c2.getRadius()) + (c2.position.y * c1.getRadius())) /
+					(c1.getRadius() + c2.getRadius());
+		*/
+		Vector2  normalVector = Vector2.sub(c2.position, c1.position);
+		normalVector.normalize();
+		Vector2 tangentVector  = new Vector2(normalVector.y * -1, normalVector.x);
+       
+        // create ball scalar normal direction.
+        double ball1scalarNormal =  normalVector.dot(c1.velocity);
+        double ball2scalarNormal = normalVector.dot(c2.velocity);
+
+        // create scalar velocity in the tagential direction.
+        double ball1scalarTangential = tangentVector.dot(c1.velocity); 
+        double ball2scalarTangential = tangentVector.dot(c2.velocity); 
+
+        double ball1ScalarNormalAfter = (ball1scalarNormal * (c1.getMass() - c2.getMass()) + 2 * c2.getMass() * ball2scalarNormal) / (c1.getMass() + c2.getMass());
+        double ball2ScalarNormalAfter = (ball2scalarNormal * (c2.getMass() - c1.getMass()) + 2 * c1.getMass() * ball1scalarNormal) / (c1.getMass() + c2.getMass());
+
+        Vector2 ball1scalarNormalAfter_vector = Vector2.multiply(normalVector,ball1ScalarNormalAfter); // ball1Scalar normal doesnt have multiply not a vector.
+        Vector2 ball2scalarNormalAfter_vector = Vector2.multiply(normalVector,ball2ScalarNormalAfter);
+
+        Vector2 ball1ScalarNormalVector = (Vector2.multiply(tangentVector,ball1scalarTangential));
+        Vector2 ball2ScalarNormalVector = (Vector2.multiply(tangentVector,ball2scalarTangential));;
+
+        c1.velocity = Vector2.add(ball1ScalarNormalVector,ball1scalarNormalAfter_vector);
+        c2.velocity = Vector2.add(ball2ScalarNormalVector,ball2scalarNormalAfter_vector);
 	}
 	
 	private void dealWithCollision(CircleCollider c1, RectCollider r1){
