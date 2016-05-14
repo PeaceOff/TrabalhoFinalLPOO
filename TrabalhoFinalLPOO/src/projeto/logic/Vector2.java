@@ -57,9 +57,9 @@ public class Vector2 {
 	}
 	
 	public void normalize(){
-		this.x /= this.getNorm();
-		
-		this.y /= this.getNorm();
+		double norm = getNorm();
+		x /= norm;
+		y /= norm;
 	}
 	
 	public double dot(Vector2 v){

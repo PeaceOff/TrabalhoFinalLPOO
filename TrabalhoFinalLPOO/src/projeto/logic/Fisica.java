@@ -46,18 +46,12 @@ public class Fisica {
 	private boolean checkCollisionTwo(RectCollider rC,CircleCollider circle){//THE PROBLEM LIES HERE
 		
 		Rectangulo bound = rC.getBoundingBox();
-		System.out.println("bound"	+ bound.getxI() + ","
-									+ bound.getyI() + "," 
-									+ bound.getxF() + ","
-									+ bound.getyF()); 
+
 		
 		Rectangulo r1 = new Rectangulo(bound.getxI() - circle.getRadius(), bound.getyI(),circle.getRadius(),bound.getHeight());
 		Rectangulo r2 = new Rectangulo(bound.getxI() ,bound.getyF() , bound.getWidth(), circle.getRadius());
 		Rectangulo r3 = new Rectangulo(bound.getxF(), bound.getyI(), circle.getRadius(),bound.getHeight());  
-		Rectangulo r4 = new Rectangulo(bound.getxI() ,bound.getyI() - circle.getRadius(),bound.getWidth(),circle.getRadius()); 
-		System.out.println(circle.getPosition().x + " " + circle.getPosition().y);
-		System.out.println(r1.getxI() + " , " + r1.getxF() );
-		System.out.println(r1.getyI() + " - " + r1.getyF() ); 
+		Rectangulo r4 = new Rectangulo(bound.getxI() ,bound.getyI() - circle.getRadius(),bound.getWidth(),circle.getRadius());  
 		 
 		if (pointInRect(r1,circle.getPosition()) ||
 			pointInRect(r2,circle.getPosition()) ||
@@ -86,7 +80,7 @@ public class Fisica {
 	
 	private boolean pointInCircle(CircleCollider c, Vector2 p){
 		double distCenter = Vector2.distance(c.getPosition(), p);
-		System.out.println("Distancia ao Centro" + distCenter); 
+
 		return (distCenter <= c.getRadius()); 
 	}
 	
@@ -105,7 +99,7 @@ public class Fisica {
 			for(int k = objects.indexOf(c) + 1; k < objects.size(); k++){
 				if(checkColision(c,objects.get(k))){//True = colisao
 					if(c instanceof CircleCollider || objects.get(k) instanceof CircleCollider)
-						System.out.println("Colisao!!");  
+						  
 					c.onCollisionEnter(objects.get(k));
 					objects.get(k).onCollisionEnter(c);
 					dealWithCollision(c,objects.get(k));
@@ -130,17 +124,18 @@ public class Fisica {
 	
 	private void dealWithCollision(CircleCollider c1, CircleCollider c2){//Player x Player || Player x Ball
 		
-		/*
+		
 		Vector2 colPoint = new Vector2();
 		colPoint.x = ((c1.position.x * c2.getRadius()) + (c2.position.x * c1.getRadius())) /
 					(c1.getRadius() + c2.getRadius());
 		colPoint.y = ((c1.position.y * c2.getRadius()) + (c2.position.y * c1.getRadius())) /
 					(c1.getRadius() + c2.getRadius());
-		*/
+		
+		
 		Vector2  normalVector = Vector2.sub(c2.position, c1.position);
 		normalVector.normalize();
 		Vector2 tangentVector  = new Vector2(normalVector.y * -1, normalVector.x);
-       
+		System.out.println("Normal:" + normalVector.getNorm()); 
         // create ball scalar normal direction.
         double ball1scalarNormal =  normalVector.dot(c1.velocity);
         double ball2scalarNormal = normalVector.dot(c2.velocity);
@@ -148,18 +143,25 @@ public class Fisica {
         // create scalar velocity in the tagential direction.
         double ball1scalarTangential = tangentVector.dot(c1.velocity); 
         double ball2scalarTangential = tangentVector.dot(c2.velocity); 
-
-        double ball1ScalarNormalAfter = (ball1scalarNormal * (c1.getMass() - c2.getMass()) + 2 * c2.getMass() * ball2scalarNormal) / (c1.getMass() + c2.getMass());
-        double ball2ScalarNormalAfter = (ball2scalarNormal * (c2.getMass() - c1.getMass()) + 2 * c1.getMass() * ball1scalarNormal) / (c1.getMass() + c2.getMass());
-
-        Vector2 ball1scalarNormalAfter_vector = Vector2.multiply(normalVector,ball1ScalarNormalAfter); // ball1Scalar normal doesnt have multiply not a vector.
-        Vector2 ball2scalarNormalAfter_vector = Vector2.multiply(normalVector,ball2ScalarNormalAfter);
-
-        Vector2 ball1ScalarNormalVector = (Vector2.multiply(tangentVector,ball1scalarTangential));
-        Vector2 ball2ScalarNormalVector = (Vector2.multiply(tangentVector,ball2scalarTangential));;
-
-        c1.velocity = Vector2.add(ball1ScalarNormalVector,ball1scalarNormalAfter_vector);
-        c2.velocity = Vector2.add(ball2ScalarNormalVector,ball2scalarNormalAfter_vector);
+        
+        if(c1.movable){
+	        double ball1ScalarNormalAfter = (ball1scalarNormal * (c1.getMass() - c2.getMass()) + 2 * c2.getMass() * ball2scalarNormal) / (c1.getMass() + c2.getMass());
+	        Vector2 ball1scalarNormalAfter_vector = Vector2.multiply(normalVector,ball1ScalarNormalAfter); // ball1Scalar normal doesnt have multiply not a vector.
+	        Vector2 ball1ScalarNormalVector = (Vector2.multiply(tangentVector,ball1scalarTangential));
+	        c1.velocity = Vector2.add(ball1ScalarNormalVector,ball1scalarNormalAfter_vector);
+	        Vector2 temp = Vector2.sub(c1.position, colPoint);
+	        temp.normalize();
+	        c1.setPosition(Vector2.add(colPoint,Vector2.multiply(temp, c1.getRadius())));
+        }
+        if(c2.movable){ 
+	        double ball2ScalarNormalAfter = (ball2scalarNormal * (c2.getMass() - c1.getMass()) + 2 * c1.getMass() * ball1scalarNormal) / (c1.getMass() + c2.getMass());
+	        Vector2 ball2scalarNormalAfter_vector = Vector2.multiply(normalVector,ball2ScalarNormalAfter);
+	        Vector2 ball2ScalarNormalVector = (Vector2.multiply(tangentVector,ball2scalarTangential));;
+	        c2.velocity = Vector2.add(ball2ScalarNormalVector,ball2scalarNormalAfter_vector);
+	        Vector2 temp = Vector2.sub(c2.position, colPoint);
+	        temp.normalize();  
+	        c2.setPosition(Vector2.add(colPoint, Vector2.multiply(temp, c2.getRadius())));
+        }
 	}
 	
 	private void dealWithCollision(CircleCollider c1, RectCollider r1){

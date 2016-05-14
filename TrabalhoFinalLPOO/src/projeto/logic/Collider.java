@@ -23,7 +23,8 @@ public abstract class Collider {
 	}
 	
 	public Collider(Vector2 pos, String t,boolean m, double ms){
-		drag = new Vector2(10,10);
+		//drag = new Vector2(10,10);
+		drag = new Vector2();
 		position = pos;
 		velocity = new Vector2();
 		tag = t;
