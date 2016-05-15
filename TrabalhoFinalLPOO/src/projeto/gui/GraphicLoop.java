@@ -23,21 +23,13 @@ public class GraphicLoop extends JPanel implements Runnable{
 	
 	private Minigame mg;
 	private Input in;
-	AtomicBoolean running = new AtomicBoolean(true);
-	double lastTime = 0;
-	BufferedImage img;
-	BufferedImage img2;
-	
+	private AtomicBoolean running = new AtomicBoolean(true);
+	private double lastTime = 0;
+	private TextureManager txtMng = new TextureManager();
 	public GraphicLoop(){
 		in = new Input(); 
 		mg = new SoccerGame(in);
 		mg.initGame();
-		try {
-			img =  ImageIO.read(new File("colors-originals.png"));
-			img2 =  ImageIO.read(new File("circulo.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 	}
 	 
@@ -48,10 +40,8 @@ public class GraphicLoop extends JPanel implements Runnable{
 			Obj obj = gO.getObj();
 			Rectangulo dims = obj.getDimensions();
 			Rectangulo subI = obj.getSubImage();
-			BufferedImage temp = img;
-			if(obj.getPath() == "circulo.png"){
-				temp=img2;
-			}
+			
+			BufferedImage temp = txtMng.getTexture(obj.getPath());
 			
 			/*System.out.println("Coords:" 
 							+dims.getxI() +" , " 

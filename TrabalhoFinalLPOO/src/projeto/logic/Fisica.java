@@ -135,7 +135,7 @@ public class Fisica {
 		Vector2  normalVector = Vector2.sub(c2.position, c1.position);
 		normalVector.normalize();
 		Vector2 tangentVector  = new Vector2(normalVector.y * -1, normalVector.x);
-		System.out.println("Normal:" + normalVector.getNorm()); 
+		//System.out.println("Normal:" + normalVector.getNorm()); 
         // create ball scalar normal direction.
         double ball1scalarNormal =  normalVector.dot(c1.velocity);
         double ball2scalarNormal = normalVector.dot(c2.velocity);
