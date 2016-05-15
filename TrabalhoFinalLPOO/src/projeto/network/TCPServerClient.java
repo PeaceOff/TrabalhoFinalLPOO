@@ -84,7 +84,11 @@ public class TCPServerClient extends TCPBasic implements Runnable {
 				int readed;
 
 				readed = client.getInputStream().read(info);
-
+				if(readed == -1) {
+					for(IServerConnection c : m_IServerConnection)
+						c.OnClientDisconnected(client, id);
+					return;
+				}
 				byte[] msg = new byte[readed];
 				for(int i =0 ; i < readed; i++){
 					msg[i] = info[i];
@@ -92,7 +96,7 @@ public class TCPServerClient extends TCPBasic implements Runnable {
 
 
 				m_IMessage.OnMessageReceived(msg, id);
-
+ 
 
 			} catch (IOException e) { 
 

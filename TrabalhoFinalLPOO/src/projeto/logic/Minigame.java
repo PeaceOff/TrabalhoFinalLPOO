@@ -12,7 +12,7 @@ public abstract class Minigame {
 	protected ArrayList<Integer> scores;
 	protected Fisica m_Fisica;
 	protected ArrayList<GameObject> game_objects;
-	protected Input m_Input;
+	protected Input m_Input = new Input(8); 
 	
 	public Minigame(Input i){
 		scores = new ArrayList<Integer>();
@@ -28,7 +28,10 @@ public abstract class Minigame {
 	
 	public abstract void initGame();
 	
-	
+	public Input getInput(){
+		return m_Input;
+	}
+	 
 	
 	public ArrayList<GameObject> getGame_objects() {
 		return game_objects;

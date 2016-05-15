@@ -66,6 +66,10 @@ public class TCPClient extends TCPBasic implements Runnable {
 		socket.getOutputStream().write(msg);
 		
 	}
+	
+	public int getPort(){
+		return socket.getPort();
+	}
 
 	@Override
 	public void run() {

@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.imageio.ImageIO;
@@ -18,18 +19,41 @@ import projeto.logic.Minigame;
 import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.SoccerGame;
+import projeto.logic.Vector2;
+import projeto.network.CommandParser;
+import projeto.network.Host;
+import projeto.network.ICommandReceived;
+import projeto.network.IServerConnection;
+import projeto.network.ServerInformationParser;
  
-public class GraphicLoop extends JPanel implements Runnable{
+public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection{
 	
 	private Minigame mg;
 	private Input in;
 	private AtomicBoolean running = new AtomicBoolean(true);
 	private double lastTime = 0;
 	private TextureManager txtMng = new TextureManager();
+	private Host server;
+	private ServerInformationParser parser = new ServerInformationParser(16, true, this );
+	
 	public GraphicLoop(){
-		in = new Input(); 
+		
+		in = new Input(8);  
 		mg = new SoccerGame(in);
 		mg.initGame();
+		
+		try {
+			
+			server = new Host(27015, 8); 
+			server.setMessageParser(parser); 
+			server.addListener(this);
+			server.start();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	 
@@ -88,6 +112,40 @@ public class GraphicLoop extends JPanel implements Runnable{
 			
 			
 		}
+	}
+
+	@Override
+	public void parseCMD(byte[] info, int index) {
+		
+		System.out.println("Message Received: " + (char)info[1] + " by " + index);
+		
+		if(info[1] == 'D')   
+			mg.getInput().getPlayerInput(index).setDirection(new Vector2(info[2],info[3]));
+	}
+
+	@Override
+	public void OnClientAttemptConnecting(Socket client) {
+		System.out.println("Client Attempting Connection" 
+							+ client.getInetAddress().getHostAddress()
+							+ ":" + client.getPort() 
+							+ " - " + client.getLocalPort());
+	}
+
+	@Override
+	public void OnClientConnected(Socket client, int id) {
+		System.out.println("Client Connected" 
+							+ client.getInetAddress().getHostAddress()
+							+ ":" + client.getPort() 
+							+ " - " + client.getLocalPort());
+		
+	}
+
+	@Override
+	public void OnClientDisconnected(Socket client, int id) {
+		System.out.println("Client Disconnected"  
+							+ client.getInetAddress().getHostAddress()
+							+ ":" + client.getPort() 
+							+ " - " + client.getLocalPort());
 	}
 	
 	
