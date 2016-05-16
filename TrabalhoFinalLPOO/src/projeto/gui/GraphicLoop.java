@@ -2,6 +2,9 @@ package projeto.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -60,6 +63,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); 
+		Graphics2D g2 = (Graphics2D)g;
 		for(GameObject gO: mg.getGame_objects()){
 			Obj obj = gO.getObj();
 			Rectangulo dims = obj.getDimensions();
@@ -72,8 +76,17 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+dims.getyI() +" , " 
 							+dims.getxF() +" , " 
 							+dims.getyF()); 
-				/**/ 									
-			g.drawImage(temp
+				/**/ 	
+			RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);	
+			
+			hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);	
+			hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
+			
+			
+			g2.setRenderingHints(hints);
+			 
+			g2.drawImage(temp
 					, (int)dims.getxI(), (int)dims.getyI(), (int)dims.getxF(), (int)dims.getyF()
 					,(int) (subI.getxI() * temp.getWidth()) 
 					,(int) (subI.getyI() * temp.getHeight())

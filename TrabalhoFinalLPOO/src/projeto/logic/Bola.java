@@ -11,13 +11,6 @@ public class Bola extends GameObject {
 	  
 	@Override
 	public void update(float timeLapsed) {
-		Vector2 velo = m_Input.getPlayerInput(0).getDirection();
-		if(velo.x != 0 || velo.y != 0){
-			m_Collider.setVelocity(velo);
-			//m_Input.getPlayerInput(0).setDirection(new Vector2());
-		}
-		
-		 
 		
 	}
 

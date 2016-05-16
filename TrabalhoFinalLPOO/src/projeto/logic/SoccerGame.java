@@ -28,19 +28,15 @@ public class SoccerGame extends Minigame {
 		addGameObject(parede3);
 		addGameObject(parede4);  
 		
-		GameObject bola = new Bola(m_Input, new Vector2(400,215),20, new Vector2(100,0));
-		GameObject bola2 = new Bola(m_Input, new Vector2(500,200),20, new Vector2(0,100));
-		GameObject bola3 = new Bola(m_Input, new Vector2(550,200),10, new Vector2(-100,0));
-		GameObject bola4 = new Bola(m_Input, new Vector2(400,100),50, new Vector2(200,-100));
-		GameObject bola5 = new Bola(m_Input, new Vector2(150,150),80, new Vector2(0,0));
-		GameObject bola6 = new Bola(m_Input, new Vector2(500,300),10, new Vector2(-100,-100));
-		bola5.getCollider().setMovable(false);
-		addGameObject(bola);  
-		addGameObject(bola2);
-		addGameObject(bola3);
-		addGameObject(bola4);
-		addGameObject(bola5);
-		addGameObject(bola6);
+		
+		GameObject bola = new Bola(m_Input, new Vector2(400,215),100, new Vector2(100,0));
+		addGameObject(bola); 
+			
+		for(int i = 0; i < 8; i++){
+			GameObject player = new Player(m_Input, i, new Vector2(200+i*40, 200));
+			addGameObject(player); 
+		}
+		
 	}
 
 	public void update(float timeLapsed){
