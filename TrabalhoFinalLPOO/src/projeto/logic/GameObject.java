@@ -20,7 +20,7 @@ public abstract class GameObject implements iCollider {
 	
 
 	public void onCollisionEnter(Collider c){
-
+		
 	}
 
 	public void onTriggerEnter(Collider c){

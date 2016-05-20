@@ -19,6 +19,10 @@ public class Fisica {
 	public void addObject(Collider c){
 		objects.add(c);
 	}
+	 
+	public void removeObject(Collider c){
+		objects.remove(c);
+	}
 	
 	public boolean checkColision(Collider c1, Collider c2){
 		

@@ -37,7 +37,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private double lastTime = 0;
 	private TextureManager txtMng = new TextureManager();
 	private Host server;
-	private ServerInformationParser parser = new ServerInformationParser(16, true, this );
+	private ServerInformationParser parser = new ServerInformationParser(8, true, this );
 	
 	public GraphicLoop(){
 		
@@ -64,36 +64,39 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); 
 		Graphics2D g2 = (Graphics2D)g;
-		for(GameObject gO: mg.getGame_objects()){
-			Obj obj = gO.getObj();
-			Rectangulo dims = obj.getDimensions();
-			Rectangulo subI = obj.getSubImage();
-			
-			BufferedImage temp = txtMng.getTexture(obj.getPath());
-			
-			/*System.out.println("Coords:" 
-							+dims.getxI() +" , " 
-							+dims.getyI() +" , " 
-							+dims.getxF() +" , " 
-							+dims.getyF()); 
-				/**/ 	
-			RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);	
-			
-			hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);	
-			hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
-			
-			
-			g2.setRenderingHints(hints);
-			 
-			g2.drawImage(temp
-					, (int)dims.getxI(), (int)dims.getyI(), (int)dims.getxF(), (int)dims.getyF()
-					,(int) (subI.getxI() * temp.getWidth()) 
-					,(int) (subI.getyI() * temp.getHeight())
-					,(int) (subI.getxF() * temp.getWidth())
-					,(int) (subI.getyF() * temp.getHeight()) 
-					, null); 
-			
+		
+		synchronized(mg.getGame_objects()){ 
+			for(GameObject gO: mg.getGame_objects()){ 
+				Obj obj = gO.getObj();
+				Rectangulo dims = obj.getDimensions();
+				Rectangulo subI = obj.getSubImage();
+				 
+				BufferedImage temp = txtMng.getTexture(obj.getPath());
+				
+				/*System.out.println("Coords:" 
+								+dims.getxI() +" , " 
+								+dims.getyI() +" , " 
+								+dims.getxF() +" , " 
+								+dims.getyF()); 
+					/**/ 	
+				RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);	
+				
+				hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);	
+				hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
+				
+				
+				g2.setRenderingHints(hints);
+				 
+				g2.drawImage(temp
+						, (int)dims.getxI(), (int)dims.getyI(), (int)dims.getxF(), (int)dims.getyF()
+						,(int) (subI.getxI() * temp.getWidth()) 
+						,(int) (subI.getyI() * temp.getHeight())
+						,(int) (subI.getxF() * temp.getWidth())
+						,(int) (subI.getyF() * temp.getHeight()) 
+						, null); 
+				
+			}
 		}
 		
 	}
@@ -130,10 +133,10 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void parseCMD(byte[] info, int index) {
 		
-		System.out.println("Message Received: " + (char)info[1] + " by " + index);
-		
-		if(info[1] == 'D')   
-			mg.getInput().getPlayerInput(index).setDirection(new Vector2(info[2],info[3]));
+		System.out.println("Message Received: " + (char)info[0] + " by " + index);
+		 
+		if(info[0] == 'D')   
+			mg.getInput().getPlayerInput(index).setDirection(new Vector2(info[1],info[2]));
 	}
 
 	@Override
@@ -146,6 +149,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 
 	@Override
 	public void OnClientConnected(Socket client, int id) {
+		mg.addPlayer(id);
 		System.out.println("Client Connected" 
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 
@@ -155,6 +159,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 
 	@Override
 	public void OnClientDisconnected(Socket client, int id) {
+		mg.removePlayer(id); 
 		System.out.println("Client Disconnected"  
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 

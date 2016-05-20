@@ -20,11 +20,24 @@ public abstract class Minigame {
 		game_objects = new ArrayList<GameObject>();
 		m_Input = i; 
 	}
-
+	
+	public abstract void addPlayer(int id);
+	
+	public abstract void removePlayer(int id);
+	
 	public void addGameObject(GameObject g){
-		game_objects.add(g);
-		m_Fisica.addObject(g.m_Collider);
-	} 
+		synchronized (game_objects) {
+			game_objects.add(g);
+			m_Fisica.addObject(g.m_Collider);
+		}
+	}
+	public void removeGameObject(GameObject g){
+		synchronized (game_objects) {
+			game_objects.remove(g);
+			m_Fisica.removeObject(g.m_Collider); 
+		}
+		
+	}
 	
 	public abstract void initGame();
 	
@@ -34,7 +47,9 @@ public abstract class Minigame {
 	 
 	
 	public ArrayList<GameObject> getGame_objects() {
-		return game_objects;
+		synchronized (game_objects) {
+			return game_objects;
+		}
 	}
 
 	public void update(float timeLapsed){

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import projeto.network.IClientConnection;
 import projeto.network.InformationParser;
 import projeto.network.TCPClient;
 import projeto.network.UDPConnection;
@@ -16,9 +17,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.Socket;
 import java.awt.event.ActionEvent;
 
-public class ClientTest extends JFrame {
+public class ClientTest extends JFrame implements IClientConnection {
 
 	private JPanel contentPane;
 	private JTextField textFIP;
@@ -26,7 +28,11 @@ public class ClientTest extends JFrame {
 	private TCPClient tcpClient;
 	private UDPConnection udpClient;
 	private JButton btnSendInfo;
-
+	private JButton btnConnect ;
+	private JLabel lblInfo;
+	private ClientTest object = this;
+	private TouchScreen ts = new TouchScreen();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -55,7 +61,7 @@ public class ClientTest extends JFrame {
 		contentPane.setLayout(null);
 		
 		textFIP = new JTextField();
-		textFIP.setText("192.168.1.67");
+		textFIP.setText("localhost"); 
 		textFIP.setBounds(12, 12, 175, 19);
 		contentPane.add(textFIP);
 		textFIP.setColumns(10);
@@ -66,15 +72,16 @@ public class ClientTest extends JFrame {
 		contentPane.add(txtPort);
 		txtPort.setColumns(10);
 		
-		JButton btnConnect = new JButton("Connect");
+		btnConnect = new JButton("Connect");
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String ip = textFIP.getText();
 				int port  = Integer.parseInt(txtPort.getText());
 				try {
 					
-					tcpClient = new TCPClient(ip, port);
+					tcpClient = new TCPClient(ip, port,object); 
 					udpClient = new UDPConnection(ip, 0, tcpClient.getPort(), 1);
+					ts.udp = udpClient; 
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -88,56 +95,27 @@ public class ClientTest extends JFrame {
 		btnConnect.setBounds(323, 9, 117, 25);
 		contentPane.add(btnConnect);
 		
-		JLabel lblInfo = new JLabel("INFORMATION");
+		lblInfo = new JLabel("INFORMATION");
 		lblInfo.setBounds(22, 43, 418, 15);
 		contentPane.add(lblInfo);
 		
-		btnSendInfo = new JButton("SendDir");
-		btnSendInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(udpClient != null){
-					udpClient.sendInfo(InformationParser.transformInformation("" + (char)(-1) + (char)-1, (byte)'D'));
-					  
-				}
-			}
-		});
-		btnSendInfo.setBounds(12, 70, 117, 25);
-		contentPane.add(btnSendInfo);
+		ts.setBounds(20, 60, 200, 200);
+		ts.setVisible(true);
+		contentPane.add(ts); 
 		
-		JButton btnDirL = new JButton("UP");
-		btnDirL.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(udpClient != null){
-					udpClient.sendInfo(InformationParser.transformInformation("" + (char)(1) + (char)-1, (byte)'D'));
-					  
-				}
-			}
-		});
-		btnDirL.setBounds(141, 70, 117, 25);
-		contentPane.add(btnDirL);
+	}
+
+	@Override
+	public void ConnectedToServer(Socket server) {
+		lblInfo.setText("Connected to" + server.getInetAddress().getHostAddress());
+		btnConnect.setEnabled(false);
 		
-		JButton btnLeft = new JButton("Left");
-		btnLeft.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(udpClient != null){
-					udpClient.sendInfo(InformationParser.transformInformation("" + (char)(-1) + (char)1, (byte)'D'));
-					  
-				}
-			}
-		});
-		btnLeft.setBounds(12, 124, 117, 25);
-		contentPane.add(btnLeft);
+	}
+
+	@Override
+	public void DisconnectedFromServer(Socket server) { 
+		lblInfo.setText("Disconnected from" + server.getInetAddress().getHostAddress());
+		btnConnect.setEnabled(true);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(udpClient != null){
-					udpClient.sendInfo(InformationParser.transformInformation("" + (char)(1) + (char)1, (byte)'D'));
-					  
-				}
-			}
-		});
-		btnNewButton.setBounds(141, 124, 117, 25);
-		contentPane.add(btnNewButton);
 	}
 }

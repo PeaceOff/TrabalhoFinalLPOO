@@ -116,6 +116,8 @@ public class Host extends Thread implements IServerConnection{
 			} catch (IOException e) {
 				
 				try { 
+					
+					//Verificar lugares disponiveis
 					synchronized (this) { 
 						this.wait();
 					}

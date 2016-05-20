@@ -15,10 +15,13 @@ public class InformationParser {
 	private LinkedList<Byte> information = new LinkedList<Byte>();
 	private ICommandReceived m_ICommandReceived;
 	int counter = 0;
+	private int tamanhoMSG = 0;
 	
 	public InformationParser(int id, ICommandReceived rc){
 		this.id = id;
-		m_ICommandReceived = rc; 
+		m_ICommandReceived = rc;
+		
+		 
 	}
 
 	/**
@@ -27,35 +30,41 @@ public class InformationParser {
 	 */
 	public void parseInformation(byte[] info){
 		
-		LinkedList<Integer> lengths = new LinkedList<Integer>();
-		
 		for(int i =0; i < info.length; i++){
-			
-			counter ++; 
-			
-			if(info[i] == '#'){
-				lengths.add(counter);
-				counter = 0;
-			}
+			System.out.println(info[i]);
+
 			information.add(info[i]);
 		}
 		
-		while(lengths.size() > 0){
+		while(true){
 			
-			int length = lengths.pop();
+			if(information.size() > 4 && tamanhoMSG == 0){
+				
+				int length = (int)(information.pop() << 12)
+							| (int)(information.pop() << 8)
+							| (int)(information.pop() << 4)
+							| (int)(information.pop());
+				tamanhoMSG = length - 4;
+				
+			}else
+				break;
 			
-			byte[] cmd = new byte[length];
-			
-			for(int i = 0; i < length ; i++)	
-				cmd[i] = information.pop();
-			
-			m_ICommandReceived.CommandReceived(cmd, id);
-			 
+			if(information.size() >= tamanhoMSG && tamanhoMSG > 0){
+				
+				byte[] cmd = new byte[tamanhoMSG];
+				
+				for(int i = 0; i < tamanhoMSG ; i++)	
+					cmd[i] = information.pop();
+				
+				m_ICommandReceived.CommandReceived(cmd, id);
+				
+				tamanhoMSG = 0; 
+			}else
+				break;
 		}
 		
-		
 	} 
-	
+	 
 	public void clear(){
 		information.clear();
 	}
@@ -65,25 +74,25 @@ public class InformationParser {
 	 * @param msg
 	 * @param tag
 	 */
-	public static byte[] transformInformation(String msg, byte tag){
+	
+	public static byte[] transformInformation(byte ... message){
 		
-		byte[] info = msg.getBytes();
 		
-		byte[] res = new byte[info.length + 3];
+		byte[] res = new byte[message.length + 4];
 		
-		for(int i = 0 ; i < info.length; i++){
-			
-			if(info[i] == '#' || info[i] == '$')
-				res[i] = ' ';
-			else
-				res[i+2] = info[i];
-		}   
-		  
-		 
-		res[1] = tag; 
-		res[0] = '$';  
-		res[res.length-1] = '#'; 
-		return res;
+		int size = message.length; 
+		res[0] = (byte)(size >> 12);
+		res[1] = (byte)(size >> 8);
+		res[2] = (byte)(size >> 4);
+		res[3] = (byte)(size >> 0);
+		//System.out.print("Tamanho mensagem a enviar:" + size + " = ");
+		//System.out.println(res[0] + " " + res[1] + " " + res[2] + " " +  res[3]); 
+		
+		for(int i = 0; i < message.length; i++){
+			res[4 + i] = message[i];
+		}
+		
+		return res; 
 		
 	}
 

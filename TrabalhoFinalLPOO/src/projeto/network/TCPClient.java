@@ -29,6 +29,14 @@ public class TCPClient extends TCPBasic implements Runnable {
 		rebindConnection(ip);   
 		
 	}
+	
+	public TCPClient(String ip, int port, IClientConnection listener) throws UnknownHostException, IOException{
+		
+		socket = new Socket(ip, port); 
+		m_IClientConnection.add(listener); 
+		rebindConnection(ip);   
+		
+	}
 
 	/**
 	 * 

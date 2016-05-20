@@ -51,29 +51,30 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 	 * 
 	 * @param info
 	 * @param id
-	 */
+	 */ 
 	public void OnMessageReceived(byte[] info, int id){
 		byte[] res = info;
 		
 		if(udp){
 			if(id >= m_InformationParser.length/2){
 				
-				int length = 0;
+				int length = (int)(info[0] << 12)
+						| (int)(info[1]  << 8)
+						| (int)(info[2]  << 4)
+						| (int)(info[3] );
 				
-				for(int i = info.length-1; i > 0; i--){
-					if(info[i] == '#'){						
-						length = i;
-						break;
-					} 
-				}				
+				//System.out.println("   a" + length + "length" + info.length );  
 				
-				res = new byte[length+1];
+				res = new byte[length];
+				for(int i = 0; i < length ; i++){
+					res[i] = info[i + 4];
 				
-				for(int i = 0; i <= length ; i++){
-					
-					res[i] = info[i];
-				}				
+				}
+				 
+				commandParser.parseCMD(res, id %= (m_InformationParser.length/2));
 			}
+			 
+			return;
 		}
 		
 		synchronized(m_InformationParser[id]){
