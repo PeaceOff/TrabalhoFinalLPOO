@@ -29,7 +29,7 @@ public class SoccerGame extends Minigame {
 		addGameObject(parede4);  
 		
 		
-		GameObject bola = new Bola(m_Input, new Vector2(400,215),100, new Vector2(100,0));
+		GameObject bola = new Bola(m_Input, new Vector2(400,215),10, new Vector2(100,0));
 		addGameObject(bola); 
 			
 		for(int i = 0; i < 8; i++){

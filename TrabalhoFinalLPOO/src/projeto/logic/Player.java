@@ -8,14 +8,16 @@ package projeto.logic;
 public class Player extends GameObject {
 
 	private int id;
-	private int size = 60;
+	private int size = 20;
+
+	
 	public Player(Input i, int _id , Vector2 pos){
 		super(null,i,null); 
 		id = _id; 
 		  
 		m_Collider = new CircleCollider(size, pos, "player", true, 30); 
 		m_Collider.setDrag(new Vector2(10, 10));  
-		m_Obj = new Obj(new Rectangulo(), "players.png", new Rectangulo(id*1/8f, 0, 1/8f ,1)); 
+		m_Obj = new Obj(new Rectangulo(), "players.png", new Rectangulo(id*1/8f, 0, 1/8f ,1));
 	}
 
 	public void update(float timeLapsed){
