@@ -21,15 +21,47 @@ public class SoccerGame extends Minigame {
 
 	public void initGame(){ 
 		//Left Wall
-		GameObject parede1 = new Parede(m_Input, new Vector2(0,0), new Vector2(900, 10));
-		GameObject parede2 = new Parede(m_Input, new Vector2(0,400), new Vector2(900,10));
-		GameObject parede3 = new Parede(m_Input, new Vector2(0,0), new Vector2(10,400));
-		GameObject parede4 = new Parede(m_Input, new Vector2(890,0), new Vector2(10,400)); 
-		  
-		addGameObject(parede1);
-		addGameObject(parede2);
-		addGameObject(parede3);
-		addGameObject(parede4);  
+		//Generating Camp
+		//x 
+		int c = 900;
+		int l = 400;
+		int b = 80;
+		int e = 40;
+		int ps = 10;
+		
+		GameObject w1 = new Parede(m_Input, new Vector2(0,0), new Vector2(c, e));
+		GameObject w2 = new Parede(m_Input, new Vector2(0,l), new Vector2(c,e));
+		
+		GameObject d11 = new Parede(m_Input, new Vector2(0,0), new Vector2(e,(l+e)/2 - b/2));
+		GameObject d12 = new Parede(m_Input, new Vector2(0, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
+		GameObject d13 = new Parede(m_Input, new Vector2(0, (l+e)/2 - b/2), new Vector2(e/4,b)); 
+		
+		GameObject p1 = new Poste(m_Input, new Vector2(e , (l+e)/2 - b/2 ), ps, 2000);
+		GameObject p2 = new Poste(m_Input, new Vector2(e , (l+e)/2 + b/2), ps, 2000);
+		GameObject p3 = new Poste(m_Input, new Vector2(c-e , (l+e)/2 - b/2), ps, 2000);
+		GameObject p4 = new Poste(m_Input, new Vector2(c-e , (l+e)/2 + b/2), ps, 2000);
+		
+		GameObject d21 = new Parede(m_Input, new Vector2(c-e,0), new Vector2(e,(l+e)/2 - b/2));
+		GameObject d22 = new Parede(m_Input, new Vector2(c-e, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
+		GameObject d23 = new Parede(m_Input, new Vector2(c-e/4, (l+e)/2 - b/2), new Vector2(e/4,b)); 
+		
+		
+		addGameObject(w1);
+		addGameObject(w2);
+		addGameObject(d11);
+		addGameObject(d12);  
+		addGameObject(d13);
+		
+		addGameObject(d21);
+		addGameObject(d22);  
+		addGameObject(d23);
+		
+		addGameObject(p1);
+		addGameObject(p2);
+		addGameObject(p3);
+		addGameObject(p4);
+		
+		
 		
 		
 		GameObject bola = new Bola(m_Input, new Vector2(400,215),10, new Vector2(100,0));

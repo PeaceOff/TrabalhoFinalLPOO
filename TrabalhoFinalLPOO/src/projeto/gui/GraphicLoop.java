@@ -64,7 +64,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); 
 		Graphics2D g2 = (Graphics2D)g;
-		
+		 
 		synchronized(mg.getGame_objects()){ 
 			for(GameObject gO: mg.getGame_objects()){ 
 				Obj obj = gO.getObj();

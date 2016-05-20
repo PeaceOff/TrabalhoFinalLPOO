@@ -3,6 +3,7 @@ package projeto.logic;
 public class Bola extends GameObject {
 	
 	private State _state;
+	private int lastID = -1; 
 	
 	public Bola(Input i, Vector2 pos, int size , Vector2 initV){
 		super(null,i,null);
@@ -17,5 +18,15 @@ public class Bola extends GameObject {
 	public void update(float timeLapsed) {
 		_state.update(timeLapsed,this);
 	}
-
+	
+	@Override
+	public void onCollisionEnter(Collider c) {
+		
+		if(c.tag.contains("Player")){
+		
+		}
+		
+		super.onCollisionEnter(c);
+	}
+	
 }

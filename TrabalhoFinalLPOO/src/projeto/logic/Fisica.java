@@ -103,7 +103,7 @@ public class Fisica {
 			for(int k = objects.indexOf(c) + 1; k < objects.size(); k++){
 				if(checkColision(c,objects.get(k))){//True = colisao
 					if(c instanceof CircleCollider || objects.get(k) instanceof CircleCollider)
-						  
+					
 					c.onCollisionEnter(objects.get(k));
 					objects.get(k).onCollisionEnter(c);
 					dealWithCollision(c,objects.get(k));
