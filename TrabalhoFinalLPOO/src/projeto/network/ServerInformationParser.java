@@ -41,9 +41,9 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 	@Override 
 	public void ClearBuffer(int index){
 		
-		if(udp){
-			m_InformationParser[index + m_InformationParser.length/2].clear();
-		}
+		//if(udp){
+		//	m_InformationParser[index + m_InformationParser.length/2].clear();
+		//} 
 		m_InformationParser[index].clear();
 		
 	}
@@ -56,7 +56,7 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 		byte[] res = info;
 		
 		if(udp){
-			if(id >= m_InformationParser.length/2){
+			if(id >= m_InformationParser.length){
 				
 				int length = (int)(info[0] << 12)
 						| (int)(info[1]  << 8)
@@ -71,7 +71,7 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 				
 				}
 				 
-				commandParser.parseCMD(res, id %= (m_InformationParser.length/2));
+				commandParser.parseCMD(res, id %= (m_InformationParser.length));
 			}
 			 
 			return;

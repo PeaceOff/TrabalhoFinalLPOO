@@ -107,7 +107,7 @@ public class ClientTest extends JFrame implements IClientConnection {
 
 	@Override
 	public void ConnectedToServer(Socket server) {
-		lblInfo.setText("Connected to" + server.getInetAddress().getHostAddress());
+		lblInfo.setText("Connected to" + server.getInetAddress().getHostAddress() + " " + server.getPort());
 		btnConnect.setEnabled(false);
 		
 	}
