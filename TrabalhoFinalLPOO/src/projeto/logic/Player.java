@@ -5,12 +5,10 @@ package projeto.logic;
  * @version 1.0
  * @created 03-mai-2016 15:30:42
  */
-public class Player extends GameObject {
+public class Player extends GameObjectState {
 
 	private int id;
 	private int size = 20;
-	private State _state;
-
 	
 	public Player(Input i, int _id , Vector2 pos){
 		super(null,i,null); 
@@ -20,11 +18,9 @@ public class Player extends GameObject {
 		
 		m_Collider.setDrag(new Vector2(100, 100));  
 		m_Obj = new Obj(new Rectangulo(), "players.png", new Rectangulo(id*1/8f, 0, 1/8f ,1));
-		_state = new NormalState();
 	}
 
 	public void update(float timeLapsed){
-		_state.update(timeLapsed,this);
 		
 		PlayerInput pIn = this.m_Input.getPlayerInput(id);
 		
