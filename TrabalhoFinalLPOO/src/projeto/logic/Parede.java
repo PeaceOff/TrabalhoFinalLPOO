@@ -10,6 +10,7 @@ public class Parede extends GameObject{
 		m_Obj = new Obj(new Rectangulo(pos.x,pos.y,size.x,size.y)
 				,"colors-originals.png" 
 				, new Rectangulo(0,0.083*9+0.01,1,0.083 -0.01)); 
+		m_Collider.addListener(this);
 	} 
 
 	@Override

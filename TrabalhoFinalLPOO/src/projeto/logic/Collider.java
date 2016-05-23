@@ -13,7 +13,7 @@ public abstract class Collider {
 	protected String tag;
 	protected boolean trigger = false;
 	protected Vector2 velocity;
-	protected iCollider m_iCollider;
+	protected iCollider m_iCollider = null;
 	protected double mass;
 
 	public Collider(){
@@ -42,9 +42,15 @@ public abstract class Collider {
 
 	public abstract Rectangulo getBoundingBox();
 
-	public abstract void onCollisionEnter(Collider c);
+	public void onCollisionEnter(Collider c){
+		if(m_iCollider != null)
+			m_iCollider.onCollisionEnter(c);
+	};
 
-	public abstract void onTriggerEnter(Collider c);
+	public void onTriggerEnter(Collider c){
+		if(m_iCollider != null)
+			m_iCollider.onTriggerEnter(c);
+	}
 
 
 	public void update(float time){

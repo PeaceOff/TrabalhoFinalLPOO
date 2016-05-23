@@ -14,10 +14,11 @@ public class Player extends GameObjectState {
 		super(null,i,null); 
 		id = _id; 
 		
-		m_Collider = new CircleCollider(size, pos, "player", true, 70); 
+		m_Collider = new CircleCollider(size, pos, "Player" + _id, true, 70); 
 		
 		m_Collider.setDrag(new Vector2(100, 100));  
 		m_Obj = new Obj(new Rectangulo(), "players.png", new Rectangulo(id*1/8f, 0, 1/8f ,1));
+		m_Collider.addListener(this);
 	}
 
 	public void update(float timeLapsed){

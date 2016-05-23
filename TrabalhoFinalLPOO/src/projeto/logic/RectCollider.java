@@ -29,14 +29,4 @@ public class RectCollider extends Collider {
 		return res; 
 	}
 
-	@Override
-	public void onCollisionEnter(Collider c) {	
-	}
-
-	@Override
-	public void onTriggerEnter(Collider c) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

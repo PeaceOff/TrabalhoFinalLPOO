@@ -8,6 +8,7 @@ public class Poste extends GameObject {
 		m_Collider =new CircleCollider(size, pos, "", false, mass);
 		
 		m_Obj = new Obj(new Rectangulo(), "players.png", new Rectangulo(0*1/8f, 0, 1/8f ,1));
+		m_Collider.addListener(this);
 		
 		
 	}

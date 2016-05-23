@@ -67,5 +67,16 @@ public class TestarFisica {
 		assertEquals(false,f.checkColision(c1, c2));
 		assertEquals(false,f.checkColision(c2, r1));
 		
+		f.addObject(r1);
+		f.addObject(r2);
+		f.addObject(r3);
+		f.addObject(c1);
+		f.addObject(c2);
+		f.addObject(c3);
+		f.addObject(c4);
+		f.update(1);
+		
+		assertEquals(true,true);
+		
 	}
 }
