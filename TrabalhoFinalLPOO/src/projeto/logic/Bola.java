@@ -33,6 +33,7 @@ public class Bola extends GameObjectState {
 		super.onCollisionEnter(c);
 	}
 	
+	@Override
 	public final int getSize(){
 		return size;
 	}
@@ -43,5 +44,14 @@ public class Bola extends GameObjectState {
 
 	public void setLastID(int lastID) {
 		this.lastID = lastID;
+	}
+
+	@Override
+	public void onTriggerEnter(Collider c) {
+		if(c.tag.contains("PowerUp")){
+			c.destroy = 1;
+			this.setM_State(new SmallerState());
+		}
+		super.onTriggerEnter(c);
 	}
 }

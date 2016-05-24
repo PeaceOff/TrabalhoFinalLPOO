@@ -10,6 +10,8 @@ public class Player extends GameObjectState {
 	private int id;
 	private final static int size = 20;
 	private final static double elast = 0.6;
+	private int score = 0;
+	private double speedMult = 1;
 	
 	public Player(Input i, int _id , Vector2 pos){
 		super(null,i,null); 
@@ -31,7 +33,7 @@ public class Player extends GameObjectState {
 		
 		if(pIn.getDirection().getNorm() > 0){
 			
-			this.m_Collider.velocity.add((Vector2.multiply(pIn.getDirection(),1))); 
+			this.m_Collider.velocity.add((Vector2.multiply(pIn.getDirection(),speedMult))); 
 			
 			pIn.setDirection(new Vector2());  
 		}		
@@ -40,18 +42,17 @@ public class Player extends GameObjectState {
 	@Override
 	public void onCollisionEnter(Collider c) {
 		if(c.tag.contains("ball")){
-			//this.setM_State(new SmallerState());
 		}
-		if(c.tag.contains("PowerUp")){
-			c.destroy = 1;
-			this.setM_State(new SmallerState());
-		}
+
 		super.onCollisionEnter(c);
 	}
 
 	@Override
 	public void onTriggerEnter(Collider c) {
-		// TODO Auto-generated method stub
+		if(c.tag.contains("PowerUp")){
+			c.destroy = 1;
+			this.setM_State(new FasterState());
+		}
 		super.onTriggerEnter(c);
 	}
 
@@ -63,7 +64,24 @@ public class Player extends GameObjectState {
 		this.id = id;
 	}
 	
+	@Override
 	public final int getSize(){
 		return size;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public double getSpeedMult() {
+		return speedMult;
+	}
+
+	public void setSpeedMult(double speedMult) {
+		this.speedMult = speedMult;
 	}
 }

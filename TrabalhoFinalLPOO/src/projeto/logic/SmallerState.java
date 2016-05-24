@@ -2,7 +2,7 @@ package projeto.logic;
 
 public class SmallerState implements State {
 	
-	public float timePassed = 0;
+	private float timePassed = 0;
 	
 	@Override
 	public void update(float timeLapsed,GameObjectState gO) {
