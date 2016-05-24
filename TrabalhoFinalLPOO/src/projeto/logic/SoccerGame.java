@@ -36,10 +36,10 @@ public class SoccerGame extends Minigame {
 		GameObject d12 = new Parede(m_Input, new Vector2(0, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
 		GameObject d13 = new Parede(m_Input, new Vector2(0, (l+e)/2 - b/2), new Vector2(e/4,b)); 
 		
-		GameObject p1 = new Poste(m_Input, new Vector2(e , (l+e)/2 - b/2 ), ps, 2000);
-		GameObject p2 = new Poste(m_Input, new Vector2(e , (l+e)/2 + b/2), ps, 2000);
-		GameObject p3 = new Poste(m_Input, new Vector2(c-e , (l+e)/2 - b/2), ps, 2000);
-		GameObject p4 = new Poste(m_Input, new Vector2(c-e , (l+e)/2 + b/2), ps, 2000);
+		GameObject p1 = new Poste(m_Input, new Vector2(e , (l+e)/2 - b/2 ), ps, 200000);
+		GameObject p2 = new Poste(m_Input, new Vector2(e , (l+e)/2 + b/2), ps, 200000);
+		GameObject p3 = new Poste(m_Input, new Vector2(c-e , (l+e)/2 - b/2), ps, 200000);
+		GameObject p4 = new Poste(m_Input, new Vector2(c-e , (l+e)/2 + b/2), ps, 200000);
 		
 		GameObject d21 = new Parede(m_Input, new Vector2(c-e,0), new Vector2(e,(l+e)/2 - b/2));
 		GameObject d22 = new Parede(m_Input, new Vector2(c-e, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 

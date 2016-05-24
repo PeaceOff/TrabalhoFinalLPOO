@@ -14,13 +14,8 @@ public class Player extends GameObjectState {
 	private double speedMult = 1;
 	
 	public Player(Input i, int _id , Vector2 pos){
-		super(null,i,null); 
-		id = _id; 
-		
-		m_Collider = new CircleCollider(size,elast, pos, "Player" + _id, true, 70); 
-		
-		m_Collider.setDrag(new Vector2(100, 100));  
-		m_Obj = new Obj(new Rectangulo(), "players.png", new Rectangulo(id*1/8f, 0, 1/8f ,1));
+		super(new CircleCollider(size,elast, pos, "Player" + _id, true, 70),i,new Obj(new Rectangulo(), "players.png", new Rectangulo(_id*1/8f, 0, 1/8f ,1))); 
+		id = _id;
 		m_Collider.addListener(this);
 	}
 

@@ -13,6 +13,7 @@ public abstract class GameObject implements iCollider {
 
 	public GameObject(Collider c, Input i, Obj o){
 		m_Collider = c;
+		m_Collider.setGameObj(this);
 		m_Input = i;
 		m_Obj = o;
 	}

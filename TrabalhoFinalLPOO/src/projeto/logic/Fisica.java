@@ -102,20 +102,13 @@ public class Fisica {
 		for(Collider c : objects){
 			for(int k = objects.indexOf(c) + 1; k < objects.size(); k++){
 				if(checkColision(c,objects.get(k))){//True = colisao
-					if(c.isTrigger()){
+					if(c.isTrigger() || objects.get(k).isTrigger()){
 						objects.get(k).onTriggerEnter(c);
-						continue;
-					}
-					if(objects.get(k).isTrigger()){
 						c.onTriggerEnter(objects.get(k));
 						continue;
 					}
-					if(c instanceof CircleCollider || objects.get(k) instanceof CircleCollider)
-					
 					c.onCollisionEnter(objects.get(k));
 					objects.get(k).onCollisionEnter(c);
-					if(c.tag.contains("PowerUp") || objects.get(k).tag.contains("PowerUp"))
-						continue;
 					dealWithCollision(c,objects.get(k));
 				}
 			}
