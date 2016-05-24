@@ -25,7 +25,7 @@ public class SoccerGame extends Minigame {
 		//x 
 		int c = 900;
 		int l = 400;
-		int b = 80;
+		int b = 100;
 		int e = 40;
 		int ps = 10;
 		
@@ -43,7 +43,9 @@ public class SoccerGame extends Minigame {
 		
 		GameObject d21 = new Parede(m_Input, new Vector2(c-e,0), new Vector2(e,(l+e)/2 - b/2));
 		GameObject d22 = new Parede(m_Input, new Vector2(c-e, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
-		GameObject d23 = new Parede(m_Input, new Vector2(c-e/4, (l+e)/2 - b/2), new Vector2(e/4,b)); 
+		GameObject d23 = new Parede(m_Input, new Vector2(c-e/4, (l+e)/2 - b/2), new Vector2(e/4,b));
+		
+		GameObject up1 = new PowerUp();
 		
 		
 		addGameObject(w1);
@@ -61,10 +63,12 @@ public class SoccerGame extends Minigame {
 		addGameObject(p3);
 		addGameObject(p4);
 		
+		addGameObject(up1);
 		
 		
 		
-		GameObject bola = new Bola(m_Input, new Vector2(400,215),10, new Vector2(100,0));
+		
+		GameObject bola = new Bola(m_Input, new Vector2(400,215), new Vector2(100,0));
 		addGameObject(bola); 
 		
 	}

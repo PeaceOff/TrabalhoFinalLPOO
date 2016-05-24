@@ -1,11 +1,12 @@
 package projeto.logic;
 
-public class GameObjectState extends GameObject{
+public abstract class GameObjectState extends GameObject{
 
 	protected State m_State;
 	
 	public GameObjectState(Collider c, Input i, Obj o) {
 		super(c, i, o);
+		m_State = new NormalState();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,4 +24,5 @@ public class GameObjectState extends GameObject{
 		this.m_State = m_State;
 	}
 
+	public abstract int getSize();
 }

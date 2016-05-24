@@ -2,9 +2,16 @@ package projeto.logic;
 
 public class SmallerState implements State {
 	
+	public float timePassed = 0;
+	
 	@Override
-	public void update(float timeLapsed,GameObject gO) {
-		// TODO Auto-generated method stub
+	public void update(float timeLapsed,GameObjectState gO) {
+		((CircleCollider)gO.getCollider()).setRadius(gO.getSize() / 2);
+		timePassed += timeLapsed;
+		if(timePassed >= time){
+			timePassed = 0;
+			gO.setM_State(new NormalState());
+		}
 		
 	}
 

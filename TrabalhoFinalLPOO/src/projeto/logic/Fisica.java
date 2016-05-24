@@ -106,6 +106,8 @@ public class Fisica {
 					
 					c.onCollisionEnter(objects.get(k));
 					objects.get(k).onCollisionEnter(c);
+					if(c.tag.contains("PowerUp") || objects.get(k).tag.contains("PowerUp"))
+						continue;
 					dealWithCollision(c,objects.get(k));
 				}
 			}
@@ -152,7 +154,7 @@ public class Fisica {
 	        double ball1ScalarNormalAfter = (ball1scalarNormal * (c1.getMass() - c2.getMass()) + 2 * c2.getMass() * ball2scalarNormal) / (c1.getMass() + c2.getMass());
 	        Vector2 ball1scalarNormalAfter_vector = Vector2.multiply(normalVector,ball1ScalarNormalAfter); // ball1Scalar normal doesnt have multiply not a vector.
 	        Vector2 ball1ScalarNormalVector = (Vector2.multiply(tangentVector,ball1scalarTangential));
-	        c1.velocity = Vector2.add(ball1ScalarNormalVector,ball1scalarNormalAfter_vector);
+	        c1.velocity = Vector2.multiply(Vector2.add(ball1ScalarNormalVector,ball1scalarNormalAfter_vector),c1.getElasticity());
 	        Vector2 temp = Vector2.sub(c1.position, colPoint);
 	        temp.normalize();
 	        c1.setPosition(Vector2.add(colPoint,Vector2.multiply(temp, c1.getRadius())));
@@ -161,7 +163,7 @@ public class Fisica {
 	        double ball2ScalarNormalAfter = (ball2scalarNormal * (c2.getMass() - c1.getMass()) + 2 * c1.getMass() * ball1scalarNormal) / (c1.getMass() + c2.getMass());
 	        Vector2 ball2scalarNormalAfter_vector = Vector2.multiply(normalVector,ball2ScalarNormalAfter);
 	        Vector2 ball2ScalarNormalVector = (Vector2.multiply(tangentVector,ball2scalarTangential));;
-	        c2.velocity = Vector2.add(ball2ScalarNormalVector,ball2scalarNormalAfter_vector);
+	        c2.velocity = Vector2.multiply(Vector2.add(ball2ScalarNormalVector,ball2scalarNormalAfter_vector),c2.getElasticity());
 	        Vector2 temp = Vector2.sub(c2.position, colPoint);
 	        temp.normalize();  
 	        c2.setPosition(Vector2.add(colPoint, Vector2.multiply(temp, c2.getRadius())));
@@ -180,6 +182,7 @@ public class Fisica {
 			} else {
 					c1.position.y = r.getyI() - c1.getRadius();
 			}
+			c1.velocity = Vector2.multiply(c1.velocity, c1.getElasticity());
 			return; 
 		}
 		
@@ -191,6 +194,7 @@ public class Fisica {
 			} else {
 					c1.position.x = r.getxI() - c1.getRadius();
 			}
+			c1.velocity = Vector2.multiply(c1.velocity, c1.getElasticity());
 			return;
 		}
 	}

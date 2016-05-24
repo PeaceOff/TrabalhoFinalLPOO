@@ -34,7 +34,7 @@ public abstract class Minigame {
 	public void removeGameObject(GameObject g){
 		synchronized (game_objects) {
 			game_objects.remove(g);
-			m_Fisica.removeObject(g.m_Collider); 
+			m_Fisica.removeObject(g.m_Collider);
 		}
 		
 	}
@@ -53,8 +53,14 @@ public abstract class Minigame {
 	}
 
 	public void update(float timeLapsed){
-		for(GameObject g : game_objects) 
+		for(GameObject g : game_objects){
+			if(g.m_Collider.destroy == 1){
+				System.out.println("Encontrei um objecto nulo");
+				removeGameObject(g);
+				break;
+			}
 			g.update(timeLapsed);
+		}
 		m_Fisica.update(timeLapsed);
 	}
 

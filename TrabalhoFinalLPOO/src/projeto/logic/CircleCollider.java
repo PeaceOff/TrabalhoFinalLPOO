@@ -8,14 +8,16 @@ package projeto.logic;
 public class CircleCollider extends Collider {
 
 	private double radius;
+	private double elasticity;
 
 	public CircleCollider(double r){
 		radius = r;
 	} 
 	
-	public CircleCollider(double r, Vector2 pos, String t,boolean m,double ms){
+	public CircleCollider(double r, double e, Vector2 pos, String t,boolean m,double ms){
 		super(pos,t,m,ms);
 		radius = r;
+		elasticity = e;
 	}
 	
 	public CircleCollider(double r, double x, double y){
@@ -44,6 +46,14 @@ public class CircleCollider extends Collider {
 
 	public void setRadius(double radius) {
 		this.radius = radius;
+	}
+
+	public double getElasticity() {
+		return elasticity;
+	}
+
+	public void setElasticity(double elasticity) {
+		this.elasticity = elasticity;
 	}
 
 }

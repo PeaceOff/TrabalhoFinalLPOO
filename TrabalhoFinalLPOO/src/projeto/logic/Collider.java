@@ -15,6 +15,7 @@ public abstract class Collider {
 	protected Vector2 velocity;
 	protected iCollider m_iCollider = null;
 	protected double mass;
+	public byte destroy = 0;
 
 	public Collider(){
 		drag = new Vector2();

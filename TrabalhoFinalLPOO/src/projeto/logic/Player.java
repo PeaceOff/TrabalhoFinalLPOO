@@ -8,13 +8,14 @@ package projeto.logic;
 public class Player extends GameObjectState {
 
 	private int id;
-	private int size = 20;
+	private final static int size = 20;
+	private final static double elast = 0.6;
 	
 	public Player(Input i, int _id , Vector2 pos){
 		super(null,i,null); 
 		id = _id; 
 		
-		m_Collider = new CircleCollider(size, pos, "Player" + _id, true, 70); 
+		m_Collider = new CircleCollider(size,elast, pos, "Player" + _id, true, 70); 
 		
 		m_Collider.setDrag(new Vector2(100, 100));  
 		m_Obj = new Obj(new Rectangulo(), "players.png", new Rectangulo(id*1/8f, 0, 1/8f ,1));
@@ -23,6 +24,9 @@ public class Player extends GameObjectState {
 
 	public void update(float timeLapsed){
 		
+		if(this.m_State != null)
+			this.m_State.update(timeLapsed, this);
+		
 		PlayerInput pIn = this.m_Input.getPlayerInput(id);
 		
 		if(pIn.getDirection().getNorm() > 0){
@@ -30,9 +34,25 @@ public class Player extends GameObjectState {
 			this.m_Collider.velocity.add((Vector2.multiply(pIn.getDirection(),1))); 
 			
 			pIn.setDirection(new Vector2());  
+		}		
+	}
+
+	@Override
+	public void onCollisionEnter(Collider c) {
+		if(c.tag.contains("ball")){
+			//this.setM_State(new SmallerState());
 		}
-		
-		
+		if(c.tag.contains("PowerUp")){
+			c.destroy = 1;
+			this.setM_State(new SmallerState());
+		}
+		super.onCollisionEnter(c);
+	}
+
+	@Override
+	public void onTriggerEnter(Collider c) {
+		// TODO Auto-generated method stub
+		super.onTriggerEnter(c);
 	}
 
 	public int getId() {
@@ -42,5 +62,8 @@ public class Player extends GameObjectState {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
+	public final int getSize(){
+		return size;
+	}
 }
