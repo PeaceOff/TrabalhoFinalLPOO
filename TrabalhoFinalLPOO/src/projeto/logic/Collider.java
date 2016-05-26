@@ -15,9 +15,9 @@ public abstract class Collider {
 	protected Vector2 velocity;
 	protected iCollider m_iCollider = null;
 	protected double mass;
-	public byte destroy = 0;
-	protected Vector2 velCap = new Vector2(2000,2000);
+	protected Vector2 velCap;
 	protected GameObject _GameObject = null;
+	public byte destroy = 0;
 
 	public Collider(){
 		drag = new Vector2();
@@ -30,6 +30,7 @@ public abstract class Collider {
 		drag = new Vector2();
 		position = pos;
 		velocity = new Vector2();
+		velCap = new Vector2();
 		tag = t;
 		movable = m;
 		mass = ms;
@@ -128,6 +129,10 @@ public abstract class Collider {
 
 	public void setGameObj(GameObject _GameObject) {
 		this._GameObject = _GameObject;
+	}
+	
+	public void setVelCap(Vector2 v){
+		this.velCap = v;
 	}
 
 }
