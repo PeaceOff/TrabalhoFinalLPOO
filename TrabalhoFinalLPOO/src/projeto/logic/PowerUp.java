@@ -43,7 +43,6 @@ public class PowerUp extends GameObject {
 	}
 	
 	public State getState(){
-		
 		return escolhido;
 	}
 	

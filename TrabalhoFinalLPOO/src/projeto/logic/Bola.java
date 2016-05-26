@@ -5,10 +5,11 @@ public class Bola extends GameObjectState {
 	private int lastID = -1;
 	private final static int size = 10;
 	private final static double elast = 0.9;
+	private final Vector2 sDrag = new Vector2(20,20);
 	
 	public Bola(Input i, Vector2 pos, Vector2 initV){
 		super(new CircleCollider(size,elast,pos,"ball", true, 30),i,new Obj(new Rectangulo(pos.x,pos.y, size,size), "circulo.png", new Rectangulo(0,0,1,1)));   
-		m_Collider.setDrag(new Vector2(20,20));
+		m_Collider.setDrag(sDrag);
 		m_Collider.setVelCap(new Vector2(5000,5000));
 		m_Collider.addListener(this);
 	}
@@ -44,5 +45,9 @@ public class Bola extends GameObjectState {
 	@Override
 	public void onTriggerEnter(Collider c) {
 		super.onTriggerEnter(c);
+	}
+	
+	public Vector2 getDrag(){
+		return sDrag;
 	}
 }

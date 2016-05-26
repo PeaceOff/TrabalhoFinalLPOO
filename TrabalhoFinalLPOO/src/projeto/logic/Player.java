@@ -11,13 +11,13 @@ public class Player extends GameObjectState {
 	private final static int size = 20;
 	private final static double elast = 0.6;
 	private int score = 0;
-	private double speedMult = 1;
+	private final Vector2 sDrag = new Vector2(1000,1000);
 	
 	public Player(Input i, int _id , Vector2 pos){
 		super(new CircleCollider(size,elast, pos, "Player" + _id, true, 70),i,new Obj(new Rectangulo(), "players.png", new Rectangulo(_id*1/8f, 0, 1/8f ,1))); 
 		id = _id;
 		m_Collider.setVelCap(new Vector2(300,300));
-		m_Collider.setDrag(new Vector2(1000,1000));
+		m_Collider.setDrag(sDrag);
 		m_Collider.addListener(this);
 	}
 
@@ -28,7 +28,7 @@ public class Player extends GameObjectState {
 		
 		if(pIn.getDirection().getNorm() > 0){
 			
-			this.m_Collider.velocity.add((Vector2.multiply(pIn.getDirection(),speedMult))); 
+			this.m_Collider.velocity.add((Vector2.multiply(pIn.getDirection(),1))); 
 			
 			pIn.setDirection(new Vector2());  
 		}		
@@ -64,12 +64,8 @@ public class Player extends GameObjectState {
 	public void setScore(int score) {
 		this.score = score;
 	}
-
-	public double getSpeedMult() {
-		return speedMult;
-	}
-
-	public void setSpeedMult(double speedMult) {
-		this.speedMult = speedMult;
+	
+	public Vector2 getDrag(){
+		return sDrag;
 	}
 }
