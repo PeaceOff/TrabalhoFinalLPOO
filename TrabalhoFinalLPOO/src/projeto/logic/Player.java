@@ -46,7 +46,6 @@ public class Player extends GameObjectState {
 	public void onTriggerEnter(Collider c) {
 		if(c.tag.contains("PowerUp")){
 			c.destroy = 1;
-			this.setM_State(new FasterState());
 		}
 		super.onTriggerEnter(c);
 	}

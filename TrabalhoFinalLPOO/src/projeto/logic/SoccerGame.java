@@ -9,6 +9,10 @@ package projeto.logic;
 public class SoccerGame extends Minigame {
 	
 	Player[] players;
+	private double tempo = 0;
+	private int gerar = 0;
+	private int c = 900;
+	private int l = 400;
 	
 	public SoccerGame(Input i){
 		super(i);
@@ -23,8 +27,7 @@ public class SoccerGame extends Minigame {
 		//Left Wall
 		//Generating Camp
 		//x 
-		int c = 900;
-		int l = 400;
+
 		int b = 100;
 		int e = 40;
 		int ps = 10;
@@ -45,7 +48,7 @@ public class SoccerGame extends Minigame {
 		GameObject d22 = new Parede(m_Input, new Vector2(c-e, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
 		GameObject d23 = new Parede(m_Input, new Vector2(c-e/4, (l+e)/2 - b/2), new Vector2(e/4,b));
 		
-		GameObject up1 = new PowerUp();
+		GameObject up1 = new PowerUp(c,l);
 		
 		
 		addGameObject(w1);
@@ -74,6 +77,12 @@ public class SoccerGame extends Minigame {
 	}
 
 	public void update(float timeLapsed){
+		tempo += timeLapsed;
+		if(((int)(tempo / 5)) > gerar){
+			GameObject tmp = new PowerUp(c,l);
+			addGameObject(tmp);
+			gerar = (int)(tempo / 5);
+		}
 		super.update(timeLapsed);
 	}
 

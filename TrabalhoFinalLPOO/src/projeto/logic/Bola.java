@@ -15,7 +15,7 @@ public class Bola extends GameObjectState {
 	  
 	@Override
 	public void update(float timeLapsed) {
-		//System.out.println("Last Player : " + lastID);
+
 		if(this.m_State != null)
 			this.m_State.update(timeLapsed, this);
 	}
@@ -25,9 +25,8 @@ public class Bola extends GameObjectState {
 		
 		if(c.tag.contains("Player")){
 			setLastID(Character.getNumericValue(c.tag.charAt(6)));
-			//this.setM_State(new BiggerState());
 		}
-		//System.out.println("Last Player : " + lastID);
+
 		super.onCollisionEnter(c);
 	}
 	
@@ -48,7 +47,6 @@ public class Bola extends GameObjectState {
 	public void onTriggerEnter(Collider c) {
 		if(c.tag.contains("PowerUp")){
 			c.destroy = 1;
-			this.setM_State(new SmallerState());
 		}
 		super.onTriggerEnter(c);
 	}
