@@ -16,6 +16,8 @@ public abstract class Collider {
 	protected iCollider m_iCollider = null;
 	protected double mass;
 	protected Vector2 velCap;
+	
+
 	protected GameObject _GameObject = null;
 	public byte destroy = 0;
 
@@ -34,6 +36,10 @@ public abstract class Collider {
 		tag = t;
 		movable = m;
 		mass = ms;
+	}
+	 
+	public Vector2 getVelCap() {
+		return velCap;
 	}
 	
 	public void addListener(iCollider iC){
