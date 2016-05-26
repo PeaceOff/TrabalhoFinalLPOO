@@ -16,7 +16,7 @@ public abstract class Collider {
 	protected iCollider m_iCollider = null;
 	protected double mass;
 	public byte destroy = 0;
-	protected Vector2 velCap = new Vector2(10000,10000);
+	protected Vector2 velCap = new Vector2(2000,2000);
 	protected GameObject _GameObject = null;
 
 	public Collider(){

@@ -18,19 +18,15 @@ public abstract class GameObject implements iCollider {
 		m_Obj = o;
 	}
 	
-	
-
 	public void onCollisionEnter(Collider c){
 		
 	}
 
 	public void onTriggerEnter(Collider c){
-
+		
 	}
 
 	public abstract void update(float timeLapsed);
-
-
 
 	public Collider getCollider() {
 		return m_Collider;

@@ -2,7 +2,7 @@ package projeto.logic;
 
 public class PowerUp extends GameObject {
 	
-	public static enum PowerType {
+	private enum PowerType {
 		Faster,
 		Slower,
 		Bigger,
@@ -10,7 +10,6 @@ public class PowerUp extends GameObject {
 	}
 	
 	private PowerType pType;
-	
 
 	public PowerUp(int comprimento, int largura) {
 		
@@ -44,8 +43,7 @@ public class PowerUp extends GameObject {
 	
 	@Override
 	public void update(float timeLapsed) {
-		// TODO Auto-generated method stub
-		
+		// Podemos por os powerups a mexerem-se i guess
 	}
 
 	@Override
