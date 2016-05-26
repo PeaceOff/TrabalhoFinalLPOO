@@ -102,7 +102,7 @@ public class TCPServerClient extends TCPBasic implements Runnable {
 
 				for(IServerConnection c : m_IServerConnection)
 					c.OnClientDisconnected(client, id);
-
+					
 				try {
 					close();
 				} catch (IOException e1) {

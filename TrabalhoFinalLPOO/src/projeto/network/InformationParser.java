@@ -1,10 +1,10 @@
 package projeto.network;
 
+
 import java.io.ByteArrayInputStream;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 
-import com.sun.xml.internal.ws.util.ByteArrayBuffer;
 
 /**
  * Mensagens sao enviadas e recebidas em formato String(Mais facil para perceber o
@@ -37,13 +37,15 @@ public class InformationParser {
 		
 		int k =0;
 		if(messageSize == 0){
+
 			if(info.length >= 4){
 				messageSize = (int)(info[0]<< 12)
 							| (int)(info[1] << 8)
 							| (int)(info[2] << 4)
-							| (int)(info[3]); 
+							| (int)(info[3]);
+				messageSize +=4;
+
 			}
-			k=4;
 		}
 		
 		while(messageSize >0 && k < info.length){

@@ -27,6 +27,7 @@ import projeto.network.CommandParser;
 import projeto.network.Host;
 import projeto.network.ICommandReceived;
 import projeto.network.IServerConnection;
+import projeto.network.InformationParser;
 import projeto.network.ServerInformationParser;
  
 public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection{
@@ -154,6 +155,9 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 
 							+ " - " + client.getLocalPort());
+		
+		server.sendInfo(InformationParser.transformInformation("Bem-Vindo!".getBytes()), id);
+		server.sendInfoAll(InformationParser.transformInformation("Novo Jogador Em cena!".getBytes()));
 		
 	}
 

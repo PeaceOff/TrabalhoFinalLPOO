@@ -68,7 +68,10 @@ public abstract class Collider {
 		newVelocity.x = (this.velocity.x > 0)? this.velocity.x - (this.drag.x  * time) : this.velocity.x + (this.drag.x  * time);
 		newVelocity.y = (this.velocity.y > 0)? this.velocity.y - (this.drag.y * time) : this.velocity.y + (this.drag.y * time);
 		if (newVelocity.x > velCap.x) newVelocity.x = velCap.x;
+		if (newVelocity.x < -velCap.x) newVelocity.x = -velCap.x;
+		
 		if (newVelocity.y > velCap.y) newVelocity.y = velCap.y;
+		if (newVelocity.y < -velCap.y) newVelocity.y = -velCap.y; 
 		
 		synchronized(this){ 
 			this.setVelocity(newVelocity);

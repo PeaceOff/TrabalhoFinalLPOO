@@ -146,7 +146,7 @@ public class Host extends Thread implements IServerConnection{
 		numClientsConnected.incrementAndGet();
 		
 		for(IServerConnection c : m_IServerConnection)
-			c.OnClientConnected(client, id);
+			c.OnClientConnected(client, id); 
 		
 		
 		  
@@ -174,7 +174,12 @@ public class Host extends Thread implements IServerConnection{
 		
 		for(IServerConnection c : m_IServerConnection)
 			c.OnClientDisconnected(client, id);
-		 
+		
+		try {
+			m_TCPConnection[id].close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 		m_TCPConnection[id] = null; 
 		
 		m_UDPConnection[id].close();

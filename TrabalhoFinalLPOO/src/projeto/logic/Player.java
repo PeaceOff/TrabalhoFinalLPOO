@@ -16,7 +16,8 @@ public class Player extends GameObjectState {
 	public Player(Input i, int _id , Vector2 pos){
 		super(new CircleCollider(size,elast, pos, "Player" + _id, true, 70),i,new Obj(new Rectangulo(), "players.png", new Rectangulo(_id*1/8f, 0, 1/8f ,1))); 
 		id = _id;
-		m_Collider.setVelCap(new Vector2(2000,2000));
+		m_Collider.setVelCap(new Vector2(300,300));
+		m_Collider.setDrag(new Vector2(1000,1000));
 		m_Collider.addListener(this);
 	}
 

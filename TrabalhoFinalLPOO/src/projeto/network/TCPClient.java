@@ -35,7 +35,7 @@ public class TCPClient extends TCPBasic implements Runnable {
 		this.ip = ip;
 		this.port = port;
 		m_IClientConnection.add(listener); 
-		connect();
+		//connect();
 		
 	}
 	
@@ -136,7 +136,8 @@ public class TCPClient extends TCPBasic implements Runnable {
 				}
 				 
 				try {
-					socket.close();
+					if(socket != null)
+						socket.close();
 					socket = null;
 				} catch (IOException e1) {
 					socket = null; 
