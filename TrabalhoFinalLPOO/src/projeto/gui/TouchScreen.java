@@ -34,7 +34,7 @@ public class TouchScreen extends JPanel implements MouseListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+	
 		
 	}
 
@@ -52,24 +52,13 @@ public class TouchScreen extends JPanel implements MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(udp == null) return;
-		int x = getWidth()/2;
-		int y = getHeight()/2;
-		p = e.getPoint();
-		x = e.getX() - x;
-		y = e.getY() - y;
 		
-		double module = Math.sqrt(x*x + y*y);
-		byte xf = (byte)((x/module)*100); 
-		byte yf = (byte)((y/module)*100);
-		udp.sendInfo( InformationParser.transformInformation((byte)'D', xf, yf) );
-		repaint();
 	}
 	
 	

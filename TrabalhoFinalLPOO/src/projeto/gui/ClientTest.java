@@ -80,6 +80,7 @@ public class ClientTest extends JFrame implements IClientConnection {
 				try {
 					
 					tcpClient = new TCPClient(ip, port,object); 
+					tcpClient.connect();	
 					udpClient = new UDPConnection(ip, 0, tcpClient.getPort(), 1);
 					ts.udp = udpClient; 
 					

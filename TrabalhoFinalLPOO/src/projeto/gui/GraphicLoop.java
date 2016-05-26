@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.imageio.ImageIO;
@@ -65,9 +66,9 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); 
 		Graphics2D g2 = (Graphics2D)g;
-		 
-		synchronized(mg.getGame_objects()){ 
-			for(GameObject gO: mg.getGame_objects()){ 
+		ArrayList<GameObject> go = mg.getGame_objects();
+		synchronized(go){ 
+			for(GameObject gO: go){  
 				Obj obj = gO.getObj();
 				Rectangulo dims = obj.getDimensions();
 				Rectangulo subI = obj.getSubImage();
