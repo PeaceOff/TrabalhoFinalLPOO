@@ -15,7 +15,8 @@ public class TCPClient extends TCPBasic implements Runnable {
 
 	private Socket socket = null;
 	private ArrayList<IClientConnection> m_IClientConnection = new ArrayList<IClientConnection>();
-	
+	private String ip;
+	private int port;
 	/**
 	 * 
 	 * @param ip
@@ -24,19 +25,26 @@ public class TCPClient extends TCPBasic implements Runnable {
 	 * @throws UnknownHostException 
 	 */
 	public TCPClient(String ip, int port) throws UnknownHostException, IOException{
-		
-		socket = new Socket(ip, port); 
-		rebindConnection(ip);   
+		this.ip = ip;
+		this.port = port; 
+		connect(); 
 		
 	}
 	
 	public TCPClient(String ip, int port, IClientConnection listener) throws UnknownHostException, IOException{
-		
-		socket = new Socket(ip, port); 
+		this.ip = ip;
+		this.port = port;
 		m_IClientConnection.add(listener); 
-		rebindConnection(ip);   
+		connect();
 		
 	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		close(); 
+		super.finalize();
+	}
+
 
 	/**
 	 * 
@@ -45,22 +53,47 @@ public class TCPClient extends TCPBasic implements Runnable {
 	public void addConnectionListener(IClientConnection listener){
 		m_IClientConnection.add(listener); 
 	}
-
+	
+	public void connect() throws IOException{
+		socket = new Socket(ip, port); 
+		rebindConnection(ip);  
+	}
+	
+	public void close(){
+		if(socket == null) return;
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		socket = null;
+	}
+	
 	/**
 	 * 
 	 * @param ip
 	 * @throws IOException 
 	 */
-	private void rebindConnection(String ip) throws IOException{
+	public void rebindConnection(String ip) throws IOException{
 		DataInputStream in = new DataInputStream(socket.getInputStream());
 		int newPort = in.readInt(); 
-		socket.close();
 		
+		if(newPort == 0){
+			
+			for(IClientConnection c : m_IClientConnection)
+				c.ServerFull(socket);
+			 
+			socket.close();
+			return;
+		}
+		
+		socket.close();
+		 
 		socket = new Socket(ip,newPort);
 		
-		for(IClientConnection c : m_IClientConnection){
+		for(IClientConnection c : m_IClientConnection)
 			c.ConnectedToServer(socket); 
-		} 
+		
 		
 	}
 

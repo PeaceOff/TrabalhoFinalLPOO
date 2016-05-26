@@ -93,7 +93,7 @@ public class ClientTest extends JFrame implements IClientConnection {
 			}
 		});
 		btnConnect.setBounds(323, 9, 117, 25);
-		contentPane.add(btnConnect);
+		contentPane.add(btnConnect); 
 		
 		lblInfo = new JLabel("INFORMATION");
 		lblInfo.setBounds(22, 43, 418, 15);
@@ -115,6 +115,13 @@ public class ClientTest extends JFrame implements IClientConnection {
 	@Override
 	public void DisconnectedFromServer(Socket server) { 
 		lblInfo.setText("Disconnected from" + server.getInetAddress().getHostAddress());
+		btnConnect.setEnabled(true);
+		
+	}
+
+	@Override
+	public void ServerFull(Socket server) {
+		lblInfo.setText("Server: " + server.getInetAddress().getHostAddress() + " is FULL!!");
 		btnConnect.setEnabled(true);
 		
 	}

@@ -21,4 +21,6 @@ public interface IClientConnection {
 	 */
 	public void DisconnectedFromServer(Socket server);
 
+	public void ServerFull(Socket server);
+	
 }

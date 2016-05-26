@@ -24,6 +24,7 @@ public class Host extends Thread implements IServerConnection{
 	private int numClients = 10;
 	private AtomicInteger numClientsConnected = new AtomicInteger();
 	private IMessage messageParser = null;
+	private boolean running = true;
 
 	public Host(int port, int numClients) throws IOException{
 		basePort = port;
@@ -93,44 +94,39 @@ public class Host extends Thread implements IServerConnection{
 	
 		
 		
-		while(numClientsConnected.get() < numClients){
+		while(running){
 			try { 
 				
 				Socket tempClient = svSocket.accept();
-				int pos = getOpenPort();
-				int newPort = pos + basePort + 1;
-				 
-				TCPServerClient newConnection = new TCPServerClient(newPort, pos);
-				newConnection.setMessageListener(messageParser); 
-				m_TCPConnection[pos] = newConnection;
 				
+				if(numClientsConnected.get() < numClients){
 				
-				(new Thread(newConnection)).start();
-				newConnection.addConnectionListener(this);
+					int pos = getOpenPort();
+					int newPort = pos + basePort + 1;
+					 
+					TCPServerClient newConnection = new TCPServerClient(newPort, pos);
+					newConnection.setMessageListener(messageParser); 
+					m_TCPConnection[pos] = newConnection;
+					
+					
+					(new Thread(newConnection)).start();
+					newConnection.addConnectionListener(this);
+					
+					DataOutputStream out = new DataOutputStream(tempClient.getOutputStream());
+					out.writeInt(newPort);
+					out.close();
+					tempClient.close(); 
+				}else{ 
+					DataOutputStream out = new DataOutputStream(tempClient.getOutputStream());
+					out.writeInt(0);
+					out.close();
+					tempClient.close();
+					
+				}
 				
-				DataOutputStream out = new DataOutputStream(tempClient.getOutputStream());
-				out.writeInt(newPort);
-				
-				tempClient.close(); 
 				
 			} catch (IOException e) {
-				
-				try { 
-					
-					//Verificar lugares disponiveis
-					synchronized (this) { 
-						this.wait();
-					}
-					
-					
-					svSocket = new ServerSocket(basePort);
-					
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-					return;
-				} catch (IOException e1) {
-					return;
-				}
+				e.printStackTrace();
 			}
 		}
 		
@@ -148,21 +144,6 @@ public class Host extends Thread implements IServerConnection{
 	public void OnClientConnected(Socket client, int id) {
 		
 		numClientsConnected.incrementAndGet();
-		
-		if(numClients == numClientsConnected.get()){ 
-			synchronized(Host.class){
-				try { 
-					svSocket.close();
-					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} 	
-			
-			}
-		}
-		
-		
 		
 		for(IServerConnection c : m_IServerConnection)
 			c.OnClientConnected(client, id);
@@ -190,16 +171,6 @@ public class Host extends Thread implements IServerConnection{
 		synchronized (messageParser) {
 			messageParser.ClearBuffer(id); 
 		}
-		
-		if(numClients - 1 == numClientsConnected.get()){
-
-			synchronized (this) { 
-				this.notify(); 
-			}
-			
-		}
-		
-		
 		
 		for(IServerConnection c : m_IServerConnection)
 			c.OnClientDisconnected(client, id);
