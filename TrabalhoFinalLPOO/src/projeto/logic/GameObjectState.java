@@ -35,5 +35,5 @@ public abstract class GameObjectState extends GameObject{
 
 	public abstract int getSize();
 	
-	public abstract Vector2 getDrag();
+	public abstract Vector2 getCap();
 }

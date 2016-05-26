@@ -12,11 +12,12 @@ public class Player extends GameObjectState {
 	private final static double elast = 0.6;
 	private int score = 0;
 	private final Vector2 sDrag = new Vector2(1000,1000);
+	private final Vector2 vCap = new Vector2(300,300);
 	
 	public Player(Input i, int _id , Vector2 pos){
 		super(new CircleCollider(size,elast, pos, "Player" + _id, true, 70),i,new Obj(new Rectangulo(), "players.png", new Rectangulo(_id*1/8f, 0, 1/8f ,1))); 
 		id = _id;
-		m_Collider.setVelCap(new Vector2(300,300));
+		m_Collider.setVelCap(vCap);
 		m_Collider.setDrag(sDrag);
 		m_Collider.addListener(this);
 	}
@@ -65,7 +66,7 @@ public class Player extends GameObjectState {
 		this.score = score;
 	}
 	
-	public Vector2 getDrag(){
-		return sDrag;
+	public Vector2 getCap(){
+		return vCap;
 	}
 }

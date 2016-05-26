@@ -10,7 +10,7 @@ public class NormalState implements State {
 			return;
 		}
 		((CircleCollider)gO.getCollider()).setRadius(gO.getSize());
-		gO.getCollider().setDrag(gO.getDrag());
+		gO.m_Collider.setVelCap(gO.getCap());
 
 		once = 1;
 	}
