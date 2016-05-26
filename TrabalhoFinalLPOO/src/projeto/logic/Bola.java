@@ -15,14 +15,12 @@ public class Bola extends GameObjectState {
 	  
 	@Override
 	public void update(float timeLapsed) {
-
-		if(this.m_State != null)
-			this.m_State.update(timeLapsed, this);
+		super.update(timeLapsed);
+		
 	}
 	
 	@Override
 	public void onCollisionEnter(Collider c) {
-		
 		if(c.tag.contains("Player")){
 			setLastID(Character.getNumericValue(c.tag.charAt(6)));
 		}
@@ -45,9 +43,6 @@ public class Bola extends GameObjectState {
 
 	@Override
 	public void onTriggerEnter(Collider c) {
-		if(c.tag.contains("PowerUp")){
-			c.destroy = 1;
-		}
 		super.onTriggerEnter(c);
 	}
 }

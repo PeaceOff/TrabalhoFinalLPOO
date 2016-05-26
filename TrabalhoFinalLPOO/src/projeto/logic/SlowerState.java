@@ -10,13 +10,14 @@ public class SlowerState implements State {
 		if(once == 1){
 			return;
 		}
+		/*Substituir por drag
 		if(gO instanceof Player){
 			((Player)gO).setSpeedMult(0.5);
 		} else if (gO instanceof Bola){
 			((Bola)gO).getCollider().setVelocity(Vector2.multiply(((Bola)gO).getCollider().getVelocity(), 0.5));
 			once = 1;
 			return;
-		}
+		}*/
 		
 		timePassed += timeLapsed;
 		if(timePassed >= time){

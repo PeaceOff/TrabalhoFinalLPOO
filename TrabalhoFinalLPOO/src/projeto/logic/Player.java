@@ -22,9 +22,7 @@ public class Player extends GameObjectState {
 	}
 
 	public void update(float timeLapsed){
-		
-		if(this.m_State != null)
-			this.m_State.update(timeLapsed, this);
+		super.update(timeLapsed);
 		
 		PlayerInput pIn = this.m_Input.getPlayerInput(id);
 		
@@ -38,17 +36,11 @@ public class Player extends GameObjectState {
 
 	@Override
 	public void onCollisionEnter(Collider c) {
-		if(c.tag.contains("ball")){
-		}
-
 		super.onCollisionEnter(c);
 	}
 
 	@Override
 	public void onTriggerEnter(Collider c) {
-		if(c.tag.contains("PowerUp")){
-			c.destroy = 1;
-		}
 		super.onTriggerEnter(c);
 	}
 

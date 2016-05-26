@@ -10,9 +10,11 @@ public class NormalState implements State {
 			return;
 		}
 		((CircleCollider)gO.getCollider()).setRadius(gO.getSize());
-		if(gO instanceof Player){
+		/*Drag
+		 if(gO instanceof Player){
+		 
 			((Player)gO).setSpeedMult(1);
-		}
+		}*/
 		once = 1;
 	}
 

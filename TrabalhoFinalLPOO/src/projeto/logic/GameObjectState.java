@@ -12,10 +12,19 @@ public abstract class GameObjectState extends GameObject{
 
 	@Override
 	public void update(float timeLapsed) {
-		// TODO Auto-generated method stub
-		
+		m_State.update(timeLapsed, this);
 	}
 
+	@Override
+	public void onTriggerEnter(Collider c) {
+		if(c.tag == "PowerUp"){
+			
+			m_State = ((PowerUp)c.getGameObj()).getState();
+			
+		}
+		super.onTriggerEnter(c);
+	}
+	
 	public State getM_State() {
 		return m_State;
 	}
