@@ -3,7 +3,7 @@ package projeto.logic;
 public class Poste extends GameObject {
 	
 	public Poste(Input i,Vector2 pos, int size, int mass){
-		super(new CircleCollider(size, 0 ,pos, "", false, mass), i, new Obj(new Rectangulo(), "players.png", new Rectangulo(0*1/8f, 0, 1/8f ,1)));
+		super(new CircleCollider(size, 0 ,pos, "", false, mass), i, new Obj(new Rectangulo(), "poste.png", new Rectangulo(0, 0, 1 ,1)));
 		m_Collider.addListener(this);
 	}
 
