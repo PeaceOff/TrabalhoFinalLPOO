@@ -32,6 +32,10 @@ public abstract class GameObjectState extends GameObject{
 	public void setM_State(State m_State) {
 		this.m_State = m_State;
 	}
+	
+	public void resetState(){
+		this.m_State = new NormalState();
+	}
 
 	public abstract int getSize();
 	

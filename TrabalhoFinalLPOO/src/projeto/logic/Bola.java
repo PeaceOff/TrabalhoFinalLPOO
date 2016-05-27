@@ -45,6 +45,10 @@ public class Bola extends GameObjectState {
 
 	@Override
 	public void onTriggerEnter(Collider c) {
+		if(c.tag.contains("Baliza")){
+			System.out.println("GOLOOOOOOOOOOOO!!");
+			SoccerGame.resetGame();
+		}
 		super.onTriggerEnter(c);
 	}
 	

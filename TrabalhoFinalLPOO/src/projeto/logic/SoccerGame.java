@@ -13,6 +13,7 @@ public class SoccerGame extends Minigame {
 	private int gerar = 0;
 	private int c = 900;
 	private int l = 400;
+	private static int reset = 0;
 	
 	public SoccerGame(Input i){
 		super(i);
@@ -48,6 +49,9 @@ public class SoccerGame extends Minigame {
 		GameObject d22 = new Parede(m_Input, new Vector2(c-e, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
 		GameObject d23 = new Parede(m_Input, new Vector2(c-e/4, (l+e)/2 - b/2), new Vector2(e/4,b));
 
+		GameObject b1 = new Baliza(m_Input, new Vector2(0,(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b));
+		GameObject b2 = new Baliza(m_Input, new Vector2(c - (e * 0.8),(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b));
+		
 		addGameObject(w1);
 		addGameObject(w2);
 		addGameObject(d11);
@@ -63,12 +67,36 @@ public class SoccerGame extends Minigame {
 		addGameObject(p3);
 		addGameObject(p4);
 		
-		GameObject bola = new Bola(m_Input, new Vector2(400,215), new Vector2(100,0));
+		addGameObject(b1);
+		addGameObject(b2);
+		
+		GameObject bola = new Bola(m_Input, new Vector2(c/2,l/2), new Vector2(100,0));
 		addGameObject(bola); 
 		
 	}
 
 	public void update(float timeLapsed){
+		
+		if(reset == 1){
+			for(GameObject g : game_objects){
+				if(g.getCollider().tag.contains("ball")){
+					g.getCollider().setPosition(new Vector2(c/2,l/2));
+					g.getCollider().setVelocity(new Vector2());
+					((GameObjectState)g).resetState();
+				} else if (g.getCollider().tag.contains("Player")){
+					//Verificar a equipa do jogador e coloca-lo numa posiçao melhor, 
+					//
+					g.getCollider().setPosition(new Vector2(200,200));
+					g.getCollider().setVelocity(new Vector2());
+					((GameObjectState)g).resetState();
+				} else if (g.getCollider().tag.contains("PowerUp")){
+					g.getCollider().destroy = 1;
+				}
+			}
+			tempo = 0; //Reiniciar a geracao de powerups
+			reset = 0;
+		}
+		
 		tempo += timeLapsed;
 		if(((int)(tempo / 5)) > gerar){
 			GameObject tmp = new PowerUp(c,l);
@@ -91,6 +119,10 @@ public class SoccerGame extends Minigame {
 		removeGameObject(players[id]);
 		players[id] = null;
 		
+	}
+	
+	public static void resetGame(){
+		reset = 1;
 	}
 
 }

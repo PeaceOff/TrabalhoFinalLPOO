@@ -11,8 +11,6 @@ public class Parede extends GameObject{
 
 	@Override
 	public void update(float timeLapsed) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
-	
 }
