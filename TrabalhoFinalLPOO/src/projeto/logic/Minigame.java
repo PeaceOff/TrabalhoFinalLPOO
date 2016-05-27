@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @version 1.0
  * @created 03-mai-2016 15:30:40
  */
-public abstract class Minigame {
+public abstract class Minigame implements iMinigameTools{
 
 	protected ArrayList<Integer> scores;
 	protected Fisica m_Fisica;
@@ -40,6 +40,8 @@ public abstract class Minigame {
 	}
 	
 	public abstract void initGame();
+	
+	public abstract int[] getScores();
 	
 	public Input getInput(){
 		return m_Input;

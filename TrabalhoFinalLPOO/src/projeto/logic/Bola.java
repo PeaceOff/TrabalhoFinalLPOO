@@ -3,12 +3,13 @@ package projeto.logic;
 public class Bola extends GameObjectState {
 	
 	private int lastID = -1;
+	private int lastSecondID = -1;
 	private final static int size = 10;
 	private final static double elast = 0.9;
 	private final Vector2 sDrag = new Vector2(20,20);
 	private final Vector2 vCap = new Vector2(5000,5000);
 	
-	public Bola(Input i, Vector2 pos, Vector2 initV){
+	public Bola(Input i, Vector2 pos){
 		super(new CircleCollider(size,elast,pos,"ball", true, 30),i,new Obj(new Rectangulo(pos.x,pos.y, size,size), "bola.png", new Rectangulo(0,0,1,1)));   
 		m_Collider.setDrag(sDrag);
 		m_Collider.setVelCap(vCap);
@@ -18,7 +19,6 @@ public class Bola extends GameObjectState {
 	@Override
 	public void update(float timeLapsed) {
 		super.update(timeLapsed);
-		
 	}
 	
 	@Override
@@ -26,7 +26,6 @@ public class Bola extends GameObjectState {
 		if(c.tag.contains("Player")){
 			setLastID(Character.getNumericValue(c.tag.charAt(6)));
 		}
-
 		super.onCollisionEnter(c);
 	}
 	
@@ -40,15 +39,16 @@ public class Bola extends GameObjectState {
 	}
 
 	public void setLastID(int lastID) {
+		this.lastSecondID = this.lastID;
 		this.lastID = lastID;
+	}
+	
+	public int getLastSecondID() {
+		return lastSecondID;
 	}
 
 	@Override
 	public void onTriggerEnter(Collider c) {
-		if(c.tag.contains("Baliza")){
-			System.out.println("GOLOOOOOOOOOOOO!!");
-			SoccerGame.resetGame();
-		}
 		super.onTriggerEnter(c);
 	}
 	

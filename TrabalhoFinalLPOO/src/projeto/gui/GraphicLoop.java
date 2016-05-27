@@ -1,10 +1,13 @@
 package projeto.gui;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.RenderingHints;
+import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -67,6 +70,10 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		super.paintComponent(g); 
 		Graphics2D g2 = (Graphics2D)g;
 		ArrayList<GameObject> go = mg.getGame_objects();
+		
+		
+		
+		
 		synchronized(go){ 
 			for(GameObject gO: go){  
 				Obj obj = gO.getObj();
@@ -101,6 +108,19 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			}
 		}
 		
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < mg.getScores().length; i ++){
+			if(i != mg.getScores().length-1)
+				sb.append(mg.getScores()[i]).append(':');
+			else
+				sb.append(mg.getScores()[i]);
+		}
+		g2.setFont(new Font("TimesNewRoman", Font.BOLD, 40));
+		FontMetrics fm = g2.getFontMetrics();
+		
+		int width = fm.stringWidth(sb.toString());
+		g2.drawString(sb.toString(), getWidth()/2 - width/2 , 40);
+		
 	}
 	
 	@Override
@@ -117,7 +137,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			synchronized(mg){
 				mg.update((float)deltaTime);
 			} 
-			revalidate();
 			repaint();
 			
 			lastTime = System.currentTimeMillis();

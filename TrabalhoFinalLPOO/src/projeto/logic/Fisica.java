@@ -17,11 +17,15 @@ public class Fisica {
 	}
 	
 	public void addObject(Collider c){
-		objects.add(c);
+		synchronized(objects){
+			objects.add(c);
+		}
 	}
 	 
 	public void removeObject(Collider c){
-		objects.remove(c);
+		synchronized(objects){
+			objects.remove(c);
+		}
 	}
 	
 	public boolean checkColision(Collider c1, Collider c2){
@@ -96,20 +100,23 @@ public class Fisica {
 
 	public void update(float timeLapsed){
 		
-		for(Collider c : objects)
-			c.update(timeLapsed);
+		synchronized(objects){
 		
-		for(Collider c : objects){
-			for(int k = objects.indexOf(c) + 1; k < objects.size(); k++){
-				if(checkColision(c,objects.get(k))){//True = colisao
-					if(c.isTrigger() || objects.get(k).isTrigger()){
-						objects.get(k).onTriggerEnter(c);
-						c.onTriggerEnter(objects.get(k));
-						continue;
+			for(Collider c : objects)
+				c.update(timeLapsed);
+		
+			for(Collider c : objects){
+				for(int k = objects.indexOf(c) + 1; k < objects.size(); k++){
+					if(checkColision(c,objects.get(k))){//True = colisao
+						if(c.isTrigger() || objects.get(k).isTrigger()){
+							objects.get(k).onTriggerEnter(c);
+							c.onTriggerEnter(objects.get(k));
+							continue;
+						}
+						c.onCollisionEnter(objects.get(k));
+						objects.get(k).onCollisionEnter(c);
+						dealWithCollision(c,objects.get(k));
 					}
-					c.onCollisionEnter(objects.get(k));
-					objects.get(k).onCollisionEnter(c);
-					dealWithCollision(c,objects.get(k));
 				}
 			}
 		}

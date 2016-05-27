@@ -11,9 +11,13 @@ public class SoccerGame extends Minigame {
 	Player[] players;
 	private double tempo = 0;
 	private int gerar = 0;
-	private int c = 900;
-	private int l = 400;
-	private static int reset = 0;
+	private final int c = 900;
+	private final int l = 400;
+	private final int b = 100;
+	private final int e = 40;
+	private final int ps = 10;
+	
+	private int scores[] = new int[2];
 	
 	public SoccerGame(Input i){
 		super(i);
@@ -24,15 +28,8 @@ public class SoccerGame extends Minigame {
 		super.finalize();
 	}
 
-	public void initGame(){ 
-		//Left Wall
-		//Generating Camp
-		//x 
+	public void initGame(){  
 
-		int b = 100;
-		int e = 40;
-		int ps = 10;
-		
 		GameObject w1 = new Parede(m_Input, new Vector2(0,0), new Vector2(c, e));
 		GameObject w2 = new Parede(m_Input, new Vector2(0,l), new Vector2(c,e));
 		
@@ -49,8 +46,8 @@ public class SoccerGame extends Minigame {
 		GameObject d22 = new Parede(m_Input, new Vector2(c-e, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
 		GameObject d23 = new Parede(m_Input, new Vector2(c-e/4, (l+e)/2 - b/2), new Vector2(e/4,b));
 
-		GameObject b1 = new Baliza(m_Input, new Vector2(0,(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b));
-		GameObject b2 = new Baliza(m_Input, new Vector2(c - (e * 0.8),(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b));
+		GameObject b1 = new Baliza(m_Input, new Vector2(0,(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b),1,this);
+		GameObject b2 = new Baliza(m_Input, new Vector2(c - (e * 0.8),(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b),0,this);
 		
 		addGameObject(w1);
 		addGameObject(w2);
@@ -70,33 +67,13 @@ public class SoccerGame extends Minigame {
 		addGameObject(b1);
 		addGameObject(b2);
 		
-		GameObject bola = new Bola(m_Input, new Vector2(c/2,l/2), new Vector2(100,0));
+		GameObject bola = new Bola(m_Input, new Vector2((c+e)/2,(l+e)/2));
 		addGameObject(bola); 
 		
 	}
 
 	public void update(float timeLapsed){
-		
-		if(reset == 1){
-			for(GameObject g : game_objects){
-				if(g.getCollider().tag.contains("ball")){
-					g.getCollider().setPosition(new Vector2(c/2,l/2));
-					g.getCollider().setVelocity(new Vector2());
-					((GameObjectState)g).resetState();
-				} else if (g.getCollider().tag.contains("Player")){
-					//Verificar a equipa do jogador e coloca-lo numa posiçao melhor, 
-					//
-					g.getCollider().setPosition(new Vector2(200,200));
-					g.getCollider().setVelocity(new Vector2());
-					((GameObjectState)g).resetState();
-				} else if (g.getCollider().tag.contains("PowerUp")){
-					g.getCollider().destroy = 1;
-				}
-			}
-			tempo = 0; //Reiniciar a geracao de powerups
-			reset = 0;
-		}
-		
+	
 		tempo += timeLapsed;
 		if(((int)(tempo / 5)) > gerar){
 			GameObject tmp = new PowerUp(c,l);
@@ -108,9 +85,22 @@ public class SoccerGame extends Minigame {
 
 	@Override
 	public void addPlayer(int id) {
-		Player player = new Player(m_Input, id , new Vector2(200 + id * 40, 200));
+		
+		Player player = new Player(m_Input, id , new Vector2());
 		addGameObject(player);
+		resetPlayer(player);
 		players[id] = player; 
+	}
+	
+	public void resetPlayer(Player p){
+		if(p == null)
+			return;
+		
+		p.m_Collider.setPosition(new Vector2( ((c)/2) + (((p.getId() % 2 == 0)? -1:1) * (c)/2 * 0.8)
+											,(l/2) + p.getId()));
+		//System.out.println("Pos:" + (((c+e)/2) + (((p.getId() % 2 == 0)? -1:1) * (c - e)/2 * 0.8)));
+		p.m_Collider.setVelocity(new Vector2()); 
+		p.resetState();
 	}
 
 	@Override
@@ -120,9 +110,44 @@ public class SoccerGame extends Minigame {
 		players[id] = null;
 		
 	}
-	
-	public static void resetGame(){
-		reset = 1;
+
+	@Override
+	public void resetRound() {
+		//Reset Players
+		for(Player p : players){
+			resetPlayer(p);
+		}
+		
+		for(GameObject g : game_objects){
+			if(g.getCollider().tag.contains("ball")){
+				g.getCollider().setPosition(new Vector2((c+e)/2,(l+e)/2));
+				g.getCollider().setVelocity(new Vector2());
+				((GameObjectState)g).resetState();
+
+			} else if (g.getCollider().tag.contains("PowerUp")){
+				g.getCollider().destroy = 1;
+			}
+		}
+		
+		tempo = 0; //Reiniciar a geracao de powerups
+		gerar = 0;
+		
+	}
+
+	@Override
+	public void scoreReceived(int score, int entity_id) {
+		if(entity_id < 0 || entity_id >= scores.length)
+			return;
+		scores[entity_id] += score;
+	}
+
+	@Override
+	public void resetGame() {
+	}
+
+	@Override
+	public int[] getScores() {
+		return scores;
 	}
 
 }
