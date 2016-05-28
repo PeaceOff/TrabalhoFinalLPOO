@@ -7,4 +7,6 @@ public interface iMinigameTools {
 	void resetRound();
 	
 	void scoreReceived(int score, int entity_id);
+	
+	void sendEst(int id, Estatistica e);
 }

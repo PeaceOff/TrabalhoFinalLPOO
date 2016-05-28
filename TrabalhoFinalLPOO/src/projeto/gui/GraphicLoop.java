@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-
+import projeto.logic.Estatistica;
 import projeto.logic.GameObject;
 import projeto.logic.Input;
 import projeto.logic.Minigame;
@@ -27,6 +27,7 @@ import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.SoccerGame;
 import projeto.logic.Vector2;
+import projeto.logic.iEstatisticaAlert;
 import projeto.network.CommandParser;
 import projeto.network.Host;
 import projeto.network.ICommandReceived;
@@ -34,7 +35,7 @@ import projeto.network.IServerConnection;
 import projeto.network.InformationParser;
 import projeto.network.ServerInformationParser;
  
-public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection{
+public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection, iEstatisticaAlert {
 	
 	private Minigame mg;
 	private Input in;
@@ -47,7 +48,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public GraphicLoop(){
 		
 		in = new Input(8);  
-		mg = new SoccerGame(in);
+		mg = new SoccerGame(in,this);
 		mg.initGame();
 		
 		try {
@@ -188,6 +189,12 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 
 							+ " - " + client.getLocalPort());
+	}
+
+	@Override
+	public void receiveEstatistica(int player_id, Estatistica e) {
+		// Deal with estatistica
+		
 	}
 	
 	

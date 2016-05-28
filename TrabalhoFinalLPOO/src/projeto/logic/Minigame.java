@@ -7,18 +7,20 @@ import java.util.ArrayList;
  * @version 1.0
  * @created 03-mai-2016 15:30:40
  */
-public abstract class Minigame implements iMinigameTools{
+public abstract class Minigame implements iMinigameTools {
 
 	protected ArrayList<Integer> scores;
 	protected Fisica m_Fisica;
 	protected ArrayList<GameObject> game_objects;
-	protected Input m_Input = new Input(8); 
+	protected Input m_Input = new Input(8);
+	protected iEstatisticaAlert i_EstAlert;
 	
-	public Minigame(Input i){
+	public Minigame(Input i, iEstatisticaAlert estA){
 		scores = new ArrayList<Integer>();
 		m_Fisica = new Fisica() ; //Fisica.getInstance();
 		game_objects = new ArrayList<GameObject>();
 		m_Input = i; 
+		i_EstAlert = estA;
 	}
 	
 	public abstract void addPlayer(int id);

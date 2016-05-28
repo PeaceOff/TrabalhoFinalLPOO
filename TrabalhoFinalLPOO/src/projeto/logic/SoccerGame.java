@@ -19,8 +19,8 @@ public class SoccerGame extends Minigame {
 	
 	private int scores[] = new int[2];
 	
-	public SoccerGame(Input i){
-		super(i);
+	public SoccerGame(Input i,iEstatisticaAlert estA){
+		super(i,estA);
 		players = new Player[8];  
 	} 
 
@@ -67,7 +67,7 @@ public class SoccerGame extends Minigame {
 		addGameObject(b1);
 		addGameObject(b2);
 		
-		GameObject bola = new Bola(m_Input, new Vector2((c+e)/2,(l+e)/2));
+		GameObject bola = new Bola(m_Input, new Vector2((c+e)/2,(l+e)/2),this);
 		addGameObject(bola); 
 		
 	}
@@ -148,6 +148,12 @@ public class SoccerGame extends Minigame {
 	@Override
 	public int[] getScores() {
 		return scores;
+	}
+
+	@Override
+	public void sendEst(int id, Estatistica e) {
+		i_EstAlert.receiveEstatistica(id, e);
+		
 	}
 
 }
