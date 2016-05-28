@@ -10,12 +10,16 @@ public class Estatistica implements Serializable {
 	private String nome;
 	private int valor;
 	
-	Estatistica(String tJ,String n, int v){
-		tipoJogo = tJ;
+	Estatistica(String n, int v){
+		tipoJogo = null;
 		nome = n;
 		valor = v;
+		System.out.println(n + " " + v);
 	}
 
+	public void setTipoJogo(String n){
+		tipoJogo = n;
+	}
 
 	public String getTipoJogo() {
 		return tipoJogo;

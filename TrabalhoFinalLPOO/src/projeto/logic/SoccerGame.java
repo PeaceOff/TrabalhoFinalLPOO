@@ -152,6 +152,7 @@ public class SoccerGame extends Minigame {
 
 	@Override
 	public void sendEst(int id, Estatistica e) {
+		e.setTipoJogo("SoccerGame");
 		i_EstAlert.receiveEstatistica(id, e);
 		
 	}
