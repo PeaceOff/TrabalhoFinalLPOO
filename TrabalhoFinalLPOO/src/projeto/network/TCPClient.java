@@ -2,7 +2,9 @@ package projeto.network;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -17,6 +19,7 @@ public class TCPClient extends TCPBasic implements Runnable {
 	private ArrayList<IClientConnection> m_IClientConnection = new ArrayList<IClientConnection>();
 	private String ip;
 	private int port;
+	private boolean running = true;
 	/**
 	 * 
 	 * @param ip
@@ -27,14 +30,16 @@ public class TCPClient extends TCPBasic implements Runnable {
 	public TCPClient(String ip, int port) throws UnknownHostException, IOException{
 		this.ip = ip;
 		this.port = port; 
-		connect(); 
+		connect();
+		socket = new Socket();
 		
 	}
 	
 	public TCPClient(String ip, int port, IClientConnection listener) throws UnknownHostException, IOException{
 		this.ip = ip;
 		this.port = port;
-		m_IClientConnection.add(listener); 
+		m_IClientConnection.add(listener);
+		socket = new Socket();
 		//connect();
 		
 	}
@@ -55,18 +60,23 @@ public class TCPClient extends TCPBasic implements Runnable {
 	}
 	
 	public void connect() throws IOException{
-		socket = new Socket(ip, port); 
-		rebindConnection(ip);  
+		
+		socket.connect(new InetSocketAddress(ip,port), 10000);
+		rebindConnection(ip);
 	}
 	
 	public void close(){
+
+		running = false;
 		if(socket == null) return;
 		try {
+			socket.setSoTimeout(1);
 			socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		socket = null;
+
 	}
 	
 	/**
@@ -75,15 +85,18 @@ public class TCPClient extends TCPBasic implements Runnable {
 	 * @throws IOException 
 	 */
 	public void rebindConnection(String ip) throws IOException{
+		
 		DataInputStream in = new DataInputStream(socket.getInputStream());
-		int newPort = in.readInt(); 
+		
+		int newPort = in.readInt();
 		
 		if(newPort == 0){
 			
 			for(IClientConnection c : m_IClientConnection)
 				c.ServerFull(socket);
-			 
-			socket.close();
+
+			close();
+			running=false;
 			return;
 		}
 		
@@ -107,14 +120,24 @@ public class TCPClient extends TCPBasic implements Runnable {
 		socket.getOutputStream().write(msg);
 		
 	}
-	
+
+	public boolean isConnected(){
+		return running;
+	}
+
 	public int getPort(){
+
+		if(socket == null){
+			throw new IllegalAccessError();
+		}
+
 		return socket.getPort();
 	}
 
 	@Override
 	public void run() {
-		while(socket!=null){
+
+		while(running){
 			
 			byte[] info = new byte[255];
 			
@@ -134,17 +157,9 @@ public class TCPClient extends TCPBasic implements Runnable {
 				for(IClientConnection c : m_IClientConnection){
 					c.DisconnectedFromServer(socket);
 				}
-				 
-				try {
-					if(socket != null)
-						socket.close();
-					socket = null;
-				} catch (IOException e1) {
-					socket = null; 
-					e1.printStackTrace();
-				}
-				
-				e.printStackTrace();
+
+				close();
+
 			}
 			
 		}

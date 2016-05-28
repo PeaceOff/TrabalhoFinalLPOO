@@ -17,6 +17,7 @@ public class UDPConnection extends Thread{
 	private String ip = null; 
 	private int port = 3333;
 	private int sendPort = 3334;
+	private boolean running = true;
 	/**
 	 * 
 	 * @param host
@@ -70,7 +71,7 @@ public class UDPConnection extends Thread{
 	@Override
 	public void run() {
 		
-		while(socket!=null){
+		while(running){
 
 			byte[] info = new byte[255];
 
@@ -86,19 +87,19 @@ public class UDPConnection extends Thread{
 			} catch (IOException e) {
 				return;
 				//e.printStackTrace();
-			} 
-			
-			
-
+			}
 		}
+
 		
 	}
 	
 	
 	public void close(){
+		running=false;
 		if(socket != null)
 			socket.close();
 		socket = null;
+
 	}
 
 }
