@@ -49,6 +49,21 @@ public class Bola extends GameObjectState {
 
 	@Override
 	public void onTriggerEnter(Collider c) {
+		if(c.tag.contains("Baliza")){
+			if(lastID != -1){
+				Estatistica golo = new Estatistica("SoccerGame","Golos Marcados",1,lastID);
+			}
+			if(lastSecondID != -1 && lastID != lastSecondID){
+				Estatistica assitencia = new Estatistica("SoccerGame","Assistencias",1,lastSecondID);
+			}
+			if(lastID != -1 && !c.tag.contains("" + (lastID % 2))){//Situacao de auto-golo
+				Estatistica autoGolo = new Estatistica("SoccerGame","Auto-Golos",1,lastID);
+			}
+			if(lastSecondID != -1 && lastSecondID != lastID && !c.tag.contains("" + (lastSecondID % 2))) {
+				Estatistica autoAssistencia = new Estatistica("SoccerGame","Auto-Assistencias",1,lastSecondID);
+			}
+			
+		}
 		super.onTriggerEnter(c);
 	}
 	

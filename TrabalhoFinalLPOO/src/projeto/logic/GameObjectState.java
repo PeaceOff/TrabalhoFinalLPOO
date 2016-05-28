@@ -20,7 +20,7 @@ public abstract class GameObjectState extends GameObject{
 		if(c.tag == "PowerUp"){
 			
 			m_State = ((PowerUp)c.getGameObj()).getState();
-			
+	
 		}
 		super.onTriggerEnter(c);
 	}

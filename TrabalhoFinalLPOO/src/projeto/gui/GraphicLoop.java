@@ -154,7 +154,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void parseCMD(byte[] info, int index) {
 		
-		System.out.println("Message Received: " + (char)info[0] + " by " + index);
+		//System.out.println("Message Received: " + (char)info[0] + " by " + index);
 		 
 		if(info[0] == 'D')   
 			mg.getInput().getPlayerInput(index).setDirection(new Vector2(info[1],info[2]));
