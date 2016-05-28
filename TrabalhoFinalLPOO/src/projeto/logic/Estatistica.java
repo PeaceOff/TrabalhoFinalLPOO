@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class Estatistica implements Serializable {
 
+	static final long serialVersionUID = 42L;
+	
 	private String tipoJogo;
 	private String nome;
 	private int valor;

@@ -1,5 +1,6 @@
 package projeto.network;
 
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -85,11 +86,9 @@ public class TCPClient extends TCPBasic implements Runnable {
 	 * @throws IOException 
 	 */
 	public void rebindConnection(String ip) throws IOException{
-		
 		DataInputStream in = new DataInputStream(socket.getInputStream());
-		
 		int newPort = in.readInt();
-		
+
 		if(newPort == 0){
 			
 			for(IClientConnection c : m_IClientConnection)

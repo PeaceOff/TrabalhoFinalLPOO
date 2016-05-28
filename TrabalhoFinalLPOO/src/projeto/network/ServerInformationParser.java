@@ -3,7 +3,7 @@ package projeto.network;
 
 /**
  * Mensagens recebidas com flag UDP significa que se o numero da conexao for
- * superior a metade das conexoes então a mensagem recebida é por UDP
+ * superior a metade das conexoes entï¿½o a mensagem recebida ï¿½ por UDP
  * @author Joao
  * @version 1.0
  * @created 03-mai-2016 15:24:26
@@ -58,10 +58,10 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 		if(udp){
 			if(id >= m_InformationParser.length){
 				
-				int length = (int)(info[0] << 12)
-						| (int)(info[1]  << 8)
-						| (int)(info[2]  << 4)
-						| (int)(info[3] );
+				int length = (int)((info[0] & 0x0FF) << 12)
+						   | (int)((info[1] & 0x0FF) << 8)
+						   | (int)((info[2] & 0x0FF) << 4)
+						   | (int)((info[3]& 0x0FF));
 				
 				//System.out.println("   a" + length + "length" + info.length );  
 				
@@ -76,7 +76,7 @@ public class ServerInformationParser implements IMessage, ICommandReceived {
 			 
 			return;
 		}
-		
+
 		synchronized(m_InformationParser[id]){
 			m_InformationParser[id].parseInformation(res);
 		}

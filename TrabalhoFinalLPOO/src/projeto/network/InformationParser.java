@@ -2,6 +2,7 @@ package projeto.network;
 
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 
@@ -17,6 +18,7 @@ public class InformationParser {
 
 	private final int id;
 	private LinkedList<Byte> information = new LinkedList<Byte>();
+	private ByteArrayInputStream buffer = null;
 	private ICommandReceived m_ICommandReceived;
 	int counter = 0;
 	private int tamanhoMSG = 0;
@@ -29,56 +31,47 @@ public class InformationParser {
 		 
 	}
 
+
+
 	/**
 	 * 
 	 * @param info
 	 */
 	public void parseInformation(byte[] info){
-		
+
+
+
 		int k =0;
-		if(messageSize == 0){
-
-			if(info.length >= 4){
-				messageSize = (int)(info[0]<< 12)
-							| (int)(info[1] << 8)
-							| (int)(info[2] << 4)
-							| (int)(info[3]);
-				messageSize +=4;
-
-			}
-		}
-		
-		while(messageSize >0 && k < info.length){
+		while( k < info.length){
+			
 			information.add(info[k]);
 			k++;
-			messageSize--; 
 		}
-		
+
 		while(true){
-			
+
 			if(information.size() > 4 && tamanhoMSG == 0){
 				
-				int length = (int)(information.pop() << 12)
-							| (int)(information.pop() << 8)
-							| (int)(information.pop() << 4)
-							| (int)(information.pop());
-				tamanhoMSG = length; 
-				
-			}else
-				break;
-			
-			if(information.size() >= tamanhoMSG && tamanhoMSG > 0){
+				int length = (int)((information.pop() & 0x0FF) << 12)
+							| (int)((information.pop()& 0x0FF) << 8)
+							| (int)((information.pop()& 0x0FF) << 4)
+							| (int)((information.pop()& 0x0FF));
+				tamanhoMSG = length;
+
+
+			}else if(information.size() >= tamanhoMSG && tamanhoMSG > 0){
 				
 				byte[] cmd = new byte[tamanhoMSG];
 				
 				for(int i = 0; i < tamanhoMSG ; i++)	
 					cmd[i] = information.pop();
-				
 				m_ICommandReceived.CommandReceived(cmd, id);
-				
-				tamanhoMSG = 0; 
-			}else
+				tamanhoMSG = 0;
+			}else {
+
 				break;
+			}
+
 		}
 		
 	} 
@@ -87,11 +80,6 @@ public class InformationParser {
 		information.clear();
 	}
 
-	/**
-	 * 
-	 * @param msg
-	 * @param tag
-	 */
 	
 	public static byte[] transformInformation(byte ... message){
 		
@@ -99,10 +87,10 @@ public class InformationParser {
 		byte[] res = new byte[message.length + 4];
 		
 		int size = message.length; 
-		res[0] = (byte)(size >> 12);
-		res[1] = (byte)(size >> 8);
-		res[2] = (byte)(size >> 4);
-		res[3] = (byte)(size >> 0);
+		res[0] = (byte)((size & 0x0FF) >> 12);
+		res[1] = (byte)((size & 0x0FF) >> 8);
+		res[2] = (byte)((size & 0x0FF) >> 4);
+		res[3] = (byte)((size & 0x0FF) >> 0);
 		//System.out.print("Tamanho mensagem a enviar:" + size + " = ");
 		//System.out.println(res[0] + " " + res[1] + " " + res[2] + " " +  res[3]); 
 		

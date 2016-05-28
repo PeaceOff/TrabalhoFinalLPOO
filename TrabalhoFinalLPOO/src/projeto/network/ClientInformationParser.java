@@ -33,7 +33,7 @@ public class ClientInformationParser implements IMessage, ICommandReceived {
 	
 	@Override
 	public void OnMessageReceived(byte[] info, int id) {
-		
+
 		synchronized(m_InformationParser[id]){
 			m_InformationParser[id].parseInformation(info);
 		}

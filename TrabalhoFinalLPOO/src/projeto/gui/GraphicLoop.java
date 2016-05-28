@@ -10,8 +10,10 @@ import java.awt.RenderingHints;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -177,8 +179,8 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ ":" + client.getPort() 
 							+ " - " + client.getLocalPort());
 		
-		server.sendInfo(InformationParser.transformInformation("Bem-Vindo!".getBytes()), id);
-		server.sendInfoAll(InformationParser.transformInformation("Novo Jogador Em cena!".getBytes()));
+		server.sendInfo(InformationParser.transformInformation("MBem-Vindo!".getBytes()), id);
+		server.sendInfoAll(InformationParser.transformInformation("MNovo Jogador Em cena!".getBytes()));
 		
 	}
 
@@ -193,7 +195,35 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 
 	@Override
 	public void receiveEstatistica(int player_id, Estatistica e) {
-		// Deal with estatistica
+		
+		server.sendInfo(InformationParser.transformInformation(("M" + e.getNome()).getBytes()), player_id); 
+		
+		System.out.println("-----Player:" + player_id + " " + e.getTipoJogo() + " "+ e.getNome() + ":" + e.getValor());
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		try {
+			stream.write(new byte[]{(byte)'S'}); 
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			ObjectOutputStream ss = new ObjectOutputStream(stream);
+			
+			ss.writeObject(e);
+			
+			server.sendInfo(InformationParser.transformInformation(stream.toByteArray() ), player_id);
+			System.out.println("DDDDDMSG Sent :" + player_id + ":" + stream.toByteArray().toString());
+			System.out.println("Tamanho" + stream.toByteArray().length); 
+			
+			
+			
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 		
 	}
 	

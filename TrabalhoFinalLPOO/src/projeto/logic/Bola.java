@@ -60,6 +60,7 @@ public class Bola extends GameObjectState {
 			}
 			if(lastID != -1 && !c.tag.contains("" + (lastID % 2))){//Situacao de auto-golo
 				myTools.sendEst(lastID,new Estatistica("SoccerGame","Auto-Golos",1));
+				System.out.println("NOPE");
 			}
 			if(lastSecondID != -1 && lastSecondID != lastID && !c.tag.contains("" + (lastSecondID % 2))) {
 				myTools.sendEst(lastSecondID, new Estatistica("SoccerGame","Auto-Assistencias",1));
