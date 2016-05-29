@@ -1,6 +1,5 @@
 package projeto.network;
 
-
 /**
  * @author Joao
  * @version 1.0
@@ -16,6 +15,10 @@ public class ClientInformationParser implements IMessage, ICommandReceived {
 			m_InformationParser[i] = new InformationParser(i, this);
 		} 
 		commandParser = c;  
+	}
+
+	public void setCommandParser(CommandParser newParser){
+		commandParser = newParser;
 	}
 
 	/**
