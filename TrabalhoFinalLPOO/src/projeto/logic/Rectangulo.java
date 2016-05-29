@@ -14,9 +14,9 @@ public class Rectangulo {
 	private double yI;
 	private double xF;
 	private double yF;
-
-	public Rectangulo(){
-
+	
+	public Rectangulo() {
+		
 	}
 
 	public Rectangulo(double xCoord,double yCoord,double w, double h){//Para rectagunlos

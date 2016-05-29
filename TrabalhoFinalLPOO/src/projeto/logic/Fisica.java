@@ -122,15 +122,15 @@ public class Fisica {
 		}
 	}
 	
-	private void dealWithCollision(Collider c1, Collider c2){
+	public void dealWithCollision(Collider c1, Collider c2){
 		if(c1.getClass() == CircleCollider.class && c2.getClass() == CircleCollider.class){
 			dealWithCollision((CircleCollider)c1, (CircleCollider)c2);
 			return;
 		}
-		if(c1.getClass() == RectCollider.class && c2 instanceof CircleCollider ){
+		if(c1.getClass() == RectCollider.class && c2.getClass() == CircleCollider.class ){
 			dealWithCollision((CircleCollider)c2, (RectCollider)c1);
 			return;
-		} else if (c2 instanceof CircleCollider && c1 instanceof RectCollider){
+		} else if (c1.getClass() == CircleCollider.class && c2.getClass() == RectCollider.class){
 			dealWithCollision((CircleCollider)c1, (RectCollider)c2);
 			return;
 		}
@@ -203,7 +203,8 @@ public class Fisica {
 					c1.position.x = r.getxI() - c1.getRadius();
 			}
 			c1.velocity = Vector2.multiply(c1.velocity, c1.getElasticity());
-			return;
 		}
+		return;
 	}
+	
 }
