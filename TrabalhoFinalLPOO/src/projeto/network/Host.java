@@ -2,6 +2,8 @@ package projeto.network;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -25,6 +27,7 @@ public class Host extends Thread implements IServerConnection{
 	private AtomicInteger numClientsConnected = new AtomicInteger();
 	private IMessage messageParser = null;
 	private boolean running = true;
+	private DatagramSocket broadCastingSocket = null;
 
 	public Host(int port, int numClients) throws IOException{
 		basePort = port;
@@ -91,7 +94,59 @@ public class Host extends Thread implements IServerConnection{
 	
 	@Override
 	public void run() {
-	
+		
+		
+		try {
+			broadCastingSocket = new DatagramSocket(basePort);
+			broadCastingSocket.setBroadcast(true);
+			(new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					while(running){
+						
+						byte data[] = new byte[5];
+						
+						DatagramPacket packet = new DatagramPacket(data, data.length);
+						
+						try {
+							
+							broadCastingSocket.receive(packet);
+							
+							boolean confirm = true;
+							
+							for(int i = 0; i < packet.getData().length; i++){
+                                if(packet.getData()[i] != i +50) {
+                                    confirm = false;
+                                    break;
+                                }
+                            }
+							
+							data = new byte[]{51,52,53,54,55};
+							
+							packet = new DatagramPacket(data, data.length, packet.getAddress(), basePort);
+							
+							broadCastingSocket.send(packet);
+							
+						
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						
+					}
+					broadCastingSocket.close();
+					
+				}
+			})).start();
+			
+			
+		} catch (SocketException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		
 		
 		while(running){
