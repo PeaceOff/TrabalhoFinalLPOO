@@ -204,7 +204,6 @@ public class Fisica {
 			}
 			c1.velocity = Vector2.multiply(c1.velocity, c1.getElasticity());
 		}
-		return;
 	}
 	
 }
