@@ -14,7 +14,12 @@ public class Estatistica implements Serializable {
 		tipoJogo = null;
 		nome = n;
 		valor = v;
-		System.out.println(n + " " + v);
+	}
+	
+	public Estatistica(String tJ,String n, int v){
+		tipoJogo = tJ;
+		nome = n;
+		valor = v;
 	}
 
 	public void setTipoJogo(String n){
