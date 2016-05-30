@@ -1,4 +1,14 @@
-package projeto.logic;
+package projeto.minigames.soccer;
+
+import projeto.logic.CircleCollider;
+import projeto.logic.Collider;
+import projeto.logic.Estatistica;
+import projeto.logic.GameObjectState;
+import projeto.logic.Input;
+import projeto.logic.Obj;
+import projeto.logic.Rectangulo;
+import projeto.logic.Vector2;
+import projeto.logic.iMinigameTools;
 
 public class Bola extends GameObjectState {
 	
@@ -25,8 +35,8 @@ public class Bola extends GameObjectState {
 	
 	@Override
 	public void onCollisionEnter(Collider c) {
-		if(c.tag.contains("Player")){
-			setLastID(Character.getNumericValue(c.tag.charAt(6)));
+		if(c.getTag().contains("Player")){
+			setLastID(Character.getNumericValue(c.getTag().charAt(6)));
 		}
 		super.onCollisionEnter(c);
 	}
@@ -51,18 +61,18 @@ public class Bola extends GameObjectState {
 
 	@Override
 	public void onTriggerEnter(Collider c) {
-		if(c.tag.contains("Baliza")){
-			if(lastID != -1 && c.tag.contains("" + (lastID % 2))){
+		if(c.getTag().contains("Baliza")){
+			if(lastID != -1 && c.getTag().contains("" + (lastID % 2))){
 				myTools.sendEst(lastID,new Estatistica("Golos Marcados",1));
 			}
-			if(lastSecondID != -1 && lastID != lastSecondID && c.tag.contains("" + (lastSecondID % 2))){
+			if(lastSecondID != -1 && lastID != lastSecondID && c.getTag().contains("" + (lastSecondID % 2))){
 				myTools.sendEst(lastSecondID,new Estatistica("Assistencias",1));
 			}
-			if(lastID != -1 && !c.tag.contains("" + (lastID % 2))){//Situacao de auto-golo
+			if(lastID != -1 && !c.getTag().contains("" + (lastID % 2))){//Situacao de auto-golo
 				myTools.sendEst(lastID,new Estatistica("Auto-Golos",1));
 				System.out.println("NOPE");
 			}
-			if(lastSecondID != -1 && lastSecondID != lastID && !c.tag.contains("" + (lastSecondID % 2))) {
+			if(lastSecondID != -1 && lastSecondID != lastID && !c.getTag().contains("" + (lastSecondID % 2))) {
 				myTools.sendEst(lastSecondID, new Estatistica("Auto-Assistencias",1));
 			}
 		}

@@ -10,9 +10,9 @@ import projeto.logic.Estatistica;
 import projeto.logic.Fisica;
 import projeto.logic.Input;
 import projeto.logic.RectCollider;
-import projeto.logic.SoccerGame;
 import projeto.logic.Vector2;
 import projeto.logic.iEstatisticaAlert;
+import projeto.minigames.soccer.SoccerGame;
 
 public class TestarFisica {
 

@@ -1,4 +1,13 @@
-package projeto.logic;
+package projeto.minigames.soccer;
+
+import projeto.logic.Collider;
+import projeto.logic.GameObject;
+import projeto.logic.Input;
+import projeto.logic.Obj;
+import projeto.logic.RectCollider;
+import projeto.logic.Rectangulo;
+import projeto.logic.Vector2;
+import projeto.logic.iMinigameTools;
 
 public class Baliza extends GameObject {
 
@@ -12,9 +21,8 @@ public class Baliza extends GameObject {
 					,"parede.png", new Rectangulo(0,0,1,1)));
 		_id = id;
 		myTools = t;
-		m_Collider.trigger = true;
+		m_Collider.setTrigger(true);
 		m_Collider.addListener(this);
-		System.out.println(m_Collider.tag);
 	}
 
 	@Override
@@ -28,7 +36,7 @@ public class Baliza extends GameObject {
 
 	@Override
 	public void onTriggerEnter(Collider c) {
-		if(c.tag.contains("ball")){
+		if(c.getTag().contains("ball")){
 			myTools.scoreReceived(1, _id);
 			myTools.resetRound();
 		}

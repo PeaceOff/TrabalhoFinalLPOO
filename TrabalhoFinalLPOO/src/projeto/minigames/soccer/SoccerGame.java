@@ -1,5 +1,14 @@
-package projeto.logic;
+package projeto.minigames.soccer;
 
+import projeto.logic.Estatistica;
+import projeto.logic.GameObject;
+import projeto.logic.GameObjectState;
+import projeto.logic.Input;
+import projeto.logic.Minigame;
+import projeto.logic.Player;
+import projeto.logic.PowerUp;
+import projeto.logic.Vector2;
+import projeto.logic.iEstatisticaAlert;
 
 /**
  * @author PeaceOff
@@ -96,10 +105,10 @@ public class SoccerGame extends Minigame {
 		if(p == null)
 			return;
 		
-		p.m_Collider.setPosition(new Vector2( ((c)/2) + (((p.getId() % 2 == 0)? -1:1) * (c)/2 * 0.8)
+		p.getCollider().setPosition(new Vector2( ((c)/2) + (((p.getId() % 2 == 0)? -1:1) * (c)/2 * 0.8)
 											,(l/2) + p.getId()));
 		//System.out.println("Pos:" + (((c+e)/2) + (((p.getId() % 2 == 0)? -1:1) * (c - e)/2 * 0.8)));
-		p.m_Collider.setVelocity(new Vector2()); 
+		p.getCollider().setVelocity(new Vector2()); 
 		p.resetState();
 	}
 
@@ -119,12 +128,12 @@ public class SoccerGame extends Minigame {
 		}
 		
 		for(GameObject g : game_objects){
-			if(g.getCollider().tag.contains("ball")){
+			if(g.getCollider().getTag().contains("ball")){
 				g.getCollider().setPosition(new Vector2((c+e)/2,(l+e)/2));
 				g.getCollider().setVelocity(new Vector2());
 				((GameObjectState)g).resetState();
 
-			} else if (g.getCollider().tag.contains("PowerUp")){
+			} else if (g.getCollider().getTag().contains("PowerUp")){
 				g.getCollider().destroy = 1;
 			}
 		}

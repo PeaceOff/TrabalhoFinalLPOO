@@ -1,4 +1,11 @@
-package projeto.logic;
+package projeto.minigames.soccer;
+
+import projeto.logic.CircleCollider;
+import projeto.logic.GameObject;
+import projeto.logic.Input;
+import projeto.logic.Obj;
+import projeto.logic.Rectangulo;
+import projeto.logic.Vector2;
 
 public class Poste extends GameObject {
 	

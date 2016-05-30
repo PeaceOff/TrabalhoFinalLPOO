@@ -10,7 +10,7 @@ public class Estatistica implements Serializable {
 	private String nome;
 	private int valor;
 	
-	Estatistica(String n, int v){
+	public Estatistica(String n, int v){
 		tipoJogo = null;
 		nome = n;
 		valor = v;
