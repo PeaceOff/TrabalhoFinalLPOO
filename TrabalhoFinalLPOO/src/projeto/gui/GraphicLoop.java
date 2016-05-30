@@ -14,6 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -178,7 +179,22 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 
 							+ " - " + client.getLocalPort());
+		String temp = "DISTO E UMA DICA \nnão é la grande coisa, eu sei...";
 		
+
+		
+		try {
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			out.write((byte)'D');
+			out.write("ISTO E UMA DICA \nnão é la grande coisa, eu sei...".getBytes("UTF-8"));  //Escrever AQUI A DICA! 
+			server.sendInfo(InformationParser.transformInformation(out.toByteArray()), id); 
+		} catch (UnsupportedEncodingException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		server.sendInfo(InformationParser.transformInformation("MBem-Vindo!".getBytes()), id); 
 		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
 		
