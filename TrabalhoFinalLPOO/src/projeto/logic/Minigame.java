@@ -56,16 +56,19 @@ public abstract class Minigame implements iMinigameTools {
 		}
 	}
 
-	public void update(float timeLapsed){
-		for(GameObject g : game_objects){
-			if(g.m_Collider.destroy == 1){
-				System.out.println("Encontrei um objecto nulo");
-				removeGameObject(g);
-				break;
+	public void update(float timeLapsed){ 
+		synchronized(game_objects){
+			for(GameObject g : game_objects){
+				if(g.m_Collider.destroy == 1){
+					System.out.println("Encontrei um objecto nulo");
+					removeGameObject(g);
+					break;
+				}
+				g.update(timeLapsed);
 			}
-			g.update(timeLapsed);
+			m_Fisica.update(timeLapsed);
 		}
-		m_Fisica.update(timeLapsed);
+		
 	}
 
 }

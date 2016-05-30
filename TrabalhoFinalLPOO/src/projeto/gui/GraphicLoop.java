@@ -179,8 +179,8 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ ":" + client.getPort() 
 							+ " - " + client.getLocalPort());
 		
-		server.sendInfo(InformationParser.transformInformation("MBem-Vindo!".getBytes()), id);
-		server.sendInfoAll(InformationParser.transformInformation("MNovo Jogador Em cena!".getBytes()));
+		server.sendInfo(InformationParser.transformInformation("MBem-Vindo!".getBytes()), id); 
+		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
 		
 	}
 
