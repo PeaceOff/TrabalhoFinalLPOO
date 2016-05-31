@@ -67,21 +67,34 @@ public abstract class Collider {
 		if(!movable)
 			return;
 		
-		this.position.x += this.velocity.x * time;
-		this.position.y += this.velocity.y * time;
+	
+			
 		Vector2 newVelocity = new Vector2();
 		if(this.velocity.x != 0 && this.velocity.y != 0){
 			newVelocity.x = (this.velocity.x > 0)? this.velocity.x - (this.drag.x  * time) : this.velocity.x + (this.drag.x  * time);
 			newVelocity.y = (this.velocity.y > 0)? this.velocity.y - (this.drag.y * time) : this.velocity.y + (this.drag.y * time);
 		}
-		if (newVelocity.x > velCap.x) newVelocity.x = velCap.x;
-		if (newVelocity.x < -velCap.x) newVelocity.x = -velCap.x;
 		
-		if (newVelocity.y > velCap.y) newVelocity.y = velCap.y;
-		if (newVelocity.y < -velCap.y) newVelocity.y = -velCap.y; 
+		if(newVelocity.getNorm() > velCap.x){
+			newVelocity.normalize();
+			newVelocity.multiply(velCap.x);
+		}
+			/*
+			if (newVelocity.x > velCap.x) newVelocity.x = velCap.x;
+			if (newVelocity.x < -velCap.x) newVelocity.x = -velCap.x;
+			
+			if (newVelocity.y > velCap.y) newVelocity.y = velCap.y;
+			if (newVelocity.y < -velCap.y) newVelocity.y = -velCap.y; 
+			*/
+		if(tag.contains("Player"))
+			System.out.println("Velo" + newVelocity.x + " " + newVelocity.y);
 		
 		synchronized(this){ 
 			this.setVelocity(newVelocity);
+			
+			this.position.x += this.velocity.x * time;
+			this.position.y += this.velocity.y * time;
+			
 		}
 	}
 

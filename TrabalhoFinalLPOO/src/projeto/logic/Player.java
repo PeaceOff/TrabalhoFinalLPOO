@@ -28,9 +28,9 @@ public class Player extends GameObjectState {
 		PlayerInput pIn = this.m_Input.getPlayerInput(id);
 		
 		if(pIn.getDirection().getNorm() > 0){
-			
-			this.m_Collider.velocity.add((Vector2.multiply(pIn.getDirection(),1))); 
-			
+			synchronized(m_Collider){ 
+				this.m_Collider.velocity = ((Vector2.multiply(pIn.getDirection(),m_Collider.getVelCap().x))); 
+			}
 			pIn.setDirection(new Vector2());  
 		}		
 	}
