@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.font.LineMetrics;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.imageio.ImageIO;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import projeto.logic.Estatistica;
@@ -48,8 +50,12 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private double lastTime = 0;
 	private TextureManager txtMng = new TextureManager();
 	private Host server;
-	private ServerInformationParser parser = new ServerInformationParser(8, true, this );
+	private ServerInformationParser parser = new ServerInformationParser(8, true, this);
 	private Vector2 dim;
+	private int offset_x;
+	private int offset_y;
+	private double x_scale;
+	private double y_scale;
 	
 	public GraphicLoop(){
 		
@@ -68,60 +74,21 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
-	public Vector2 assertRatio(){
-		Vector2 res = new Vector2();
-		Vector2 windowDim = new Vector2();
-		windowDim.x = this.getWidth();
-		windowDim.y = this.getHeight();
-		
-		/*public final Dimension getPreferredSize() {
-            Dimension d = super.getPreferredSize();
-            Dimension prefSize = null;
-            Component c = getParent();
-            if (c == null) {
-                prefSize = new Dimension(
-                        (int)d.getWidth(),(int)d.getHeight());
-            } else if (c!=null &&
-                    c.getWidth()>d.getWidth() &&
-                    c.getHeight()>d.getHeight()) {
-                prefSize = c.getSize();
-            } else {
-                prefSize = d;
-            }
-            int w = (int) prefSize.getWidth();
-            int h = (int) prefSize.getHeight();
-            // the smaller of the two sizes
-            int s = (w>h ? h : w);
-            return new Dimension(s,s);
-        }
-        
-        private void adjustSize() {
-		    double width = getSize().width;
-		    double height = getSize().height;
-		    double ratio = 1.33;
-		    double r = width / height;
-		    if (r < ratio) {
-		        width = height * ratio;
-		        setSize((int) width, (int) height);
-		    } else if (r > ratio) {
-		        height = width / ratio;
-		        setSize((int) width, (int) height);
-		    }
-		}
-		
-		ou tornar a janela unresizable frame.setResizable(false);
-		
-		JPanel p = new JPanel(new GridbagLayout());
-		p.add(PCanvas,new GridbagConstraints());
-		frame.add(p,Borderlayout.CENTER);
-		
-		Pesquisar gridbadlayout!
-        */
-		return res;
+	public void assertDim(){
+
+        JComponent parent = (JComponent) this.getParent();
+        Insets insets = parent.getInsets();
+        int width = parent.getWidth() - insets.left - insets.right;
+        int height = parent.getHeight() - insets.top - insets.bottom;
+        width = (int) Math.min(width, height / (dim.y/dim.x));
+        height = (int) Math.min(width * (dim.y/dim.x), height);
+        offset_x = (parent.getWidth() - width)/ 2;
+        offset_y = (parent.getHeight() - height)/2;
+        x_scale = width/dim.x;
+        y_scale = height/dim.y;
+	
 	}
 	 
 	@Override
@@ -130,7 +97,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		super.paintComponent(g); 
 		Graphics2D g2 = (Graphics2D)g;
 		ArrayList<GameObject> go = mg.getGame_objects();
-
+		assertDim();
 		
 		synchronized(go){ 
 			for(GameObject gO: go){ 
@@ -152,8 +119,9 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				
 				g2.setRenderingHints(hints);
 			
-				g2.drawImage(temp
-						, (int)dims.getxI(), (int)dims.getyI(), (int)dims.getxF(), (int)dims.getyF()
+				g2.drawImage(temp,
+							(int)((dims.getxI()* x_scale) + offset_x), (int)((dims.getyI() * y_scale) + offset_y),
+							(int)((dims.getxF() * x_scale)  + offset_x), (int)((dims.getyF() * y_scale) + offset_y)
 						,(int) (subI.getxI() * temp.getWidth()) 
 						,(int) (subI.getyI() * temp.getHeight())
 						,(int) (subI.getxF() * temp.getWidth())

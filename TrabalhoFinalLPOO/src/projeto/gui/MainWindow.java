@@ -34,7 +34,9 @@ public class MainWindow extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 915, 475);  
+		setSize(915, 475);
+		setLocationRelativeTo(null);
+		//setResizable(false);Easy mode
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		contentPane.setLayout(new BorderLayout(0, 0));
