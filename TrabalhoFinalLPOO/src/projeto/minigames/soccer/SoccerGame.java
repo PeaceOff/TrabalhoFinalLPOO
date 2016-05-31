@@ -166,4 +166,9 @@ public class SoccerGame extends Minigame {
 		
 	}
 
+	@Override
+	public Vector2 getDim() {
+		return new Vector2(c,l);
+	}
+
 }

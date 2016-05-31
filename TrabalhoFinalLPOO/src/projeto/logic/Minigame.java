@@ -45,6 +45,8 @@ public abstract class Minigame implements iMinigameTools {
 	
 	public abstract int[] getScores();
 	
+	public abstract Vector2 getDim();
+	
 	public Input getInput(){
 		return m_Input;
 	}
