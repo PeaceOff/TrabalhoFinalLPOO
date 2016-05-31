@@ -28,6 +28,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import projeto.logic.ControllerInformationPacket;
 import projeto.logic.Estatistica;
 import projeto.logic.GameObject;
 import projeto.logic.Input;
@@ -215,6 +216,33 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ " - " + client.getLocalPort());
 	}
 
+	private void sendControlLayout(int id){
+		if(mg != null){
+			
+			ArrayList<ControllerInformationPacket> packets = mg.getControllPacket();
+			
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			out.write('C');
+			
+			try {
+				
+				ObjectOutputStream objOut = new ObjectOutputStream(out);
+				
+				objOut.writeObject(packets);
+				System.out.println("Tamanho Controller:" + out.toByteArray().length);
+				server.sendInfo(InformationParser.transformInformation(out.toByteArray()), id);
+				 
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+			
+		}
+	}
+	
 	@Override
 	public void OnClientConnected(Socket client, int id) {
 		mg.addPlayer(id);
@@ -224,16 +252,18 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ " - " + client.getLocalPort());
 		
 		try {
-			server.sendInfo(InformationParser.transformInformation(('D' + mg.getDica()).getBytes("UTF-8")), id); 
+			server.sendInfo(InformationParser.transformInformation(('D' + mg.getDica()).getBytes("UTF-8")), id);
 		} catch (UnsupportedEncodingException e) {
-			
-			e.printStackTrace();
-		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		
+		
+		
+		
 		server.sendInfo(InformationParser.transformInformation("MBem-Vindo!".getBytes()), id); 
 		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
+		sendControlLayout(id);
 		
 	}
 

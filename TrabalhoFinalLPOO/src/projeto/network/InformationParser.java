@@ -87,11 +87,11 @@ public class InformationParser {
 		byte[] res = new byte[message.length + 4];
 		
 		int size = message.length; 
-		res[0] = (byte)((size & 0x0FF) >> 12);
-		res[1] = (byte)((size & 0x0FF) >> 8);
-		res[2] = (byte)((size & 0x0FF) >> 4);
-		res[3] = (byte)((size & 0x0FF) >> 0);
-		//System.out.print("Tamanho mensagem a enviar:" + size + " = ");
+		res[0] = (byte)(size  >> 12);
+		res[1] = (byte)(size  >> 8);
+		res[2] = (byte)(size  >> 4);
+		res[3] = (byte)(size  >> 0); 
+		// enviar:" + size + " = ");
 		//System.out.println(res[0] + " " + res[1] + " " + res[2] + " " +  res[3]); 
 		
 		for(int i = 0; i < message.length; i++){

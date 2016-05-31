@@ -86,8 +86,6 @@ public abstract class Collider {
 			if (newVelocity.y > velCap.y) newVelocity.y = velCap.y;
 			if (newVelocity.y < -velCap.y) newVelocity.y = -velCap.y; 
 			*/
-		if(tag.contains("Player"))
-			System.out.println("Velo" + newVelocity.x + " " + newVelocity.y);
 		
 		synchronized(this){ 
 			this.setVelocity(newVelocity);

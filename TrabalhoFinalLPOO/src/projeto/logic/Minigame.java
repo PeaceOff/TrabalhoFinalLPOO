@@ -41,6 +41,8 @@ public abstract class Minigame implements iMinigameTools {
 		
 	}
 	
+	public abstract ArrayList<ControllerInformationPacket> getControllPacket();
+	
 	public abstract void initGame();
 	
 	public abstract int[] getScores();

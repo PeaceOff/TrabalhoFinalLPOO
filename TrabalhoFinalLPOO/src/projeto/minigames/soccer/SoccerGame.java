@@ -1,5 +1,8 @@
 package projeto.minigames.soccer;
 
+import java.util.ArrayList;
+
+import projeto.logic.ControllerInformationPacket;
 import projeto.logic.Estatistica;
 import projeto.logic.GameObject;
 import projeto.logic.GameObjectState;
@@ -9,6 +12,7 @@ import projeto.logic.Player;
 import projeto.logic.PowerUp;
 import projeto.logic.Vector2;
 import projeto.logic.iEstatisticaAlert;
+import projeto.logic.ControllerInformationPacket.Type;
 
 /**
  * @author PeaceOff
@@ -26,6 +30,8 @@ public class SoccerGame extends Minigame {
 	private final int e = 40;
 	private final int ps = 10;
 	
+	ArrayList<ControllerInformationPacket> controllerPackets = new ArrayList<ControllerInformationPacket>();
+	
 	private int scores[] = new int[2];
 	
 	public SoccerGame(Input i,iEstatisticaAlert estA){
@@ -39,6 +45,8 @@ public class SoccerGame extends Minigame {
 
 	public void initGame(){  
 
+		controllerPackets.add(new ControllerInformationPacket(0f, 0.5f, 0.5f, 0.5f, Type.JOYSTICK));
+		
 		GameObject w1 = new Parede(m_Input, new Vector2(0,0), new Vector2(c, e));
 		GameObject w2 = new Parede(m_Input, new Vector2(0,l), new Vector2(c,e));
 		
@@ -174,6 +182,12 @@ public class SoccerGame extends Minigame {
 	@Override
 	public String getDica() {
 		return "Acredita em ti mesmo, tu consegues!";
+	}
+
+	@Override
+	public ArrayList<ControllerInformationPacket> getControllPacket() {
+		
+		return controllerPackets;
 	}
 
 }
