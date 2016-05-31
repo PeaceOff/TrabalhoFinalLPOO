@@ -170,5 +170,10 @@ public class SoccerGame extends Minigame {
 	public Vector2 getDim() {
 		return new Vector2(c,l);
 	}
+	
+	@Override
+	public String getDica() {
+		return "Acredita em ti mesmo, tu consegues!";
+	}
 
 }

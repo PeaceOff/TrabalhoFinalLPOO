@@ -47,11 +47,13 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private TextureManager txtMng = new TextureManager();
 	private Host server;
 	private ServerInformationParser parser = new ServerInformationParser(8, true, this );
+	private Vector2 dim;
 	
 	public GraphicLoop(){
 		
 		in = new Input(8);  
 		mg = new SoccerGame(in,this);
+		dim = mg.getDim();
 		mg.initGame();
 		
 		try {
@@ -62,36 +64,39 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			server.start();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		
 	}
+	
+	public Vector2 assertRatio(){
+		Vector2 res = new Vector2();
+		Vector2 windowDim = new Vector2();
+		windowDim.x = this.getWidth();
+		windowDim.y = this.getHeight();
+		return res;
+	}
 	 
 	@Override
 	public void paintComponent(Graphics g) {
+		
 		super.paintComponent(g); 
 		Graphics2D g2 = (Graphics2D)g;
 		ArrayList<GameObject> go = mg.getGame_objects();
-		
-		
-		
+
 		
 		synchronized(go){ 
-			for(GameObject gO: go){  
+			for(GameObject gO: go){ 
+				
 				Obj obj = gO.getObj();
+				
 				Rectangulo dims = obj.getDimensions();
 				Rectangulo subI = obj.getSubImage();
 				 
 				BufferedImage temp = txtMng.getTexture(obj.getPath());
 				
-				/*System.out.println("Coords:" 
-								+dims.getxI() +" , " 
-								+dims.getyI() +" , " 
-								+dims.getxF() +" , " 
-								+dims.getyF()); 
-					/**/ 	
+				
 				RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 				hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);	
 				
@@ -158,8 +163,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void parseCMD(byte[] info, int index) {
 		
-		//System.out.println("Message Received: " + (char)info[0] + " by " + index);
-		 
 		if(info[0] == 'D')   
 			mg.getInput().getPlayerInput(index).setDirection(new Vector2(info[1],info[2]));
 	}
@@ -179,14 +182,11 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 
 							+ " - " + client.getLocalPort());
-		String temp = "DISTO E UMA DICA \nnão é la grande coisa, eu sei...";
-		
-
 		
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			out.write((byte)'D');
-			out.write("ISTO E UMA DICA \nnão é la grande coisa, eu sei...".getBytes("UTF-8"));  //Escrever AQUI A DICA! 
+			out.write(mg.getDica().getBytes("UTF-8")); 
 			server.sendInfo(InformationParser.transformInformation(out.toByteArray()), id); 
 		} catch (UnsupportedEncodingException e) {
 			
