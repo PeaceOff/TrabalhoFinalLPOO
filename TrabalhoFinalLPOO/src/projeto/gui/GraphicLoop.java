@@ -13,9 +13,11 @@ import java.awt.RenderingHints;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
@@ -177,8 +179,32 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void parseCMD(byte[] info, int index) {
 		
-		if(info[0] == 'D')   
-			mg.getInput().getPlayerInput(index).setDirection(new Vector2(info[1],info[2]));
+		switch(info[0]){
+		case 'C':
+			switch(info[1]){
+			case 'J':
+				ByteArrayInputStream inputStream = new ByteArrayInputStream(info,2,info.length); 
+				ObjectInputStream objIn;
+				try {
+					objIn = new ObjectInputStream(inputStream);
+					Vector2 res = (Vector2)objIn.readObject();
+					if(res != null)
+						mg.getInput().getPlayerInput(index).setDirection(res);
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				
+				break;
+			}
+			break;
+		}
 	}
 
 	@Override
@@ -198,10 +224,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 							+ " - " + client.getLocalPort());
 		
 		try {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			out.write((byte)'D');
-			out.write(mg.getDica().getBytes("UTF-8")); 
-			server.sendInfo(InformationParser.transformInformation(out.toByteArray()), id); 
+			server.sendInfo(InformationParser.transformInformation(('D' + mg.getDica()).getBytes("UTF-8")), id); 
 		} catch (UnsupportedEncodingException e) {
 			
 			e.printStackTrace();
