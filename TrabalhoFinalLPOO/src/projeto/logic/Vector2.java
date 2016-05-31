@@ -1,13 +1,16 @@
 package projeto.logic;
 
+import java.io.Serializable;
 
 /**
  * @author David
  * @version 1.0
  * @created 03-mai-2016 15:30:46
  */
-public class Vector2 {
+public class Vector2 implements Serializable {
 
+	static final long serialVersionUID = 41L;
+	
 	public double x;
 	public double y;
 
