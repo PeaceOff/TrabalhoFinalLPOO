@@ -1,6 +1,8 @@
 package projeto.gui;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -75,6 +77,50 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		Vector2 windowDim = new Vector2();
 		windowDim.x = this.getWidth();
 		windowDim.y = this.getHeight();
+		
+		/*public final Dimension getPreferredSize() {
+            Dimension d = super.getPreferredSize();
+            Dimension prefSize = null;
+            Component c = getParent();
+            if (c == null) {
+                prefSize = new Dimension(
+                        (int)d.getWidth(),(int)d.getHeight());
+            } else if (c!=null &&
+                    c.getWidth()>d.getWidth() &&
+                    c.getHeight()>d.getHeight()) {
+                prefSize = c.getSize();
+            } else {
+                prefSize = d;
+            }
+            int w = (int) prefSize.getWidth();
+            int h = (int) prefSize.getHeight();
+            // the smaller of the two sizes
+            int s = (w>h ? h : w);
+            return new Dimension(s,s);
+        }
+        
+        private void adjustSize() {
+		    double width = getSize().width;
+		    double height = getSize().height;
+		    double ratio = 1.33;
+		    double r = width / height;
+		    if (r < ratio) {
+		        width = height * ratio;
+		        setSize((int) width, (int) height);
+		    } else if (r > ratio) {
+		        height = width / ratio;
+		        setSize((int) width, (int) height);
+		    }
+		}
+		
+		ou tornar a janela unresizable frame.setResizable(false);
+		
+		JPanel p = new JPanel(new GridbagLayout());
+		p.add(PCanvas,new GridbagConstraints());
+		frame.add(p,Borderlayout.CENTER);
+		
+		Pesquisar gridbadlayout!
+        */
 		return res;
 	}
 	 
