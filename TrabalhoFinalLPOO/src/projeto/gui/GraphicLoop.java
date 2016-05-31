@@ -120,8 +120,8 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				g2.setRenderingHints(hints);
 			
 				g2.drawImage(temp,
-							(int)((dims.getxI() + offset_x) * x_scale), (int)((dims.getyI() + offset_y) * y_scale),
-							(int)((dims.getxF() + offset_x) * x_scale), (int)((dims.getyF() + offset_y) * y_scale)
+							(int)((dims.getxI()* x_scale) + offset_x), (int)((dims.getyI() * y_scale) + offset_y),
+							(int)((dims.getxF() * x_scale)  + offset_x), (int)((dims.getyF() * y_scale) + offset_y)
 						,(int) (subI.getxI() * temp.getWidth()) 
 						,(int) (subI.getyI() * temp.getHeight())
 						,(int) (subI.getxF() * temp.getWidth())
