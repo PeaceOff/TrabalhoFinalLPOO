@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import projeto.logic.ControllerInformationPacket;
@@ -59,9 +60,12 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private int offset_y;
 	private double x_scale;
 	private double y_scale;
+	private JFrame parent;
 	
-	public GraphicLoop(){
+	public GraphicLoop(JFrame p){
 		
+		
+		parent = p;
 		in = new Input(8);  
 		mg = new SoccerGame(in,this);
 		dim = mg.getDim();
@@ -80,15 +84,13 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	}
 	
 	public void assertDim(){
-
-        JComponent parent = (JComponent) this.getParent();
-        Insets insets = parent.getInsets();
-        int width = parent.getWidth() - insets.left - insets.right;
-        int height = parent.getHeight() - insets.top - insets.bottom;
+        
+        int width = this.getWidth();
+        int height = this.getHeight();
         width = (int) Math.min(width, height / (dim.y/dim.x));
         height = (int) Math.min(width * (dim.y/dim.x), height);
-        offset_x = (parent.getWidth() - width)/ 2;
-        offset_y = (parent.getHeight() - height)/2;
+        offset_x = ((getWidth() - width)/ 2);
+        offset_y = ((getHeight() - height) / 2);
         x_scale = width/dim.x;
         y_scale = height/dim.y;
 	
@@ -141,11 +143,11 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			else
 				sb.append(mg.getScores()[i]);
 		}
-		g2.setFont(new Font("TimesNewRoman", Font.BOLD, 40));
+		g2.setFont(new Font("TimesNewRoman", Font.BOLD, (int)(40 * y_scale)));
 		FontMetrics fm = g2.getFontMetrics();
 		
 		int width = fm.stringWidth(sb.toString());
-		g2.drawString(sb.toString(), getWidth()/2 - width/2 , 40);
+		g2.drawString(sb.toString(),getWidth()/2 - width/2, (int)((39 * y_scale) + offset_y));
 		
 	}
 	

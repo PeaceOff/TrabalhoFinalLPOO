@@ -37,14 +37,16 @@ public class MainWindow extends JFrame {
 		setSize(915, 475);
 		setLocationRelativeTo(null);
 		//setResizable(false);Easy mode
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		//contentPane = new JPanel();
+		//contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		//contentPane.setLayout(new BorderLayout(0, 0));
+		//setContentPane(contentPane);
+		// /\ PERGUNTAR AO JOAO
 		
-		GraphicLoop gameLoop = new GraphicLoop();
+		GraphicLoop gameLoop = new GraphicLoop(this);
 		gameLoop.setVisible(true);
-		getContentPane().add(gameLoop);
+		setContentPane(gameLoop);
+		//getContentPane().add(gameLoop);
 		(new Thread(gameLoop)).start(); 
 		
 		
