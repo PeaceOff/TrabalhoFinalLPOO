@@ -60,12 +60,9 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private int offset_y;
 	private double x_scale;
 	private double y_scale;
-	private JFrame parent;
 	
-	public GraphicLoop(JFrame p){
-		
-		
-		parent = p;
+	public GraphicLoop(){
+
 		in = new Input(8);  
 		mg = new SoccerGame(in,this);
 		dim = mg.getDim();
@@ -89,10 +86,11 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
         int height = this.getHeight();
         width = (int) Math.min(width, height / (dim.y/dim.x));
         height = (int) Math.min(width * (dim.y/dim.x), height);
-        offset_x = ((getWidth() - width)/ 2);
-        offset_y = ((getHeight() - height) / 2);
         x_scale = width/dim.x;
         y_scale = height/dim.y;
+        offset_x = ((getWidth() - width)/ 2);
+        offset_y = (int)((getHeight() - height) / 2);
+
 	
 	}
 	 

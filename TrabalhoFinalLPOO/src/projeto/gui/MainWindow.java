@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import javafx.scene.layout.Border;
+
 public class MainWindow extends JFrame {
 
 	private JPanel contentPane;
@@ -34,19 +36,19 @@ public class MainWindow extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(915, 475);
-		setLocationRelativeTo(null);
-		//setResizable(false);Easy mode
-		//contentPane = new JPanel();
-		//contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		//contentPane.setLayout(new BorderLayout(0, 0));
-		//setContentPane(contentPane);
-		// /\ PERGUNTAR AO JOAO
+	    
+	   // this.setUndecorated(true);
+		setBounds(100,100,915, 475);
+		//setLocationRelativeTo(null);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+
 		
-		GraphicLoop gameLoop = new GraphicLoop(this);
+		GraphicLoop gameLoop = new GraphicLoop();
 		gameLoop.setVisible(true);
-		setContentPane(gameLoop);
-		//getContentPane().add(gameLoop);
+		getContentPane().add(gameLoop);
 		(new Thread(gameLoop)).start(); 
 		
 		
