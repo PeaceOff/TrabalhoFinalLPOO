@@ -20,12 +20,13 @@ public class ControllerInformationPacket implements Serializable {
     private byte pos;
 
 
-    public ControllerInformationPacket(float x, float y, float w, float h, Type tipo){
+    public ControllerInformationPacket(float x, float y, float w, float h, Type tipo, byte pos){
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.tipo = tipo;
+        this.pos = pos;
     }
 
     public ControllerInformationPacket(float x, float y, float w, float h,String botaoNome, byte pos){
