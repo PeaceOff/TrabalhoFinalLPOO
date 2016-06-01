@@ -19,14 +19,14 @@ public class Player extends GameObject {
 
 	private int id;
 	private final static int size = 15;
-	private final static double elast = 0.6;
+	private final static double elast = 0.5;
 	private iMinigameTools myTools;
 	private final Vector2 sDrag = new Vector2(1000,1000);
 	private final Vector2 vCap = new Vector2(300,300);
 	public Mira mira;
 	private double tempo = 0;
 	private Vector2 lastDir = new Vector2();
-	private int vida = 20;
+	private int vida = 5;
 	
 	public Player(Input i, int _id , Vector2 pos,iMinigameTools t,Mira m){
 		super(new CircleCollider(size,elast, pos, "Player" + _id, true, 70),i,new Obj(new Rectangulo(), "players.png", new Rectangulo(_id*1/8f, 0, 1/8f ,1))); 
@@ -41,8 +41,9 @@ public class Player extends GameObject {
 	public void update(float timeLapsed){
 		
 		if(vida <= 0){
-			vida = 20;
+			vida = 5;
 			myTools.resetGameObject(this);
+			myTools.scoreReceived(1, (id%2 == 0)? 1:0);
 			tempo = 0;
 			return;
 		}

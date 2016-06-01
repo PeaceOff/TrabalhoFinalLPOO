@@ -35,7 +35,6 @@ public class ControllerInformationPacket implements Serializable {
         this.y = y;
         this.w = w;
         this.h = h;
-        this.tipo = tipo;
         this.botaoNome = botaoNome;
         this.pos = pos;
     }

@@ -1,21 +1,13 @@
 package projeto.gui;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Paint;
 import java.awt.RenderingHints;
-import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -24,9 +16,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.imageio.ImageIO;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import projeto.logic.ControllerInformationPacket;
@@ -42,13 +31,16 @@ import projeto.minigames.shooter.ShooterGame;
 import projeto.minigames.soccer.SoccerGame;
 import projeto.network.CommandParser;
 import projeto.network.Host;
-import projeto.network.ICommandReceived;
 import projeto.network.IServerConnection;
 import projeto.network.InformationParser;
 import projeto.network.ServerInformationParser;
  
 public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection, iEstatisticaAlert {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Minigame mg;
 	private Input in;
 	private AtomicBoolean running = new AtomicBoolean(true);

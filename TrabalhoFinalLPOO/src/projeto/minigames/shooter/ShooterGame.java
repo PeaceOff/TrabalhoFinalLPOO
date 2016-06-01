@@ -46,11 +46,22 @@ public class ShooterGame extends Minigame {
 		GameObject d13 = new Parede(m_Input, new Vector2(c-p,0), new Vector2(p,l));
 		GameObject d14 = new Parede(m_Input, new Vector2(0,l-p), new Vector2(c,p));
 		
+		GameObject p1 = new Parede(m_Input,new Vector2( p + (2.5 * 15), p + (2.5 * 15)),new Vector2(p/4,0.75 * l));
+		GameObject p2 = new Parede(m_Input,new Vector2( c - p - (2.5 * 15) - p/4,p + (2.5 * 15)),new Vector2(p/4,0.75 * l));
+		GameObject b1 = new Parede(m_Input,new Vector2((c/2) - (p/2),l * 0.2),new Vector2(p*2,p*2));
+		GameObject b2 = new Parede(m_Input,new Vector2((c/2) - (p * 2),l * 0.45),new Vector2(p*2,p*2));
+		GameObject b3 = new Parede(m_Input,new Vector2((c/2) - p,l * 0.7),new Vector2(p*2,p*2));
+		
 		addGameObject(d11);
 		addGameObject(d12);
 		addGameObject(d13);
 		addGameObject(d14);
-			
+		
+		addGameObject(p1);
+		addGameObject(p2);
+		addGameObject(b1);
+		addGameObject(b2);
+		addGameObject(b3);
 	}
 
 	public void update(float timeLapsed){
@@ -72,13 +83,17 @@ public class ShooterGame extends Minigame {
 		if(p == null)
 			return;
 		
-		p.getCollider().setPosition(randomPos());
+		p.getCollider().setPosition(randomPos(p.getId()));
 		p.getCollider().setVelocity(new Vector2());
 	}
 
-	private Vector2 randomPos(){
+	private Vector2 randomPos(int id){
 		Vector2 res = new Vector2();
-		res.x = (Math.random() * (c * 0.8)) + (1.1 * p);
+		if(id % 2 == 0){
+			res.x = p + 10;
+		} else {
+			res.x = c - p - 20;
+		}
 		res.y = (Math.random() * (l * 0.8)) + (1.1 * p);
 		return res;
 	}

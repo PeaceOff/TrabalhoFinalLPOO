@@ -65,7 +65,11 @@ public class Bala extends GameObject {
 			}
 			setHit_ID(Character.getNumericValue(c.getTag().charAt(6)));
 			myTools.sendEst(hit_ID, new Estatistica("Atingido", 1));
-			myTools.sendEst(player_ID, new Estatistica("Tiros Acertados", 1));
+			if(((hit_ID + player_ID) % 2 == 0)){//Mesma equipa
+				myTools.sendEst(player_ID, new Estatistica("Friendly Fire", 1));
+			} else {
+				myTools.sendEst(player_ID, new Estatistica("Tiros Acertados", 1));
+			}
 		}
 		this.destroy();
 		super.onTriggerEnter(c);

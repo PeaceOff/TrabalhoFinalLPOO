@@ -2,13 +2,6 @@ package projeto.logic;
 
 public class PowerUp extends GameObject {
 	
-	private enum PowerType {
-		Faster,
-		Slower,
-		Bigger,
-		Smaller
-	}
-	
 	private State escolhido;
 
 	public PowerUp(int comprimento, int largura) {
