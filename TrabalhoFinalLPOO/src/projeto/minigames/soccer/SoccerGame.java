@@ -9,7 +9,6 @@ import projeto.logic.GameObjectState;
 import projeto.logic.Input;
 import projeto.logic.Minigame;
 import projeto.logic.Parede;
-import projeto.logic.Player;
 import projeto.logic.PowerUp;
 import projeto.logic.Vector2;
 import projeto.logic.iEstatisticaAlert;
@@ -46,23 +45,22 @@ public class SoccerGame extends Minigame {
 
 	public void initGame(){  
 
-		controllerPackets.add(new ControllerInformationPacket(0f, 0.5f, 0.5f, 0.5f, Type.JOYSTICK));
+		controllerPackets.add(new ControllerInformationPacket(0f, 0.5f, 0.5f, 0.5f, Type.JOYSTICK,(byte)0));
 		
 		GameObject w1 = new Parede(m_Input, new Vector2(0,0), new Vector2(c, e));
 		GameObject w2 = new Parede(m_Input, new Vector2(0,l), new Vector2(c,e));
 		
 		GameObject d11 = new Parede(m_Input, new Vector2(0,0), new Vector2(e,(l+e)/2 - b/2));
 		GameObject d12 = new Parede(m_Input, new Vector2(0, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
-		GameObject d13 = new Parede(m_Input, new Vector2(0, (l+e)/2 - b/2), new Vector2(e/4,b)); 
+		GameObject d13 = new Parede(m_Input, new Vector2(0, (l+e)/2 - b/2), new Vector2(e/4,b));
+		GameObject d21 = new Parede(m_Input, new Vector2(c-e,0), new Vector2(e,(l+e)/2 - b/2));
+		GameObject d22 = new Parede(m_Input, new Vector2(c-e, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
+		GameObject d23 = new Parede(m_Input, new Vector2(c-e/4, (l+e)/2 - b/2), new Vector2(e/4,b));
 		
 		GameObject p1 = new Poste(m_Input, new Vector2(e , (l+e)/2 - b/2 ), ps, 200000);
 		GameObject p2 = new Poste(m_Input, new Vector2(e , (l+e)/2 + b/2), ps, 200000);
 		GameObject p3 = new Poste(m_Input, new Vector2(c-e , (l+e)/2 - b/2), ps, 200000);
 		GameObject p4 = new Poste(m_Input, new Vector2(c-e , (l+e)/2 + b/2), ps, 200000);
-		
-		GameObject d21 = new Parede(m_Input, new Vector2(c-e,0), new Vector2(e,(l+e)/2 - b/2));
-		GameObject d22 = new Parede(m_Input, new Vector2(c-e, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
-		GameObject d23 = new Parede(m_Input, new Vector2(c-e/4, (l+e)/2 - b/2), new Vector2(e/4,b));
 
 		GameObject b1 = new Baliza(m_Input, new Vector2(0,(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b),1,this);
 		GameObject b2 = new Baliza(m_Input, new Vector2(c - (e * 0.8),(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b),0,this);
@@ -77,13 +75,13 @@ public class SoccerGame extends Minigame {
 		addGameObject(d22);  
 		addGameObject(d23);
 		
+		addGameObject(b1);
+		addGameObject(b2);
+		
 		addGameObject(p1);
 		addGameObject(p2);
 		addGameObject(p3);
 		addGameObject(p4);
-		
-		addGameObject(b1);
-		addGameObject(b2);
 		
 		GameObject bola = new Bola(m_Input, new Vector2((c+e)/2,(l+e)/2),this);
 		addGameObject(bola); 
@@ -93,10 +91,10 @@ public class SoccerGame extends Minigame {
 	public void update(float timeLapsed){
 	
 		tempo += timeLapsed;
-		if(((int)(tempo / 5)) > gerar){
+		if(((int)(tempo / 10)) > gerar){
 			GameObject tmp = new PowerUp(c,l);
 			addGameObject(tmp);
-			gerar = (int)(tempo / 5);
+			gerar = (int)(tempo / 10);
 		}
 		super.update(timeLapsed);
 	}
@@ -116,7 +114,6 @@ public class SoccerGame extends Minigame {
 		
 		p.getCollider().setPosition(new Vector2( ((c)/2) + (((p.getId() % 2 == 0)? -1:1) * (c)/2 * 0.8)
 											,(l/2) + p.getId()));
-		//System.out.println("Pos:" + (((c+e)/2) + (((p.getId() % 2 == 0)? -1:1) * (c - e)/2 * 0.8)));
 		p.getCollider().setVelocity(new Vector2()); 
 		p.resetState();
 	}

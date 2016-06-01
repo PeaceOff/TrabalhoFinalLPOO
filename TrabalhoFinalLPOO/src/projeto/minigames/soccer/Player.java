@@ -1,4 +1,13 @@
-package projeto.logic;
+package projeto.minigames.soccer;
+
+import projeto.logic.CircleCollider;
+import projeto.logic.Collider;
+import projeto.logic.GameObjectState;
+import projeto.logic.Input;
+import projeto.logic.Obj;
+import projeto.logic.PlayerInput;
+import projeto.logic.Rectangulo;
+import projeto.logic.Vector2;
 
 /**
  * @author PeaceOff
@@ -27,11 +36,11 @@ public class Player extends GameObjectState {
 		
 		PlayerInput pIn = this.m_Input.getPlayerInput(id);
 		
-		if(pIn.getDirection().getNorm() > 0){
+		if(pIn.getDirection(0).getNorm() > 0){
 			synchronized(m_Collider){ 
-				this.m_Collider.velocity = ((Vector2.multiply(pIn.getDirection(),m_Collider.getVelCap().x))); 
+				this.getCollider().setVelocity(((Vector2.multiply(pIn.getDirection(0),m_Collider.getVelCap().x)))); 
 			}
-			pIn.setDirection(new Vector2());  
+			pIn.setDirection(0,new Vector2());  
 		}		
 	}
 

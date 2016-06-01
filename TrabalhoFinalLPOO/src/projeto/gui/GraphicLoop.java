@@ -38,6 +38,7 @@ import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
 import projeto.logic.iEstatisticaAlert;
+import projeto.minigames.shooter.ShooterGame;
 import projeto.minigames.soccer.SoccerGame;
 import projeto.network.CommandParser;
 import projeto.network.Host;
@@ -56,16 +57,17 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private Host server;
 	private ServerInformationParser parser = new ServerInformationParser(8, true, this);
 	private Vector2 dim;
-	private int offset_x;
-	private int offset_y;
-	private double x_scale;
-	private double y_scale;
+	private int offset_x = 0;
+	private int offset_y = 0;
+	private double x_scale = 1;
+	private double y_scale = 1;
 	
 	public GraphicLoop(){
 
 		in = new Input(8);  
-		mg = new SoccerGame(in,this);
+		mg = new ShooterGame(in,this);
 		dim = mg.getDim();
+		
 		mg.initGame();
 		
 		try {
@@ -80,17 +82,16 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		}
 	}
 	
-	public void assertDim(){
+	public void assertDim(double w, double h){
         
-        int width = this.getWidth();
-        int height = this.getHeight();
+        int width = (int)w;
+        int height = (int)h;
         width = (int) Math.min(width, height / (dim.y/dim.x));
         height = (int) Math.min(width * (dim.y/dim.x), height);
         x_scale = width/dim.x;
         y_scale = height/dim.y;
-        offset_x = ((getWidth() - width)/ 2);
-        offset_y = (int)((getHeight() - height) / 2);
-
+        offset_x = (int)((w - width)/ 2);
+        offset_y = (int)((h - height) / 2);
 	
 	}
 	 
@@ -100,7 +101,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		super.paintComponent(g); 
 		Graphics2D g2 = (Graphics2D)g;
 		ArrayList<GameObject> go = mg.getGame_objects();
-		assertDim();
+		assertDim(g2.getDeviceConfiguration().getBounds().getWidth(),g2.getDeviceConfiguration().getBounds().getHeight());
 		
 		synchronized(go){ 
 			for(GameObject gO: go){ 
@@ -145,7 +146,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		FontMetrics fm = g2.getFontMetrics();
 		
 		int width = fm.stringWidth(sb.toString());
-		g2.drawString(sb.toString(),getWidth()/2 - width/2, (int)((39 * y_scale) + offset_y));
+		g2.drawString(sb.toString(),getWidth()/2 - width/2, (int)((35 * y_scale) + offset_y));
 		
 	}
 	
@@ -191,7 +192,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 					objIn = new ObjectInputStream(inputStream);
 					Vector2 res = (Vector2)objIn.readObject();
 					if(res != null)
-						mg.getInput().getPlayerInput(index).setDirection(res);
+						mg.getInput().getPlayerInput(index).setDirection(0,res);
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

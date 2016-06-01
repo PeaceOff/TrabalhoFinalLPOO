@@ -37,20 +37,20 @@ public class MainWindow extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	   // this.setUndecorated(true);
-		setBounds(100,100,915, 475);
+		setUndecorated(true);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		//setLocationRelativeTo(null);
+		/*
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-
+	*/
 		
 		GraphicLoop gameLoop = new GraphicLoop();
 		gameLoop.setVisible(true);
-		getContentPane().add(gameLoop);
-		(new Thread(gameLoop)).start(); 
-		
+		setContentPane(gameLoop);
+		(new Thread(gameLoop)).start();
 		
 	}
 

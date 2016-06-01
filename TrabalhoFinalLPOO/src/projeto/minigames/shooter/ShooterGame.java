@@ -8,11 +8,12 @@ import projeto.logic.GameObject;
 import projeto.logic.GameObjectState;
 import projeto.logic.Input;
 import projeto.logic.Minigame;
-import projeto.logic.Player;
+import projeto.logic.Parede;
 import projeto.logic.PowerUp;
 import projeto.logic.Vector2;
 import projeto.logic.iEstatisticaAlert;
 import projeto.logic.ControllerInformationPacket.Type;
+import projeto.minigames.soccer.Player;
 
 /**
  * @author PeaceOff
@@ -23,10 +24,14 @@ public class ShooterGame extends Minigame {
 	
 	Player[] players;
 	ArrayList<ControllerInformationPacket> controllerPackets = new ArrayList<ControllerInformationPacket>();
-	private int scores[] = new int[2];
+	private int scores[] = new int[4];
+	private final int c = 1000;
+	private final int l = 700;
+	private final int p = 40;
 	
 	public ShooterGame(Input i, iEstatisticaAlert estA) {
 		super(i, estA);
+		players = new Player[8];
 	}
 	
 	public void finalize() throws Throwable {
@@ -35,8 +40,19 @@ public class ShooterGame extends Minigame {
 
 	public void initGame(){  
 
-		controllerPackets.add(new ControllerInformationPacket(0f, 0.5f, 0.5f, 0.5f, Type.JOYSTICK));
-		//TODO 
+		controllerPackets.add(new ControllerInformationPacket(0f, 0.5f, 0.5f, 0.5f, Type.JOYSTICK,(byte)0));
+		controllerPackets.add(new ControllerInformationPacket(0.5f, 0.5f, 0.5f, 0.5f, Type.JOYSTICK,(byte)1));
+		
+		GameObject d11 = new Parede(m_Input, new Vector2(0,0), new Vector2(c,p));
+		GameObject d12 = new Parede(m_Input, new Vector2(0,0), new Vector2(p,l)); 
+		GameObject d13 = new Parede(m_Input, new Vector2(c-p,0), new Vector2(p,l));
+		GameObject d14 = new Parede(m_Input, new Vector2(0,l-p), new Vector2(c,p));
+		
+		addGameObject(d11);
+		addGameObject(d12);
+		addGameObject(d13);
+		addGameObject(d14);
+		
 		
 	}
 
@@ -48,7 +64,7 @@ public class ShooterGame extends Minigame {
 	@Override
 	public void addPlayer(int id) {
 		
-		Player player = new Player(m_Input, id , new Vector2());
+		Player player = new Player(m_Input, id , new Vector2(100,100));
 		addGameObject(player);
 		resetPlayer(player);
 		players[id] = player; 
@@ -101,7 +117,7 @@ public class ShooterGame extends Minigame {
 
 	@Override
 	public Vector2 getDim() {
-		return new Vector2();
+		return new Vector2(c,l);
 	}
 	
 	@Override
