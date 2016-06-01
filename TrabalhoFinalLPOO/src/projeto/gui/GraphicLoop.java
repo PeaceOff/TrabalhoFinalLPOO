@@ -178,21 +178,41 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			
 		}
 	}
-
+	
+	
 	@Override
 	public void parseCMD(byte[] info, int index) {
-		
+		ByteArrayInputStream inputStream = null;
+		ObjectInputStream objIn;
 		switch(info[0]){
 		case 'C':
 			switch(info[1]){
 			case 'J':
-				ByteArrayInputStream inputStream = new ByteArrayInputStream(info,2,info.length); 
-				ObjectInputStream objIn;
+				inputStream = new ByteArrayInputStream(info,2,info.length); 
 				try {
 					objIn = new ObjectInputStream(inputStream);
 					Vector2 res = (Vector2)objIn.readObject();
+					byte pos = (byte)objIn.readObject();
+					
 					if(res != null)
-						mg.getInput().getPlayerInput(index).setDirection(0,res);
+						mg.getInput().getPlayerInput(index).setDirection(pos,res);
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case 'B':
+				inputStream = new ByteArrayInputStream(info,2,info.length); 
+				try {
+					objIn = new ObjectInputStream(inputStream);
+					byte value = (byte)objIn.readObject();
+					byte pos = (byte)objIn.readObject();
+
+					mg.getInput().getPlayerInput(index).setKey(pos, value); 
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -202,9 +222,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 					e.printStackTrace();
 				}
 				
-				
-				
-				break;
 			}
 			break;
 		}
