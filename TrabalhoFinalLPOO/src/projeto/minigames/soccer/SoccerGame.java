@@ -8,6 +8,7 @@ import projeto.logic.GameObject;
 import projeto.logic.GameObjectState;
 import projeto.logic.Input;
 import projeto.logic.Minigame;
+import projeto.logic.Parede;
 import projeto.logic.Player;
 import projeto.logic.PowerUp;
 import projeto.logic.Vector2;
