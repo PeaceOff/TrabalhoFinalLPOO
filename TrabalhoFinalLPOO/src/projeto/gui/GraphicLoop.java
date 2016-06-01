@@ -168,6 +168,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			repaint();
 			
 			lastTime = System.currentTimeMillis();
+			
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
