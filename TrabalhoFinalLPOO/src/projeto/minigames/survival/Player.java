@@ -42,8 +42,6 @@ public class Player extends GameObject {
 		if(left){	
 			m_Input.getPlayerInput(id).setKey(0,(byte)0);
 			m_Collider.addVelocity(new Vector2(-30, 0));
-			
-	
 		} 
 		if(right){
 			m_Input.getPlayerInput(id).setKey(1,(byte)0);
