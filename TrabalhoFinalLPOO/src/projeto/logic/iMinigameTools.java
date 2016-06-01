@@ -11,4 +11,7 @@ public interface iMinigameTools {
 	void sendEst(int id, Estatistica e);
 	
 	void newGameObject(GameObject gO);
+	
+	void resetGameObject(GameObject gO);
+	
 }

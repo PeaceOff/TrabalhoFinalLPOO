@@ -4,7 +4,6 @@ import projeto.logic.CircleCollider;
 import projeto.logic.Collider;
 import projeto.logic.Estatistica;
 import projeto.logic.GameObject;
-import projeto.logic.Input;
 import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
@@ -15,13 +14,13 @@ public class Bala extends GameObject {
 	private int player_ID = -1;
 	private int hit_ID = -1;
 	private iMinigameTools myTools;
-	private final static int size = 3;
+	private final static int size = 2;
 	private final static double elast = 0.9;
 	private final Vector2 sDrag = new Vector2();
 	private final Vector2 vCap = new Vector2(7000,7000);
 	
 	public Bala(Vector2 pos,iMinigameTools t, int id){
-		super(new CircleCollider(size,elast,pos,"bullet", true, 30),null,new Obj(new Rectangulo(pos.x,pos.y, size,size), "bola.png", new Rectangulo(0,0,1,1)));   
+		super(new CircleCollider(size,elast,pos,"bullet", true, 30),null,new Obj(new Rectangulo(pos.x,pos.y, size,size), "poste.png", new Rectangulo(0,0,1,1)));   
 		m_Collider.setDrag(sDrag);
 		m_Collider.setVelCap(vCap);
 		m_Collider.setTrigger(true);
@@ -41,6 +40,10 @@ public class Bala extends GameObject {
 
 	public void setPlayer_ID(int id) {
 		this.player_ID = id;
+	}
+	
+	public int getPlayer_ID(){
+		return player_ID;
 	}
 	
 	public int getHit_ID() {
@@ -63,8 +66,6 @@ public class Bala extends GameObject {
 			setHit_ID(Character.getNumericValue(c.getTag().charAt(6)));
 			myTools.sendEst(hit_ID, new Estatistica("Atingido", 1));
 			myTools.sendEst(player_ID, new Estatistica("Tiros Acertados", 1));
-		} else {
-			//myTools.sendEst(player_ID, new Estatistica("Tiros Falhados", 1));
 		}
 		this.destroy();
 		super.onTriggerEnter(c);

@@ -6,7 +6,6 @@ import projeto.logic.GameObject;
 import projeto.logic.Input;
 import projeto.logic.Obj;
 import projeto.logic.PlayerInput;
-import projeto.logic.PowerUp;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
 import projeto.logic.iMinigameTools;
@@ -19,15 +18,15 @@ import projeto.logic.iMinigameTools;
 public class Player extends GameObject {
 
 	private int id;
-	private final static int size = 20;
+	private final static int size = 15;
 	private final static double elast = 0.6;
-	private int score = 0;
 	private iMinigameTools myTools;
 	private final Vector2 sDrag = new Vector2(1000,1000);
 	private final Vector2 vCap = new Vector2(300,300);
-	private Mira mira;
+	public Mira mira;
 	private double tempo = 0;
 	private Vector2 lastDir = new Vector2();
+	private int vida = 20;
 	
 	public Player(Input i, int _id , Vector2 pos,iMinigameTools t,Mira m){
 		super(new CircleCollider(size,elast, pos, "Player" + _id, true, 70),i,new Obj(new Rectangulo(), "players.png", new Rectangulo(_id*1/8f, 0, 1/8f ,1))); 
@@ -40,6 +39,13 @@ public class Player extends GameObject {
 	}
 
 	public void update(float timeLapsed){
+		
+		if(vida <= 0){
+			vida = 20;
+			myTools.resetGameObject(this);
+			tempo = 0;
+			return;
+		}
 		
 		PlayerInput pIn = this.m_Input.getPlayerInput(id);
 		
@@ -57,10 +63,8 @@ public class Player extends GameObject {
 				tempo = 0;
 				shoot(lastDir.clone());
 			}
-			lastDir.multiply(this.size/2);
+			lastDir.multiply(Player.size/2);
 			pIn.setDirection(1,new Vector2());  
-		} else {
-			//lastDir = new Vector2();
 		}
 		this.mira.setPosition(Vector2.add(lastDir, m_Collider.getPosition()));
 
@@ -68,9 +72,8 @@ public class Player extends GameObject {
 	}
 
 	public void shoot(Vector2 dir){
-		 
-		GameObject gO = new Bala(m_Collider.getPosition().clone(),myTools,id);
-		dir.multiply(500);
+		GameObject gO = new Bala(m_Collider.getPosition(),myTools,id);
+		dir.multiply(300);
 		gO.getCollider().setVelocity(dir);
 		myTools.newGameObject(gO);
 	}
@@ -82,6 +85,11 @@ public class Player extends GameObject {
 
 	@Override
 	public void onTriggerEnter(Collider c) {
+		if(c.getTag() == "bullet"){
+			if( ((Bala)(c.getGameObj())).getPlayer_ID() != id){
+				vida--;
+			}
+		}
 		super.onTriggerEnter(c);
 	}
 
@@ -91,14 +99,6 @@ public class Player extends GameObject {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void score() {
-		this.score ++;
 	}
 
 }

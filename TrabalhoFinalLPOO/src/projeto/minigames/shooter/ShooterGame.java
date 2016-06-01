@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import projeto.logic.ControllerInformationPacket;
 import projeto.logic.Estatistica;
 import projeto.logic.GameObject;
-import projeto.logic.GameObjectState;
 import projeto.logic.Input;
 import projeto.logic.Minigame;
 import projeto.logic.Parede;
-import projeto.logic.PowerUp;
 import projeto.logic.Vector2;
 import projeto.logic.iEstatisticaAlert;
 import projeto.logic.ControllerInformationPacket.Type;
@@ -24,7 +22,7 @@ public class ShooterGame extends Minigame {
 	
 	Player[] players;
 	ArrayList<ControllerInformationPacket> controllerPackets = new ArrayList<ControllerInformationPacket>();
-	private int scores[] = new int[4];
+	private int scores[] = new int[2];
 	private final int c = 1000;
 	private final int l = 700;
 	private final int p = 40;
@@ -74,14 +72,25 @@ public class ShooterGame extends Minigame {
 		if(p == null)
 			return;
 		
-		p.getCollider().setPosition(new Vector2( ((c)/2) + (((p.getId() % 2 == 0)? -1:1) * (c)/2 * 0.8)
-				,(l/2) + p.getId()));
-		p.getCollider().setVelocity(new Vector2()); 
+		p.getCollider().setPosition(randomPos());
+		p.getCollider().setVelocity(new Vector2());
 	}
 
+	private Vector2 randomPos(){
+		Vector2 res = new Vector2();
+		res.x = (Math.random() * (c * 0.8)) + (1.1 * p);
+		res.y = (Math.random() * (l * 0.8)) + (1.1 * p);
+		return res;
+	}
+	
+	@Override
+	public void resetGameObject(GameObject gO){
+		resetPlayer((Player)gO);
+	}
+	
 	@Override
 	public void removePlayer(int id) {
-		
+		removeGameObject(players[id].mira);
 		removeGameObject(players[id]);
 		players[id] = null;
 		
@@ -89,11 +98,6 @@ public class ShooterGame extends Minigame {
 
 	@Override
 	public void resetRound() {
-		//Reset Players
-		for(Player p : players)
-			resetPlayer(p);
-		
-		
 	}
 
 	@Override

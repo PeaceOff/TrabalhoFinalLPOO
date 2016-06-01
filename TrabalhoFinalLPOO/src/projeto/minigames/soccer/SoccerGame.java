@@ -91,10 +91,10 @@ public class SoccerGame extends Minigame {
 	public void update(float timeLapsed){
 	
 		tempo += timeLapsed;
-		if(((int)(tempo / 10)) > gerar){
+		if(((int)(tempo / 5)) > gerar){
 			GameObject tmp = new PowerUp(c,l);
 			addGameObject(tmp);
-			gerar = (int)(tempo / 10);
+			gerar = (int)(tempo / 5);
 		}
 		super.update(timeLapsed);
 	}
@@ -186,6 +186,12 @@ public class SoccerGame extends Minigame {
 	public ArrayList<ControllerInformationPacket> getControllPacket() {
 		
 		return controllerPackets;
+	}
+
+	@Override
+	public void resetGameObject(GameObject gO) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

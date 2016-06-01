@@ -29,8 +29,6 @@ public abstract class Minigame implements iMinigameTools {
 	
 	public void addGameObject(GameObject g){
 		synchronized (game_objects) {
-			if(g.getCollider()!=null)
-				System.out.println("Novo Objeto Adicionado" + g.getCollider().isTrigger());
 			game_objects.add(g);
 			m_Fisica.addObject(g.m_Collider);
 		}

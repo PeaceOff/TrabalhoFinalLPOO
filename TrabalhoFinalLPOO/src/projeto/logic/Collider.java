@@ -111,7 +111,7 @@ public abstract class Collider {
 	}
 
 	public Vector2 getPosition() {
-		return position;
+		return position.clone();
 	}
 
 	public void setPosition(Vector2 position) {

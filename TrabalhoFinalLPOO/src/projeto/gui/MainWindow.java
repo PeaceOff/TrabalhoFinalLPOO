@@ -11,8 +11,6 @@ import javafx.scene.layout.Border;
 
 public class MainWindow extends JFrame {
 
-	private JPanel contentPane;
-
 	/**
 	 * Launch the application.
 	 */
@@ -39,13 +37,7 @@ public class MainWindow extends JFrame {
 	    
 		setUndecorated(true);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		//setLocationRelativeTo(null);
-		/*
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
-	*/
+
 		
 		GraphicLoop gameLoop = new GraphicLoop();
 		gameLoop.setVisible(true);
