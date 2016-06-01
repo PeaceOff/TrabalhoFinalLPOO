@@ -269,11 +269,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		
-		
-		
-		
-		server.sendInfo(InformationParser.transformInformation("MBem-Vindo!".getBytes()), id); 
 		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
 		sendControlLayout(id);
 		
