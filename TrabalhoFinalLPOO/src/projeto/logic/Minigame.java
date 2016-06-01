@@ -64,17 +64,21 @@ public abstract class Minigame implements iMinigameTools {
 
 	public void update(float timeLapsed){ 
 		synchronized(game_objects){
-			for(GameObject g : game_objects){
-				if(g.m_Collider.destroy == 1){
-					System.out.println("Encontrei um objecto nulo");
-					removeGameObject(g);
-					break;
+			for(int i = 0; i < game_objects.size(); i++){
+				if(game_objects.get(i).isDestroyed()){
+					removeGameObject(game_objects.get(i));
+					i--;
+					continue;
 				}
-				g.update(timeLapsed);
+				game_objects.get(i).update(timeLapsed);
 			}
-			m_Fisica.update(timeLapsed);
 		}
+		m_Fisica.update(timeLapsed);
 		
+	}
+	
+	public void newGameObject(GameObject gO){
+		addGameObject(gO);
 	}
 
 }

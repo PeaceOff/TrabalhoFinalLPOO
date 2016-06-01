@@ -13,7 +13,7 @@ import projeto.logic.PowerUp;
 import projeto.logic.Vector2;
 import projeto.logic.iEstatisticaAlert;
 import projeto.logic.ControllerInformationPacket.Type;
-import projeto.minigames.soccer.Player;
+import projeto.minigames.shooter.Player;
 
 /**
  * @author PeaceOff
@@ -48,16 +48,11 @@ public class ShooterGame extends Minigame {
 		GameObject d13 = new Parede(m_Input, new Vector2(c-p,0), new Vector2(p,l));
 		GameObject d14 = new Parede(m_Input, new Vector2(0,l-p), new Vector2(c,p));
 		
-		GameObject b1 = new Bala(m_Input,new Vector2(p+10,p+10),this);
-		
 		addGameObject(d11);
 		addGameObject(d12);
 		addGameObject(d13);
 		addGameObject(d14);
-		
-		addGameObject(b1);
-		
-		
+			
 	}
 
 	public void update(float timeLapsed){
@@ -67,8 +62,10 @@ public class ShooterGame extends Minigame {
 	@Override
 	public void addPlayer(int id) {
 		
-		Player player = new Player(m_Input, id , new Vector2(100,100));
+		Mira m = new Mira(m_Input);
+		Player player = new Player(m_Input, id , new Vector2(100,100),this,m);
 		addGameObject(player);
+		addGameObject(m);
 		resetPlayer(player);
 		players[id] = player; 
 	}
@@ -76,6 +73,10 @@ public class ShooterGame extends Minigame {
 	public void resetPlayer(Player p){
 		if(p == null)
 			return;
+		
+		p.getCollider().setPosition(new Vector2( ((c)/2) + (((p.getId() % 2 == 0)? -1:1) * (c)/2 * 0.8)
+				,(l/2) + p.getId()));
+		p.getCollider().setVelocity(new Vector2()); 
 	}
 
 	@Override

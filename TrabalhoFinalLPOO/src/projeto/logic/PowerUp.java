@@ -65,7 +65,7 @@ public class PowerUp extends GameObject {
 
 	@Override
 	public void onTriggerEnter(Collider c) {
-		this.m_Collider.destroy = 1;
+		this.destroy();
 		super.onTriggerEnter(c);
 	}
 

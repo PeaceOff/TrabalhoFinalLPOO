@@ -20,13 +20,14 @@ public class Bala extends GameObject {
 	private final Vector2 sDrag = new Vector2();
 	private final Vector2 vCap = new Vector2(7000,7000);
 	
-	public Bala(Input i, Vector2 pos,iMinigameTools t){
-		super(new CircleCollider(size,elast,pos,"bullet", true, 30),i,new Obj(new Rectangulo(pos.x,pos.y, size,size), "bola.png", new Rectangulo(0,0,1,1)));   
+	public Bala(Vector2 pos,iMinigameTools t, int id){
+		super(new CircleCollider(size,elast,pos,"bullet", true, 30),null,new Obj(new Rectangulo(pos.x,pos.y, size,size), "bola.png", new Rectangulo(0,0,1,1)));   
 		m_Collider.setDrag(sDrag);
 		m_Collider.setVelCap(vCap);
 		m_Collider.setTrigger(true);
 		m_Collider.addListener(this);
 		myTools = t;
+		player_ID = id;
 	}
 	  
 	@Override
@@ -35,8 +36,6 @@ public class Bala extends GameObject {
 	
 	@Override
 	public void onCollisionEnter(Collider c) {
-		
-		this.m_Collider.destroy = 1;
 		super.onCollisionEnter(c);
 	}
 
@@ -57,13 +56,17 @@ public class Bala extends GameObject {
 	@Override
 	public void onTriggerEnter(Collider c) {
 		if(c.getTag().contains("Player")){
+			if(Character.getNumericValue(c.getTag().charAt(6)) == player_ID){
+				super.onTriggerEnter(c);
+				return;
+			}
 			setHit_ID(Character.getNumericValue(c.getTag().charAt(6)));
-			//myTools.sendEst(hit_ID, new Estatistica("Atigido", 1));
-			//myTools.sendEst(player_ID, new Estatistica("Tiros Acertados", 1));
+			myTools.sendEst(hit_ID, new Estatistica("Atingido", 1));
+			myTools.sendEst(player_ID, new Estatistica("Tiros Acertados", 1));
 		} else {
 			//myTools.sendEst(player_ID, new Estatistica("Tiros Falhados", 1));
 		}
-		this.m_Collider.destroy = 1;
+		this.destroy();
 		super.onTriggerEnter(c);
 	}
 }

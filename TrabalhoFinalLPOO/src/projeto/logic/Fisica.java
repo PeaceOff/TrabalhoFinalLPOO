@@ -17,12 +17,16 @@ public class Fisica {
 	}
 	
 	public void addObject(Collider c){
+		if(c == null)
+			return;
 		synchronized(objects){
 			objects.add(c);
 		}
 	}
 	 
 	public void removeObject(Collider c){
+		if(c == null)
+			return;
 		synchronized(objects){
 			objects.remove(c);
 		}

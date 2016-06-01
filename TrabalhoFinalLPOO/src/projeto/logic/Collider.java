@@ -19,7 +19,7 @@ public abstract class Collider {
 	
 
 	protected GameObject _GameObject = null;
-	public byte destroy = 0;
+
 
 	public Collider(){
 		drag = new Vector2();
@@ -66,10 +66,6 @@ public abstract class Collider {
 		
 		if(!movable)
 			return;
-		
-		if(tag == "bullet"){
-			System.out.println("vx : " + getVelocity().x + " , vy : " + getVelocity().y );
-		}
 			
 		Vector2 newVelocity = new Vector2();
 		if(this.velocity.x != 0 || this.velocity.y != 0){

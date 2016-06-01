@@ -140,7 +140,7 @@ public class SoccerGame extends Minigame {
 				((GameObjectState)g).resetState();
 
 			} else if (g.getCollider().getTag().contains("PowerUp")){
-				g.getCollider().destroy = 1;
+				g.destroy();
 			}
 		}
 		
