@@ -117,9 +117,11 @@ public class Fisica {
 							c.onTriggerEnter(objects.get(k));
 							continue;
 						}
+							
 						c.onCollisionEnter(objects.get(k));
 						objects.get(k).onCollisionEnter(c);
 						dealWithCollision(c,objects.get(k));
+						
 					}
 				}
 			}

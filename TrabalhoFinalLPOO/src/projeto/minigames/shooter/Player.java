@@ -57,10 +57,10 @@ public class Player extends GameObject {
 				tempo = 0;
 				shoot(lastDir.clone());
 			}
-			lastDir.multiply(this.size);
+			lastDir.multiply(this.size/2);
 			pIn.setDirection(1,new Vector2());  
 		} else {
-			lastDir = new Vector2();
+			//lastDir = new Vector2();
 		}
 		this.mira.setPosition(Vector2.add(lastDir, m_Collider.getPosition()));
 
@@ -68,8 +68,8 @@ public class Player extends GameObject {
 	}
 
 	public void shoot(Vector2 dir){
-		
-		GameObject gO = new Bala(m_Collider.getPosition(),myTools,id);
+		 
+		GameObject gO = new Bala(m_Collider.getPosition().clone(),myTools,id);
 		dir.multiply(500);
 		gO.getCollider().setVelocity(dir);
 		myTools.newGameObject(gO);
