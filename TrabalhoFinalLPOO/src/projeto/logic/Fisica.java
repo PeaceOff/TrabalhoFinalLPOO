@@ -117,7 +117,10 @@ public class Fisica {
 							c.onTriggerEnter(objects.get(k));
 							continue;
 						}
-							
+						
+						if(c.movable && objects.get(k).movable )
+							System.out.println("Colisao!" + c.getTag() + " " + objects.get(k).getTag());
+						
 						c.onCollisionEnter(objects.get(k));
 						objects.get(k).onCollisionEnter(c);
 						dealWithCollision(c,objects.get(k));

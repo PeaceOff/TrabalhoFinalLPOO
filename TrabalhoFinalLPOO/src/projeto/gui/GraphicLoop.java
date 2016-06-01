@@ -29,6 +29,7 @@ import projeto.logic.Vector2;
 import projeto.logic.iEstatisticaAlert;
 import projeto.minigames.shooter.ShooterGame;
 import projeto.minigames.soccer.SoccerGame;
+import projeto.minigames.survival.SurvivalMinigame;
 import projeto.network.CommandParser;
 import projeto.network.Host;
 import projeto.network.IServerConnection;
@@ -57,7 +58,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public GraphicLoop(){
 
 		in = new Input(8);  
-		mg = new ShooterGame(in,this);
+		mg = new SurvivalMinigame(in,this);
 		dim = mg.getDim();
 		
 		mg.initGame();
