@@ -67,10 +67,12 @@ public abstract class Collider {
 		if(!movable)
 			return;
 		
-	
+		if(tag == "bullet"){
+			System.out.println("vx : " + getVelocity().x + " , vy : " + getVelocity().y );
+		}
 			
 		Vector2 newVelocity = new Vector2();
-		if(this.velocity.x != 0 && this.velocity.y != 0){
+		if(this.velocity.x != 0 || this.velocity.y != 0){
 			newVelocity.x = (this.velocity.x > 0)? this.velocity.x - (this.drag.x  * time) : this.velocity.x + (this.drag.x  * time);
 			newVelocity.y = (this.velocity.y > 0)? this.velocity.y - (this.drag.y * time) : this.velocity.y + (this.drag.y * time);
 		}

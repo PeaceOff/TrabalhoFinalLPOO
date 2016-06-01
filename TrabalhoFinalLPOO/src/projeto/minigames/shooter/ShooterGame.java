@@ -48,16 +48,19 @@ public class ShooterGame extends Minigame {
 		GameObject d13 = new Parede(m_Input, new Vector2(c-p,0), new Vector2(p,l));
 		GameObject d14 = new Parede(m_Input, new Vector2(0,l-p), new Vector2(c,p));
 		
+		GameObject b1 = new Bala(m_Input,new Vector2(p+10,p+10),this);
+		
 		addGameObject(d11);
 		addGameObject(d12);
 		addGameObject(d13);
 		addGameObject(d14);
 		
+		addGameObject(b1);
+		
 		
 	}
 
 	public void update(float timeLapsed){
-	
 		super.update(timeLapsed);
 	}
 
