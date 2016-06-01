@@ -46,8 +46,8 @@ public class ShooterGame extends Minigame {
 		GameObject d13 = new Parede(m_Input, new Vector2(c-p,0), new Vector2(p,l));
 		GameObject d14 = new Parede(m_Input, new Vector2(0,l-p), new Vector2(c,p));
 		
-		GameObject p1 = new Parede(m_Input,new Vector2( p + (2.5 * 15), p + (2.5 * 15)),new Vector2(p/4,0.75 * l));
-		GameObject p2 = new Parede(m_Input,new Vector2( c - p - (2.5 * 15) - p/4,p + (2.5 * 15)),new Vector2(p/4,0.75 * l));
+		GameObject p1 = new Parede(m_Input,new Vector2( p + (5 * 15), p + (2.5 * 15)),new Vector2(p/4,0.75 * l));
+		GameObject p2 = new Parede(m_Input,new Vector2( c - p - (5 * 15) - p/4,p + (2.5 * 15)),new Vector2(p/4,0.75 * l));
 		GameObject b1 = new Parede(m_Input,new Vector2((c/2) - (p/2),l * 0.2),new Vector2(p*2,p*2));
 		GameObject b2 = new Parede(m_Input,new Vector2((c/2) - (p * 2),l * 0.45),new Vector2(p*2,p*2));
 		GameObject b3 = new Parede(m_Input,new Vector2((c/2) - p,l * 0.7),new Vector2(p*2,p*2));
