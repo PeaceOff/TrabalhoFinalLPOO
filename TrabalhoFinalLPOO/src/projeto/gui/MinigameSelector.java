@@ -32,21 +32,28 @@ public class MinigameSelector {
 	}
 	
 	public void update(float tempo){
+		
 		time += tempo;
+		System.out.println("TempoUpdate:" + time);
 	}
 	
 	public void SetWinnerString(String vencedor){
+		
 		time = 0;
 		str = vencedor;
+		fim = false;
+		System.out.println("Tempo:" + time);
 	}
 	
 	public boolean escolhidoMG(){
+		System.out.println("Tempo:" + time);
 		return nextMg != -1 && fim;
 	}
 	
 	public void drawScene(Graphics g){
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial", Font.BOLD, 70));
+		
 		if(!str.equals("")){
 			
 			fim=false;
@@ -58,7 +65,7 @@ public class MinigameSelector {
 				randomMinigame();
 			}
 		}else{
-			
+			nextMg=0;
 			String proximoJogo = "O Proximo jogo é: ";
 			switch(nextMg){
 			case 0:

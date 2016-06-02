@@ -220,6 +220,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void parseCMD(byte[] info, int index) {
 		if(mg == null) return; 
+		
 		ByteArrayInputStream inputStream = null;
 		ObjectInputStream objIn;
 		switch(info[0]){
@@ -385,12 +386,20 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void gameEnded(String vencedor) {
 		selector.SetWinnerString(vencedor);
-		System.out.println("Acabou! Cala-te David" + vencedor);
-		synchronized(Minigame.class){
+		
+		(new Thread(new Runnable() {
 			
-			mg.acabar();
-			mg = null;
-		}
+			@Override
+			public void run() {
+				synchronized(Minigame.class){
+					
+					mg.acabar();
+					mg = null;
+				}
+				
+			}
+		})).start();
+		
 	}
 	
 	

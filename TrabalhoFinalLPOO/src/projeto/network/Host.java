@@ -83,8 +83,9 @@ public class Host extends Thread implements IServerConnection{
 		if(id >= m_TCPConnection.length) return;
 		
 		if(m_TCPConnection[id] == null) return;
-		
-		m_TCPConnection[id].sendInfo(info);
+		synchronized(m_TCPConnection){
+			m_TCPConnection[id].sendInfo(info);
+		}
 	}
 
 	/**
@@ -241,11 +242,13 @@ public class Host extends Thread implements IServerConnection{
 			c.OnClientDisconnected(client, id);
 		
 		try {
-			m_TCPConnection[id].close();
+			synchronized(m_TCPConnection){
+					m_TCPConnection[id].close();
+					m_TCPConnection[id] = null;
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-		m_TCPConnection[id] = null; 
 		
 		m_UDPConnection[id].close();
 		m_UDPConnection[id].interrupt(); 
