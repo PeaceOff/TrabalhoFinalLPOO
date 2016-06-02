@@ -22,7 +22,7 @@ public class Player extends GameObject {
 	private final static double elast = 0.5;
 	private iMinigameTools myTools;
 	private final Vector2 sDrag = new Vector2(1000,1000);
-	private final Vector2 vCap = new Vector2(300,300);
+	private final Vector2 vCap = new Vector2(150,300);
 	public Mira mira;
 	private double tempo = 0;
 	private Vector2 lastDir = new Vector2();
@@ -60,7 +60,7 @@ public class Player extends GameObject {
 		if(pIn.getDirection(1).getNorm() > 0){
 			lastDir = pIn.getDirection(1);
 			lastDir.normalize();
-			if(tempo > 0.3){
+			if(tempo > 0.6){
 				tempo = 0;
 				shoot(lastDir.clone());
 			}
@@ -74,7 +74,7 @@ public class Player extends GameObject {
 
 	public void shoot(Vector2 dir){
 		GameObject gO = new Bala(m_Collider.getPosition(),myTools,id);
-		dir.multiply(450);
+		dir.multiply(170);
 		gO.getCollider().setVelocity(dir);
 		myTools.newGameObject(gO);
 	}

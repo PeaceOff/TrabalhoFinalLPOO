@@ -46,7 +46,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private Minigame mg = null;
 	private Input in = new Input(8);
 	private AtomicBoolean running = new AtomicBoolean(true);
-	private long lastTime = 0;
 	private TextureManager txtMng = new TextureManager();
 	private Host server;
 	private ServerInformationParser parser = new ServerInformationParser(8, true, this);
@@ -91,6 +90,16 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		super.paintComponent(g); 
 		
 		Graphics2D g2 = (Graphics2D)g;
+		
+		RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);	
+		
+		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);	
+		hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
+		
+		
+		g2.setRenderingHints(hints);
+		
 		g2.setColor(Color.black);
 		g2.fillRect(0, 0, getWidth(), getHeight());
 		
@@ -120,15 +129,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 					
 					BufferedImage temp = txtMng.getTexture(obj.getPath());
 					
-					
-					RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-					hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);	
-					
-					hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);	
-					hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
-					
-					
-					g2.setRenderingHints(hints);
 				
 					g2.drawImage(temp,
 								(int)((dims.getxI()* x_scale) + offset_x), (int)((dims.getyI() * y_scale) + offset_y),
@@ -142,7 +142,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				}
 			}
 			
-			
+			g2.setColor(Color.black);
 			for(int i = 0; i < mg.getScores().length; i ++){
 				if(i != mg.getScores().length-1)
 					sb.append(mg.getScores()[i]).append(':');
@@ -163,14 +163,21 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		
 		double time = 0;
 		
+		long lastTime = System.nanoTime();
+		
+		final int FPS = 144;
+		final long TEMPO = 1000000000/FPS;
+		
+		
 		while(running.get()){
 			
-			if(lastTime == 0){
-				lastTime = System.nanoTime();
-				continue;
-			}
-			double deltaTime = (double)(System.nanoTime()-lastTime)/1000000000.0;
-			time+=deltaTime;
+			long agora = System.nanoTime();
+			long updateLength = agora - lastTime;
+			lastTime = agora; 
+			double deltaTime = updateLength/1000000000.0;
+			
+			System.out.println(deltaTime);
+			 
 			if(mg!=null){
 			synchronized(Minigame.class){
 				if(mg!=null)
@@ -190,15 +197,15 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				}
 				
 			}
-			if(time > 0.01){
-				time = 0;
-				repaint();
-			}
 			
-			lastTime = System.nanoTime();
+			repaint();
 			
 			try {
-				Thread.sleep(10);
+				
+				long tempoEspera = (TEMPO - (System.nanoTime() - lastTime))/1000000;
+
+				if(tempoEspera > 0)
+						Thread.sleep( tempoEspera );
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

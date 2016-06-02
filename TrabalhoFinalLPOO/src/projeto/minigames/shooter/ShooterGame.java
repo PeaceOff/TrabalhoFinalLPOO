@@ -37,6 +37,11 @@ public class ShooterGame extends Minigame {
 	public void finalize() throws Throwable {
 		super.finalize();
 	}
+	
+	public void addParede(float x, float y, float cp, float lp){
+		GameObject parede = new Parede(m_Input, new Vector2(c*x - cp/2, l*y - lp/2), new Vector2(cp,lp));
+		addGameObject(parede);
+	}
 
 	public void initGame(){  
 
@@ -48,22 +53,26 @@ public class ShooterGame extends Minigame {
 		GameObject d13 = new Parede(m_Input, new Vector2(c-p,0), new Vector2(p,l));
 		GameObject d14 = new Parede(m_Input, new Vector2(0,l-p), new Vector2(c,p));
 		
-		GameObject p1 = new Parede(m_Input,new Vector2( p + (5 * 15), p + (2.5 * 15)),new Vector2(p/4,0.75 * l));
-		GameObject p2 = new Parede(m_Input,new Vector2( c - p - (5 * 15) - p/4,p + (2.5 * 15)),new Vector2(p/4,0.75 * l));
-		GameObject b1 = new Parede(m_Input,new Vector2((c/2) - (p/2),l * 0.2),new Vector2(p*2,p*2));
-		GameObject b2 = new Parede(m_Input,new Vector2((c/2) - (p * 2),l * 0.45),new Vector2(p*2,p*2));
-		GameObject b3 = new Parede(m_Input,new Vector2((c/2) - p,l * 0.7),new Vector2(p*2,p*2));
+		addParede(0.5f,0.5f,c*0.1f,c*0.1f);
+		addParede(0.5f,0.25f,c*0.1f,c*0.1f);
+		addParede(0.5f,0.75f,c*0.1f,c*0.1f);
+		
+		addParede(0.3375f,0.15f,c*0.05f,l*0.3f);
+		addParede(0.3375f,1-0.15f,c*0.05f,l*0.3f);
+		 
+		addParede(0.2f,0.5f,c*0.05f,l*0.5f); 
+		
+		
+		addParede(1 - 0.3375f,0.15f,c*0.05f,l*0.3f);
+		addParede(1 - 0.3375f,1-0.15f,c*0.05f,l*0.3f);
+		 
+		addParede(1 - 0.2f,0.5f,c*0.05f,l*0.5f);
 		
 		addGameObject(d11);
 		addGameObject(d12);
 		addGameObject(d13);
 		addGameObject(d14);
-		
-		addGameObject(p1);
-		addGameObject(p2);
-		addGameObject(b1);
-		addGameObject(b2);
-		addGameObject(b3);
+
 	}
 
 	public void update(float timeLapsed){

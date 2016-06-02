@@ -65,7 +65,7 @@ public class MinigameSelector {
 				randomMinigame();
 			}
 		}else{
-			nextMg=0;
+			nextMg = 1;
 			String proximoJogo = "O Proximo jogo é: ";
 			switch(nextMg){
 			case 0:
@@ -98,8 +98,6 @@ public class MinigameSelector {
 		case 1:
 			return new ShooterGame(in,a);
 		}
-		
-		
 		return new SurvivalMinigame(in,a);
 	}
 	
