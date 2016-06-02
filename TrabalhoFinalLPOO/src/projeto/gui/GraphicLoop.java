@@ -1,5 +1,6 @@
 package projeto.gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -26,7 +27,7 @@ import projeto.logic.Minigame;
 import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
-import projeto.logic.iEstatisticaAlert;
+import projeto.logic.iMinigameAlert;
 import projeto.minigames.shooter.ShooterGame;
 import projeto.minigames.soccer.SoccerGame;
 import projeto.minigames.survival.SurvivalMinigame;
@@ -36,14 +37,14 @@ import projeto.network.IServerConnection;
 import projeto.network.InformationParser;
 import projeto.network.ServerInformationParser;
  
-public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection, iEstatisticaAlert {
+public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection, iMinigameAlert {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Minigame mg;
-	private Input in;
+	private Minigame mg = null;
+	private Input in = new Input(8);
 	private AtomicBoolean running = new AtomicBoolean(true);
 	private double lastTime = 0;
 	private TextureManager txtMng = new TextureManager();
@@ -54,14 +55,10 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private int offset_y = 0;
 	private double x_scale = 1;
 	private double y_scale = 1;
-	
+	private MinigameSelector selector = new MinigameSelector(in,this);
 	public GraphicLoop(){
-
-		in = new Input(8);  
-		mg = new SurvivalMinigame(in,this);
-		dim = mg.getDim();
 		
-		mg.initGame();
+		selector.SetWinnerString("Bem-Vindo");
 		
 		try {
 			
@@ -92,7 +89,16 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g); 
+		
 		Graphics2D g2 = (Graphics2D)g;
+		g2.setColor(Color.black);
+		g2.fillRect(0, 0, getWidth(), getHeight());
+		
+		if(mg == null){ 
+			selector.drawScene(g2);
+			return; 
+		}
+		
 		ArrayList<GameObject> go = mg.getGame_objects();
 		assertDim(g2.getDeviceConfiguration().getBounds().getWidth(),g2.getDeviceConfiguration().getBounds().getHeight());
 		
@@ -143,20 +149,46 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		
 	}
 	
+	private void paintEscolhas(Graphics g){
+		
+		int raio = getWidth();
+		
+		
+		
+		g.fillOval((int)(getWidth()/2), 30, raio,raio);
+		g.drawString("Tempo", 0, 0);
+		
+	}
+	
 	@Override
 	public void run() {
 		
 		while(running.get()){
-		
+			
 			if(lastTime == 0){
 				lastTime = System.currentTimeMillis();
 				continue;
 			}
 			double deltaTime = (System.currentTimeMillis()-lastTime)/1000;
+			if(mg != null){
+				synchronized(mg){
+					mg.update((float)deltaTime);
+				} 
+			}else{
+				selector.update((float)deltaTime);
+				
+				if(selector.escolhidoMG()){
+					mg = selector.escolherMinijogo();
+					dim = mg.getDim();					
+					mg.initGame();	
+					sendControlLayoutAll();
+					AddPlayers();
+					
+					
+				}
+				
+			}
 			
-			synchronized(mg){
-				mg.update((float)deltaTime);
-			} 
 			repaint();
 			
 			lastTime = System.currentTimeMillis();
@@ -173,8 +205,17 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	}
 	
 	
+	public void AddPlayers(){
+		
+		boolean[] con = server.getConnected();
+		for(int i = 0; i < con.length; i++)
+			if(con[i])
+				mg.addPlayer(i);
+	}
+	
 	@Override
 	public void parseCMD(byte[] info, int index) {
+		if(mg == null) return; 
 		ByteArrayInputStream inputStream = null;
 		ObjectInputStream objIn;
 		switch(info[0]){
@@ -248,15 +289,36 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
-			
 		}
 	}
 	
+	private void sendControlLayoutAll(){
+		if(mg != null){
+			
+			ArrayList<ControllerInformationPacket> packets = mg.getControllPacket();
+			
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			out.write('C');
+			
+			try {
+				
+				ObjectOutputStream objOut = new ObjectOutputStream(out);
+				
+				objOut.writeObject(packets);
+				System.out.println("Tamanho Controller:" + out.toByteArray().length);
+				server.sendInfoAll(InformationParser.transformInformation(out.toByteArray()));
+				 
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
 	@Override
 	public void OnClientConnected(Socket client, int id) {
+		if(mg == null) return; 
 		mg.addPlayer(id);
 		System.out.println("Client Connected" 
 							+ client.getInetAddress().getHostAddress()
@@ -315,6 +377,12 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		
 		
 		
+	}
+
+	@Override
+	public void gameEnded(String vencedor) {
+		selector.SetWinnerString(vencedor);
+		mg = null;
 	}
 	
 	

@@ -13,9 +13,9 @@ public abstract class Minigame implements iMinigameTools {
 	protected Fisica m_Fisica;
 	protected ArrayList<GameObject> game_objects;
 	protected Input m_Input = new Input(8);
-	protected iEstatisticaAlert i_EstAlert;
+	protected iMinigameAlert i_EstAlert;
 	
-	public Minigame(Input i, iEstatisticaAlert estA){
+	public Minigame(Input i, iMinigameAlert estA){
 		scores = new ArrayList<Integer>();
 		m_Fisica = new Fisica() ; //Fisica.getInstance();
 		game_objects = new ArrayList<GameObject>();

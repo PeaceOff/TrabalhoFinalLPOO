@@ -18,7 +18,7 @@ public class Baliza extends GameObject {
 		super(new RectCollider(pos,size.x,size.y,"Baliza" + id,false,1)
 			, i
 			, new Obj(new Rectangulo(pos.x,pos.y,size.x, size.y)
-					,"parede.png", new Rectangulo(0,0,1,1)));
+					,"balizas.png", new Rectangulo(0.5*(1-id),0,0.5,1)));
 		_id = id;
 		myTools = t;
 		m_Collider.setTrigger(true);

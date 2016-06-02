@@ -53,6 +53,17 @@ public class Host extends Thread implements IServerConnection{
 	public int getConnectionsNumber(){	
 		return numClientsConnected.get(); 
 	}
+	
+	public boolean[] getConnected(){
+		boolean[] conectados = new boolean[m_TCPConnection.length];
+		for(int i = 0; i <m_TCPConnection.length; i++){
+			if(m_TCPConnection[i]!=null)
+				conectados[i]=true;
+			else
+				conectados[i]=false;
+		}
+		return conectados;
+	}
 
 	private int getOpenPort(){
 		for(int i = 0; i < m_TCPConnection.length ; i++){
@@ -74,7 +85,6 @@ public class Host extends Thread implements IServerConnection{
 		if(m_TCPConnection[id] == null) return;
 		
 		m_TCPConnection[id].sendInfo(info);
-		
 	}
 
 	/**

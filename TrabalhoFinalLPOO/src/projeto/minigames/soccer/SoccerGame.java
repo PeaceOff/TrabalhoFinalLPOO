@@ -8,10 +8,12 @@ import projeto.logic.GameObject;
 import projeto.logic.GameObjectState;
 import projeto.logic.Input;
 import projeto.logic.Minigame;
+import projeto.logic.Obj;
 import projeto.logic.Parede;
 import projeto.logic.PowerUp;
+import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
-import projeto.logic.iEstatisticaAlert;
+import projeto.logic.iMinigameAlert;
 import projeto.logic.ControllerInformationPacket.Type;
 
 /**
@@ -29,12 +31,14 @@ public class SoccerGame extends Minigame {
 	private final int b = 100;
 	private final int e = 40;
 	private final int ps = 10;
+	private final int maxGoals = 1;
 	
 	ArrayList<ControllerInformationPacket> controllerPackets = new ArrayList<ControllerInformationPacket>();
 	
 	private int scores[] = new int[2];
+	private GameObject bola = null;
 	
-	public SoccerGame(Input i,iEstatisticaAlert estA){
+	public SoccerGame(Input i,iMinigameAlert estA){
 		super(i,estA);
 		players = new Player[8];  
 	} 
@@ -49,6 +53,11 @@ public class SoccerGame extends Minigame {
 		
 		GameObject w1 = new Parede(m_Input, new Vector2(0,0), new Vector2(c, e));
 		GameObject w2 = new Parede(m_Input, new Vector2(0,l), new Vector2(c,e));
+		
+		GameObject chao = new GameObject(null, null, new Obj(new Rectangulo(0, 0, c,l), "campo.png", new Rectangulo(0, 0, 1))) {	
+			@Override
+			public void update(float timeLapsed) {}
+		};
 		
 		GameObject d11 = new Parede(m_Input, new Vector2(0,0), new Vector2(e,(l+e)/2 - b/2));
 		GameObject d12 = new Parede(m_Input, new Vector2(0, (l+e) - (l+e)/2 + b/2), new Vector2(e,(l+e)/2 -b/2)); 
@@ -65,11 +74,15 @@ public class SoccerGame extends Minigame {
 		GameObject b1 = new Baliza(m_Input, new Vector2(0,(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b),1,this);
 		GameObject b2 = new Baliza(m_Input, new Vector2(c - (e * 0.8),(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b),0,this);
 		
+		addGameObject(chao);
+		
 		addGameObject(w1);
 		addGameObject(w2);
 		addGameObject(d11);
 		addGameObject(d12);  
 		addGameObject(d13);
+		
+		
 		
 		addGameObject(d21);
 		addGameObject(d22);  
@@ -83,7 +96,8 @@ public class SoccerGame extends Minigame {
 		addGameObject(p3);
 		addGameObject(p4);
 		
-		GameObject bola = new Bola(m_Input, new Vector2((c+e)/2,(l+e)/2),this);
+		bola = new Bola(m_Input, new Vector2(),this);
+		resetBola();
 		addGameObject(bola); 
 		
 	}
@@ -125,23 +139,25 @@ public class SoccerGame extends Minigame {
 		players[id] = null;
 		
 	}
-
+	
+	private void resetBola(){
+		bola.getCollider().setPosition(new Vector2((c)/2,(l+e)/2));
+		bola.getCollider().setVelocity(new Vector2());
+	}
+	
 	@Override
 	public void resetRound() {
 		//Reset Players
 		for(Player p : players){
 			resetPlayer(p);
 		}
-		
-		for(GameObject g : game_objects){
-			if(g.getCollider().getTag().contains("ball")){
-				g.getCollider().setPosition(new Vector2((c+e)/2,(l+e)/2));
-				g.getCollider().setVelocity(new Vector2());
-				((GameObjectState)g).resetState();
+		resetBola();
 
-			} else if (g.getCollider().getTag().contains("PowerUp")){
-				g.destroy();
-			}
+		for(GameObject g : game_objects){
+			if(g.getCollider() != null)
+				if (g.getCollider().getTag().contains("PowerUp")){
+					g.destroy();
+				}
 		}
 		
 		tempo = 0; //Reiniciar a geracao de powerups
@@ -154,6 +170,13 @@ public class SoccerGame extends Minigame {
 		if(entity_id < 0 || entity_id >= scores.length)
 			return;
 		scores[entity_id] += score;
+		 
+		if(scores[0] == maxGoals){
+			i_EstAlert.gameEnded("Equipa Branca Ganhou!");
+		}else if(scores[1] == maxGoals){
+			i_EstAlert.gameEnded("Equipa Preta Ganhou!");
+		}
+		
 	}
 
 	@Override
@@ -162,6 +185,8 @@ public class SoccerGame extends Minigame {
 
 	@Override
 	public int[] getScores() {
+	
+		
 		return scores;
 	}
 

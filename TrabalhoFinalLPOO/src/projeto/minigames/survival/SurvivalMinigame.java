@@ -10,12 +10,12 @@ import projeto.logic.Input;
 import projeto.logic.Minigame;
 import projeto.logic.Parede;
 import projeto.logic.Vector2;
-import projeto.logic.iEstatisticaAlert;
+import projeto.logic.iMinigameAlert;
 
 
 public class SurvivalMinigame extends Minigame {
 
-	private int scores[] = new int[]{1000,1000};
+	private int scores[] = new int[]{1,1};
 	private ArrayList<ControllerInformationPacket> packets = new ArrayList<ControllerInformationPacket>();
 	
 	private final int comprimento = 1000;
@@ -26,7 +26,7 @@ public class SurvivalMinigame extends Minigame {
 	
 	private float time = 0;
 	
-	public SurvivalMinigame(Input i, iEstatisticaAlert estA) {
+	public SurvivalMinigame(Input i, iMinigameAlert estA) {
 		super(i, estA);
 		
 	}
@@ -73,6 +73,13 @@ public class SurvivalMinigame extends Minigame {
 	@Override
 	public void scoreReceived(int score, int entity_id) {
 		scores[entity_id % 2] += score;
+		
+		if(scores[0] <= 0){
+			i_EstAlert.gameEnded("Equipa Branca Ganhou!");
+		}else if(scores[1] <= 0){  
+			i_EstAlert.gameEnded("Equipa Preta Ganhou!");
+		}
+		
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import projeto.logic.Input;
 import projeto.logic.Minigame;
 import projeto.logic.Parede;
 import projeto.logic.Vector2;
-import projeto.logic.iEstatisticaAlert;
+import projeto.logic.iMinigameAlert;
 import projeto.logic.ControllerInformationPacket.Type;
 import projeto.minigames.shooter.Player;
 
@@ -27,7 +27,9 @@ public class ShooterGame extends Minigame {
 	private final int l = 700;
 	private final int p = 40;
 	
-	public ShooterGame(Input i, iEstatisticaAlert estA) {
+	private final int maxPoints = 1;
+	
+	public ShooterGame(Input i, iMinigameAlert estA) {
 		super(i, estA);
 		players = new Player[8];
 	}
@@ -120,6 +122,13 @@ public class ShooterGame extends Minigame {
 		if(entity_id < 0 || entity_id >= scores.length)
 			return;
 		scores[entity_id] += score;
+		
+		if(scores[0] == maxPoints){
+			i_EstAlert.gameEnded("Equipa Branca Ganhou!");
+		}else if(scores[1] == maxPoints){
+			i_EstAlert.gameEnded("Equipa Preta Ganhou!");
+		}
+		
 	}
 
 	@Override
