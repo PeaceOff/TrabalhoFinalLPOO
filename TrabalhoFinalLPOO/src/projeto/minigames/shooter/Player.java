@@ -74,7 +74,7 @@ public class Player extends GameObject {
 
 	public void shoot(Vector2 dir){
 		GameObject gO = new Bala(m_Collider.getPosition(),myTools,id);
-		dir.multiply(300);
+		dir.multiply(450);
 		gO.getCollider().setVelocity(dir);
 		myTools.newGameObject(gO);
 	}

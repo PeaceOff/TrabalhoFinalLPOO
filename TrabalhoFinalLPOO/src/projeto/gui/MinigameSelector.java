@@ -45,7 +45,6 @@ public class MinigameSelector {
 	}
 	
 	public void drawScene(Graphics g){
-		System.out.println(str);
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Arial", Font.BOLD, 70));
 		if(!str.equals("")){

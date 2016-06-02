@@ -14,7 +14,7 @@ public class Bala extends GameObject {
 	private int player_ID = -1;
 	private int hit_ID = -1;
 	private iMinigameTools myTools;
-	private final static int size = 2;
+	private final static int size = 3;
 	private final static double elast = 0.9;
 	private final Vector2 sDrag = new Vector2();
 	private final Vector2 vCap = new Vector2(7000,7000);

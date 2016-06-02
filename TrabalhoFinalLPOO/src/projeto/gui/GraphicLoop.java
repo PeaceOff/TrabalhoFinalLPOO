@@ -46,7 +46,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private Minigame mg = null;
 	private Input in = new Input(8);
 	private AtomicBoolean running = new AtomicBoolean(true);
-	private double lastTime = 0;
+	private long lastTime = 0;
 	private TextureManager txtMng = new TextureManager();
 	private Host server;
 	private ServerInformationParser parser = new ServerInformationParser(8, true, this);
@@ -99,47 +99,56 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			return; 
 		}
 		
-		ArrayList<GameObject> go = mg.getGame_objects();
-		assertDim(g2.getDeviceConfiguration().getBounds().getWidth(),g2.getDeviceConfiguration().getBounds().getHeight());
-		
-		synchronized(go){ 
-			for(GameObject gO: go){ 
-				
-				Obj obj = gO.getObj();
-				
-				Rectangulo dims = obj.getDimensions();
-				Rectangulo subI = obj.getSubImage();
-				 
-				BufferedImage temp = txtMng.getTexture(obj.getPath());
-				
-				
-				RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-				hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);	
-				
-				hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);	
-				hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
-				
-				
-				g2.setRenderingHints(hints);
-			
-				g2.drawImage(temp,
-							(int)((dims.getxI()* x_scale) + offset_x), (int)((dims.getyI() * y_scale) + offset_y),
-							(int)((dims.getxF() * x_scale)  + offset_x), (int)((dims.getyF() * y_scale) + offset_y)
-						,(int) (subI.getxI() * temp.getWidth()) 
-						,(int) (subI.getyI() * temp.getHeight())
-						,(int) (subI.getxF() * temp.getWidth())
-						,(int) (subI.getyF() * temp.getHeight()) 
-						, null); 
-				
-			}
-		}
-		
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < mg.getScores().length; i ++){
-			if(i != mg.getScores().length-1)
-				sb.append(mg.getScores()[i]).append(':');
-			else
-				sb.append(mg.getScores()[i]);
+		
+		synchronized(mg){
+			ArrayList<GameObject> go = mg.getGame_objects();
+			assertDim(g2.getDeviceConfiguration().getBounds().getWidth(),g2.getDeviceConfiguration().getBounds().getHeight());
+			
+	
+			g2.setColor(Color.gray);
+			g2.fillRect(offset_x, offset_y, (int)(dim.x*x_scale), (int)(dim.y*y_scale));
+			
+			
+			synchronized(go){ 
+				for(GameObject gO: go){ 
+					
+					Obj obj = gO.getObj();
+					
+					Rectangulo dims = obj.getDimensions();
+					Rectangulo subI = obj.getSubImage();
+					
+					BufferedImage temp = txtMng.getTexture(obj.getPath());
+					
+					
+					RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+					hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);	
+					
+					hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);	
+					hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
+					
+					
+					g2.setRenderingHints(hints);
+				
+					g2.drawImage(temp,
+								(int)((dims.getxI()* x_scale) + offset_x), (int)((dims.getyI() * y_scale) + offset_y),
+								(int)((dims.getxF() * x_scale)  + offset_x), (int)((dims.getyF() * y_scale) + offset_y)
+							,(int) (subI.getxI() * temp.getWidth()) 
+							,(int) (subI.getyI() * temp.getHeight())
+							,(int) (subI.getxF() * temp.getWidth())
+							,(int) (subI.getyF() * temp.getHeight()) 
+							, null); 
+					
+				}
+			}
+			
+			
+			for(int i = 0; i < mg.getScores().length; i ++){
+				if(i != mg.getScores().length-1)
+					sb.append(mg.getScores()[i]).append(':');
+				else
+					sb.append(mg.getScores()[i]);
+			}
 		}
 		g2.setFont(new Font("TimesNewRoman", Font.BOLD, (int)(40 * y_scale)));
 		FontMetrics fm = g2.getFontMetrics();
@@ -152,13 +161,16 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void run() {
 		
+		double time = 0;
+		
 		while(running.get()){
 			
 			if(lastTime == 0){
-				lastTime = System.currentTimeMillis();
+				lastTime = System.nanoTime();
 				continue;
 			}
-			double deltaTime = (System.currentTimeMillis()-lastTime)/1000;
+			double deltaTime = (double)(System.nanoTime()-lastTime)/1000000000.0;
+			time+=deltaTime;
 			if(mg != null){
 				synchronized(mg){
 					mg.update((float)deltaTime);
@@ -177,13 +189,15 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				}
 				
 			}
+			if(time > 0.01){
+				time = 0;
+				repaint();
+			}
 			
-			repaint();
-			
-			lastTime = System.currentTimeMillis();
+			lastTime = System.nanoTime();
 			
 			try {
-				Thread.sleep(1);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -194,11 +208,12 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	
 	
 	public void AddPlayers(){
-		
-		boolean[] con = server.getConnected();
-		for(int i = 0; i < con.length; i++)
-			if(con[i])
-				mg.addPlayer(i);
+		synchronized(mg){
+			boolean[] con = server.getConnected();
+			for(int i = 0; i < con.length; i++)
+				if(con[i])
+					mg.addPlayer(i);
+		}
 	}
 	
 	@Override
@@ -217,7 +232,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 					byte pos = (byte)objIn.readObject();
 					
 					if(res != null)
-						mg.getInput().getPlayerInput(index).setDirection(pos,res);
+						in.getPlayerInput(index).setDirection(pos,res);
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -232,7 +247,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 					byte value = (byte)objIn.readObject();
 					byte pos = (byte)objIn.readObject();
 
-					mg.getInput().getPlayerInput(index).setKey(pos, value); 
+					in.getPlayerInput(index).setKey(pos, value); 
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -266,7 +281,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				ObjectOutputStream objOut = new ObjectOutputStream(out);
 				
 				objOut.writeObject(packets);
-				System.out.println("Tamanho Controller:" + out.toByteArray().length);
 				server.sendInfo(InformationParser.transformInformation(out.toByteArray()), id);
 				 
 			} catch (IOException e) {
@@ -297,7 +311,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				ObjectOutputStream objOut = new ObjectOutputStream(out);
 				
 				objOut.writeObject(packets);
-				System.out.println("Tamanho Controller:" + out.toByteArray().length);
 				server.sendInfoAll(InformationParser.transformInformation(out.toByteArray()));
 				 
 			} catch (IOException e) {
@@ -311,7 +324,9 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public void OnClientConnected(Socket client, int id) {
 		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
 		if(mg == null) return; 
-		mg.addPlayer(id);
+		synchronized(mg){
+			mg.addPlayer(id);
+		}
 		System.out.println("Client Connected" 
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 
@@ -330,7 +345,10 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void OnClientDisconnected(Socket client, int id) {
 		if(mg != null)
-			mg.removePlayer(id); 
+			synchronized(mg){
+				mg.removePlayer(id);
+			}
+		
 		System.out.println("Client Disconnected"  
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 
@@ -342,7 +360,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		
 		server.sendInfo(InformationParser.transformInformation(("M" + e.getNome()).getBytes()), player_id); 
 		
-		System.out.println("-----Player:" + player_id + " " + e.getTipoJogo() + " "+ e.getNome() + ":" + e.getValor());
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		try {
 			stream.write(new byte[]{(byte)'S'}); 
@@ -355,8 +372,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			ss.writeObject(e);
 			
 			server.sendInfo(InformationParser.transformInformation(stream.toByteArray() ), player_id);
-			System.out.println("DDDDDMSG Sent :" + player_id + ":" + stream.toByteArray().toString());
-			System.out.println("Tamanho" + stream.toByteArray().length); 
 			
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -369,7 +384,10 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void gameEnded(String vencedor) {
 		selector.SetWinnerString(vencedor);
-		mg = null;
+		System.out.println("Acabou! Cala-te David" + vencedor);
+		synchronized(mg){
+			mg = null;
+		}
 	}
 	
 	

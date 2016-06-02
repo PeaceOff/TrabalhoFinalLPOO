@@ -45,7 +45,6 @@ public class SurvivalMinigame extends Minigame {
 		
 		Random rnd = new Random();
 		int raio = rnd.nextInt()%30 + 40;
-		System.out.println("R" + raio);
 		Vector2 pos = new Vector2();
 		pos.x = rnd.nextInt( (int)(comprimento- espessura*2));
 		pos.y = espessura+raio;
@@ -94,7 +93,7 @@ public class SurvivalMinigame extends Minigame {
 	@Override
 	public void addPlayer(int id) {
 		
-		Player player = new Player(m_Input, id,new Vector2(comprimento/2,altura/2),this);
+		Player player = new Player(m_Input, id,new Vector2(espessura + 30 + 30*id ,altura/2),this);
 		players[id]=player;
 		addGameObject(player);
 		
