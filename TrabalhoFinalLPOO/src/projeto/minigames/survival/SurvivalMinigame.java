@@ -75,9 +75,9 @@ public class SurvivalMinigame extends Minigame {
 		scores[entity_id % 2] += score;
 		
 		if(scores[0] <= 0){
-			i_EstAlert.gameEnded("Equipa Branca Ganhou!");
-		}else if(scores[1] <= 0){  
 			i_EstAlert.gameEnded("Equipa Preta Ganhou!");
+		}else if(scores[1] <= 0){  
+			i_EstAlert.gameEnded("Equipa Branca Ganhou!");
 		}
 		
 	}

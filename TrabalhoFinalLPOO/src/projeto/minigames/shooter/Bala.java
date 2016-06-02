@@ -28,15 +28,6 @@ public class Bala extends GameObject {
 		myTools = t;
 		player_ID = id;
 	}
-	  
-	@Override
-	public void update(float timeLapsed) {
-	}
-	
-	@Override
-	public void onCollisionEnter(Collider c) {
-		super.onCollisionEnter(c);
-	}
 
 	public void setPlayer_ID(int id) {
 		this.player_ID = id;
@@ -73,5 +64,9 @@ public class Bala extends GameObject {
 		}
 		this.destroy();
 		super.onTriggerEnter(c);
+	}
+
+	@Override
+	public void update(float timeLapsed) {	
 	}
 }

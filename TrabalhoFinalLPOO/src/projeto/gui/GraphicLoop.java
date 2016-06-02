@@ -149,17 +149,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		
 	}
 	
-	private void paintEscolhas(Graphics g){
-		
-		int raio = getWidth();
-		
-		
-		
-		g.fillOval((int)(getWidth()/2), 30, raio,raio);
-		g.drawString("Tempo", 0, 0);
-		
-	}
-	
 	@Override
 	public void run() {
 		
@@ -196,7 +185,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -232,10 +220,8 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 						mg.getInput().getPlayerInput(index).setDirection(pos,res);
 					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;
@@ -249,10 +235,8 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 					mg.getInput().getPlayerInput(index).setKey(pos, value); 
 					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -286,7 +270,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				server.sendInfo(InformationParser.transformInformation(out.toByteArray()), id);
 				 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -309,7 +292,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				server.sendInfoAll(InformationParser.transformInformation(out.toByteArray()));
 				 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -328,7 +310,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		try {
 			server.sendInfo(InformationParser.transformInformation(('D' + mg.getDica()).getBytes("UTF-8")), id);
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
@@ -355,7 +336,6 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		try {
 			stream.write(new byte[]{(byte)'S'}); 
 		} catch (IOException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		try {
@@ -367,11 +347,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			System.out.println("DDDDDMSG Sent :" + player_id + ":" + stream.toByteArray().toString());
 			System.out.println("Tamanho" + stream.toByteArray().length); 
 			
-			
-			
-			
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		

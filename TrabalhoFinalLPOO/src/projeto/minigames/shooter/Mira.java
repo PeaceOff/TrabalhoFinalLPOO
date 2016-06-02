@@ -18,9 +18,7 @@ public class Mira extends GameObject{
 	}
 
 	@Override
-	public void update(float timeLapsed) {
-		// TODO Auto-generated method stub
-		
+	public void update(float timeLapsed) {	
 	}
 	
 }
