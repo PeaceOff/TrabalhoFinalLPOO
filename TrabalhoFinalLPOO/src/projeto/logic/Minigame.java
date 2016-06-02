@@ -34,7 +34,8 @@ public abstract class Minigame implements iMinigameTools {
 		}
 	}
 	public void removeGameObject(GameObject g){
-		synchronized (game_objects) {
+		if(g == null) return;
+		synchronized (game_objects) { 
 			game_objects.remove(g);
 			m_Fisica.removeObject(g.m_Collider);
 		}

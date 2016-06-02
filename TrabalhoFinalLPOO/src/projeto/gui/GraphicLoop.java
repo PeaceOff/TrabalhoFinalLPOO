@@ -300,6 +300,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	
 	@Override
 	public void OnClientConnected(Socket client, int id) {
+		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
 		if(mg == null) return; 
 		mg.addPlayer(id);
 		System.out.println("Client Connected" 
@@ -312,14 +313,15 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} 
-		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
+		
 		sendControlLayout(id);
 		
 	}
 
 	@Override
 	public void OnClientDisconnected(Socket client, int id) {
-		mg.removePlayer(id); 
+		if(mg != null)
+			mg.removePlayer(id); 
 		System.out.println("Client Disconnected"  
 							+ client.getInetAddress().getHostAddress()
 							+ ":" + client.getPort() 
