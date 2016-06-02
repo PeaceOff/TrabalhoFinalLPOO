@@ -28,7 +28,7 @@ public class MinigameSelector {
 	public MinigameSelector(Input i, iMinigameAlert alert){
 		in = i;
 		a = alert;
-		escolherMinijogo();
+		randomMinigame();
 	}
 	
 	public void update(float tempo){

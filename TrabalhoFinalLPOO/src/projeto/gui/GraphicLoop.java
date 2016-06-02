@@ -278,6 +278,15 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private void sendControlLayoutAll(){
 		if(mg != null){
 			
+			for(int i =0 ; i < server.getConnected().length; i++)
+				if(server.getConnected()[i])
+					try {
+						server.sendInfo(InformationParser.transformInformation(('D' + mg.getDica()).getBytes("UTF-8")), i);
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			
 			ArrayList<ControllerInformationPacket> packets = mg.getControllPacket();
 			
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
