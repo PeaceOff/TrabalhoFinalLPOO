@@ -101,7 +101,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		
 		StringBuilder sb = new StringBuilder();
 		
-		synchronized(mg){
+		synchronized(Minigame.class){
 			ArrayList<GameObject> go = mg.getGame_objects();
 			assertDim(g2.getDeviceConfiguration().getBounds().getWidth(),g2.getDeviceConfiguration().getBounds().getHeight());
 			
@@ -171,10 +171,11 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			}
 			double deltaTime = (double)(System.nanoTime()-lastTime)/1000000000.0;
 			time+=deltaTime;
-			if(mg != null){
-				synchronized(mg){
+			if(mg!=null){
+			synchronized(Minigame.class){
+				if(mg!=null)
 					mg.update((float)deltaTime);
-				} 
+			}
 			}else{
 				selector.update((float)deltaTime);
 				
@@ -208,7 +209,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	
 	
 	public void AddPlayers(){
-		synchronized(mg){
+		synchronized(Minigame.class){
 			boolean[] con = server.getConnected();
 			for(int i = 0; i < con.length; i++)
 				if(con[i])
@@ -324,7 +325,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public void OnClientConnected(Socket client, int id) {
 		server.sendInfo(InformationParser.transformInformation((byte)'A',(byte)id), id);
 		if(mg == null) return; 
-		synchronized(mg){
+		synchronized(Minigame.class){
 			mg.addPlayer(id);
 		}
 		System.out.println("Client Connected" 
@@ -345,7 +346,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	@Override
 	public void OnClientDisconnected(Socket client, int id) {
 		if(mg != null)
-			synchronized(mg){
+			synchronized(Minigame.class){
 				mg.removePlayer(id);
 			}
 		
@@ -385,7 +386,9 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	public void gameEnded(String vencedor) {
 		selector.SetWinnerString(vencedor);
 		System.out.println("Acabou! Cala-te David" + vencedor);
-		synchronized(mg){
+		synchronized(Minigame.class){
+			
+			mg.acabar();
 			mg = null;
 		}
 	}

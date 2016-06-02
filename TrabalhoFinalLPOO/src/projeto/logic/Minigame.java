@@ -12,7 +12,7 @@ public abstract class Minigame implements iMinigameTools {
 	protected ArrayList<Integer> scores;
 	protected Fisica m_Fisica;
 	protected ArrayList<GameObject> game_objects;
-	protected Input m_Input = new Input(8);
+	protected Input m_Input; 
 	protected iMinigameAlert i_EstAlert;
 	
 	public Minigame(Input i, iMinigameAlert estA){
@@ -26,6 +26,14 @@ public abstract class Minigame implements iMinigameTools {
 	public abstract void addPlayer(int id);
 	
 	public abstract void removePlayer(int id);
+	
+	public void acabar(){
+		i_EstAlert = null;
+		m_Input = null;
+		scores = null;
+		game_objects = null;
+		
+	}
 	
 	public void addGameObject(GameObject g){
 		synchronized (game_objects) {
