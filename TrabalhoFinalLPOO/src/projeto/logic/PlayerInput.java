@@ -20,7 +20,7 @@ public class PlayerInput {
 	}
 	
 	public void setKey(int i, byte key){
-		System.out.println("SetKeyChamado!");
+		
 		if(i >= 0 || i < keys.length)
 			keys[i] = key; 
 	}
@@ -32,7 +32,7 @@ public class PlayerInput {
 	}
 
 	public void setDirection(int i, Vector2 d) {
-		System.out.println("SetDirectionChamado!");
+		 
 		if(i < 0 || i >= direction.length)
 			return;
 		this.direction[i] = d;

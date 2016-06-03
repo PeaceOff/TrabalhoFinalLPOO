@@ -32,7 +32,7 @@ public class MinigameSelector {
 	public void update(float tempo){
 		
 		time += tempo;
-		System.out.println("TempoUpdate:" + time);
+
 	}
 	
 	public void SetWinnerString(String vencedor){
@@ -40,11 +40,11 @@ public class MinigameSelector {
 		time = 0;
 		str = vencedor;
 		fim = false;
-		System.out.println("Tempo:" + time);
+
 	}
 	
 	public boolean escolhidoMG(){
-		System.out.println("Tempo:" + time);
+
 		return nextMg != -1 && fim;
 	}
 	
@@ -63,7 +63,7 @@ public class MinigameSelector {
 				randomMinigame();
 			}
 		}else{
-			//nextMg = 2;
+
 			String proximoJogo = "O Proximo jogo é: ";
 			switch(nextMg){
 			case 0:

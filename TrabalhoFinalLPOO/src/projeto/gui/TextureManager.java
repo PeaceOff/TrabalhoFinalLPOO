@@ -1,5 +1,10 @@
 package projeto.gui;
 
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +28,16 @@ public class TextureManager {
 		
 		try {
 			bi = ImageIO.read(new File(s));
-			temp.put(s, bi);
+			
+			GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			GraphicsDevice device = env.getDefaultScreenDevice();
+			GraphicsConfiguration config = device.getDefaultConfiguration();
+			BufferedImage buffy = config.createCompatibleImage(bi.getWidth(), bi.getHeight(), Transparency.BITMASK);
+			Graphics2D g2 = buffy.createGraphics();
+			g2.drawImage(bi, 0, 0, buffy.getWidth(), buffy.getHeight(), 0, 0, bi.getWidth(), buffy.getHeight(), null);
+			g2.dispose();
+			
+			temp.put(s, buffy);
 			return bi;
 			
 		} catch (IOException e) {

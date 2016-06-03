@@ -5,7 +5,11 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,6 +22,8 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JPanel;
+
+import com.sun.javafx.iio.ImageStorage.ImageType;
 
 import projeto.logic.ControllerInformationPacket;
 import projeto.logic.Estatistica;
@@ -55,6 +61,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	private double x_scale = 1;
 	private double y_scale = 1;
 	private MinigameSelector selector = new MinigameSelector(in,this);
+	
 	public GraphicLoop(){
 		
 		selector.SetWinnerString("Bem-Vindo");
@@ -83,7 +90,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
         offset_y = (int)((h - height) / 2);
 	
 	}
-	 
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		
@@ -97,8 +104,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		hints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);	
 		hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
 		
-		
-		//g2.setRenderingHints(hints);
+		g2.setRenderingHints(hints);
 		
 		g2.setColor(Color.black);
 		g2.fillRect(0, 0, getWidth(), getHeight());
@@ -114,15 +120,13 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			ArrayList<GameObject> go = mg.getGame_objects();
 			assertDim(g2.getDeviceConfiguration().getBounds().getWidth(),g2.getDeviceConfiguration().getBounds().getHeight());
 			
-	
 			g2.setColor(Color.gray);
-			g2.fillRect(offset_x, offset_y, (int)(dim.x*x_scale), (int)(dim.y*y_scale));
-			
-			
+			g2.fillRect(offset_x, offset_y,(int)(dim.x*x_scale), (int)(dim.y*y_scale));
 			synchronized(go){ 
 				for(GameObject gO: go){ 
 					
 					Obj obj = gO.getObj();
+					
 					
 					Rectangulo dims = obj.getDimensions();
 					Rectangulo subI = obj.getSubImage();
@@ -141,7 +145,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 					
 				}
 			}
-			
+		
 			g2.setColor(Color.black);
 			for(int i = 0; i < mg.getScores().length; i ++){
 				if(i != mg.getScores().length-1)
@@ -176,7 +180,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 			lastTime = agora; 
 			double deltaTime = updateLength/1000000000.0;
 			
-			System.out.println(deltaTime);
+			//System.out.println(deltaTime);
 			 
 			if(mg!=null){
 			synchronized(Minigame.class){
@@ -188,7 +192,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				
 				if(selector.escolhidoMG()){
 					mg = selector.escolherMinijogo();
-					dim = mg.getDim();					
+					dim = mg.getDim();	
 					mg.initGame();	
 					sendControlLayoutAll();
 					AddPlayers();
@@ -198,7 +202,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 				
 			}
 			
-			repaint();
+			this.paintImmediately(0, 0, this.getWidth(), this.getHeight()); 
 			
 			try {
 				

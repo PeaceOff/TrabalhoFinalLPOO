@@ -2,6 +2,8 @@ package projeto.gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,11 +33,13 @@ public class MainWindow extends JFrame {
 	public MainWindow() {
 		
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 		setUndecorated(true);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-
+		//setExtendedState(JFrame.MAXIMIZED_BOTH);
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice device = env.getDefaultScreenDevice();
+		device.setFullScreenWindow(this);
 		
 		GraphicLoop gameLoop = new GraphicLoop();
 		gameLoop.setVisible(true);

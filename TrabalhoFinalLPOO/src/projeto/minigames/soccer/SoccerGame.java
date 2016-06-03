@@ -74,7 +74,7 @@ public class SoccerGame extends Minigame {
 		GameObject b1 = new Baliza(m_Input, new Vector2(0,(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b),1,this);
 		GameObject b2 = new Baliza(m_Input, new Vector2(c - (e * 0.8),(l/2) - (b / 2) + (e / 2)), new Vector2((e * 0.8),b),0,this);
 		
-		addGameObject(chao);
+		//addGameObject(chao);
 		
 		addGameObject(w1);
 		addGameObject(w2);
@@ -199,7 +199,7 @@ public class SoccerGame extends Minigame {
 
 	@Override
 	public Vector2 getDim() {
-		return new Vector2(c,l);
+		return new Vector2(c,l+e);
 	}
 	
 	@Override
