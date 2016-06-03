@@ -27,14 +27,14 @@ import projeto.logic.Minigame;
 import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
-import projeto.logic.iMinigameAlert;
+import projeto.logic.IMinigameAlert;
 import projeto.network.CommandParser;
 import projeto.network.Host;
 import projeto.network.IServerConnection;
 import projeto.network.InformationParser;
 import projeto.network.ServerInformationParser;
  
-public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection, iMinigameAlert {
+public class GraphicLoop extends JPanel implements Runnable , CommandParser, IServerConnection, IMinigameAlert {
 	
 	/**
 	 * 

@@ -13,7 +13,7 @@ import projeto.logic.Parede;
 import projeto.logic.PowerUp;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
-import projeto.logic.iMinigameAlert;
+import projeto.logic.IMinigameAlert;
 import projeto.logic.ControllerInformationPacket.Type;
 
 /**
@@ -38,7 +38,7 @@ public class SoccerGame extends Minigame {
 	private int scores[] = new int[2];
 	private GameObject bola = null;
 	
-	public SoccerGame(Input i,iMinigameAlert estA){
+	public SoccerGame(Input i,IMinigameAlert estA){
 		super(i,estA);
 		players = new Player[8];  
 	} 

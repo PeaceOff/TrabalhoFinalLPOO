@@ -9,7 +9,7 @@ import projeto.logic.Input;
 import projeto.logic.Minigame;
 import projeto.logic.Parede;
 import projeto.logic.Vector2;
-import projeto.logic.iMinigameAlert;
+import projeto.logic.IMinigameAlert;
 import projeto.logic.ControllerInformationPacket.Type;
 import projeto.minigames.shooter.Player;
 
@@ -29,7 +29,7 @@ public class ShooterGame extends Minigame {
 	
 	private final int maxPoints = 1;
 	
-	public ShooterGame(Input i, iMinigameAlert estA) {
+	public ShooterGame(Input i, IMinigameAlert estA) {
 		super(i, estA);
 		players = new Player[8];
 	}

@@ -8,7 +8,7 @@ import projeto.logic.Input;
 import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
-import projeto.logic.iMinigameTools;
+import projeto.logic.IMinigameTools;
 
 public class Player extends GameObject {
 	
@@ -16,9 +16,9 @@ public class Player extends GameObject {
 	private final static int size = 30;
 	private final static float elast = 1.0f;
 	private final static int gravity= 30;
-	private iMinigameTools tools;
+	private IMinigameTools tools;
 	private float tempo = 0;
-	public Player(Input i, int _id , Vector2 pos, iMinigameTools mgTools) {
+	public Player(Input i, int _id , Vector2 pos, IMinigameTools mgTools) {
 		
 		super(new CircleCollider(size,elast, pos, "Player" + _id, true, 70)
 				, i

@@ -10,7 +10,7 @@ import projeto.logic.Input;
 import projeto.logic.Minigame;
 import projeto.logic.Parede;
 import projeto.logic.Vector2;
-import projeto.logic.iMinigameAlert;
+import projeto.logic.IMinigameAlert;
 
 
 public class SurvivalMinigame extends Minigame {
@@ -26,7 +26,7 @@ public class SurvivalMinigame extends Minigame {
 	
 	private float time = 0;
 	
-	public SurvivalMinigame(Input i, iMinigameAlert estA) {
+	public SurvivalMinigame(Input i, IMinigameAlert estA) {
 		super(i, estA);
 		
 	}

@@ -7,19 +7,19 @@ import projeto.logic.GameObject;
 import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
-import projeto.logic.iMinigameTools;
+import projeto.logic.IMinigameTools;
 
 public class Bala extends GameObject {
 	
 	private int player_ID = -1;
 	private int hit_ID = -1;
-	private iMinigameTools myTools;
+	private IMinigameTools myTools;
 	private final static int size = 5;
 	private final static double elast = 0.9;
 	private final Vector2 sDrag = new Vector2();
 	private final Vector2 vCap = new Vector2(7000,7000);
 	
-	public Bala(Vector2 pos,iMinigameTools t, int id){
+	public Bala(Vector2 pos,IMinigameTools t, int id){
 		super(new CircleCollider(size,elast,pos,"bullet", true, 30),null,new Obj(new Rectangulo(pos.x,pos.y, size,size), "poste.png", new Rectangulo(0,0,1,1)));   
 		m_Collider.setDrag(sDrag);
 		m_Collider.setVelCap(vCap);

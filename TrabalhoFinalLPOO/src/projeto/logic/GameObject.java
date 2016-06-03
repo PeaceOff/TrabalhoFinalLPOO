@@ -5,7 +5,7 @@ package projeto.logic;
  * @version 1.0
  * @created 03-mai-2016 15:30:36
  */
-public abstract class GameObject implements iCollider {
+public abstract class GameObject implements ICollider {
 
 	protected Collider m_Collider;
 	protected Input m_Input;

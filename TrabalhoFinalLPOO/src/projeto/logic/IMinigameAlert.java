@@ -1,6 +1,6 @@
 package projeto.logic;
 
-public interface iMinigameAlert {
+public interface IMinigameAlert {
 
 	void receiveEstatistica(int player_id, Estatistica e);
 	

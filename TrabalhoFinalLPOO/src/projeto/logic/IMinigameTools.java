@@ -1,6 +1,6 @@
 package projeto.logic;
 
-public interface iMinigameTools {
+public interface IMinigameTools {
 	
 	void resetGame();
 	

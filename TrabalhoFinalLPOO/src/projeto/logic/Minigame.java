@@ -7,15 +7,15 @@ import java.util.ArrayList;
  * @version 1.0
  * @created 03-mai-2016 15:30:40
  */
-public abstract class Minigame implements iMinigameTools {
+public abstract class Minigame implements IMinigameTools {
 
 	protected ArrayList<Integer> scores;
 	protected Fisica m_Fisica;
 	protected ArrayList<GameObject> game_objects;
 	protected Input m_Input; 
-	protected iMinigameAlert i_EstAlert;
+	protected IMinigameAlert i_EstAlert;
 	
-	public Minigame(Input i, iMinigameAlert estA){
+	public Minigame(Input i, IMinigameAlert estA){
 		scores = new ArrayList<Integer>();
 		m_Fisica = new Fisica() ; //Fisica.getInstance();
 		game_objects = new ArrayList<GameObject>();

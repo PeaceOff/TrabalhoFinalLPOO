@@ -7,7 +7,7 @@ import java.util.Random;
 
 import projeto.logic.Input;
 import projeto.logic.Minigame;
-import projeto.logic.iMinigameAlert;
+import projeto.logic.IMinigameAlert;
 import projeto.minigames.shooter.ShooterGame;
 import projeto.minigames.soccer.SoccerGame;
 import projeto.minigames.survival.SurvivalMinigame;
@@ -20,10 +20,10 @@ public class MinigameSelector {
 	
 	private int nextMg = -1;
 	private Input in;
-	private iMinigameAlert a;
+	private IMinigameAlert a;
 	private boolean fim = false;
 	
-	public MinigameSelector(Input i, iMinigameAlert alert){
+	public MinigameSelector(Input i, IMinigameAlert alert){
 		in = i;
 		a = alert;
 		randomMinigame();

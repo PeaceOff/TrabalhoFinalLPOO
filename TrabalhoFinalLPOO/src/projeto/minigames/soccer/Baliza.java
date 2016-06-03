@@ -7,14 +7,14 @@ import projeto.logic.Obj;
 import projeto.logic.RectCollider;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
-import projeto.logic.iMinigameTools;
+import projeto.logic.IMinigameTools;
 
 public class Baliza extends GameObject {
 
 	private int _id;
-	private iMinigameTools myTools;
+	private IMinigameTools myTools;
 	
-	public Baliza(Input i,Vector2 pos, Vector2 size,int id, iMinigameTools t) {
+	public Baliza(Input i,Vector2 pos, Vector2 size,int id, IMinigameTools t) {
 		super(new RectCollider(pos,size.x,size.y,"Baliza" + id,false,1)
 			, i
 			, new Obj(new Rectangulo(pos.x,pos.y,size.x, size.y)

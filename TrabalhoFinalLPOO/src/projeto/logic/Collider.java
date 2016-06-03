@@ -13,7 +13,7 @@ public abstract class Collider {
 	protected String tag;
 	protected boolean trigger = false;
 	protected Vector2 velocity;
-	protected iCollider m_iCollider = null;
+	protected ICollider m_iCollider = null;
 	protected double mass;
 	protected Vector2 velCap;
 	
@@ -41,7 +41,7 @@ public abstract class Collider {
 		return velCap;
 	}
 	
-	public void addListener(iCollider iC){
+	public void addListener(ICollider iC){
 		m_iCollider = iC;
 	}
 

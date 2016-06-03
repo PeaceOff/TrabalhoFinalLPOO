@@ -8,19 +8,19 @@ import projeto.logic.Input;
 import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
-import projeto.logic.iMinigameTools;
+import projeto.logic.IMinigameTools;
 
 public class Bola extends GameObjectState {
 	
 	private int lastID = -1;
 	private int lastSecondID = -1;
-	private iMinigameTools myTools;
+	private IMinigameTools myTools;
 	private final static int size = 10;
 	private final static double elast = 0.9;
 	private final Vector2 sDrag = new Vector2(20,20);
 	private final Vector2 vCap = new Vector2(7000,7000);
 	
-	public Bola(Input i, Vector2 pos,iMinigameTools t){
+	public Bola(Input i, Vector2 pos,IMinigameTools t){
 		super(new CircleCollider(size,elast,pos,"ball", true, 30),i,new Obj(new Rectangulo(pos.x,pos.y, size,size), "bola.png", new Rectangulo(0,0,1,1)));   
 		m_Collider.setDrag(sDrag);
 		m_Collider.setVelCap(vCap);
