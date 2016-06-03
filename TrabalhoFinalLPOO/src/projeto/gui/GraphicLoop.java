@@ -5,11 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
-import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,8 +19,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.JPanel;
 
-import com.sun.javafx.iio.ImageStorage.ImageType;
-
 import projeto.logic.ControllerInformationPacket;
 import projeto.logic.Estatistica;
 import projeto.logic.GameObject;
@@ -34,9 +28,6 @@ import projeto.logic.Obj;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
 import projeto.logic.iMinigameAlert;
-import projeto.minigames.shooter.ShooterGame;
-import projeto.minigames.soccer.SoccerGame;
-import projeto.minigames.survival.SurvivalMinigame;
 import projeto.network.CommandParser;
 import projeto.network.Host;
 import projeto.network.IServerConnection;
@@ -230,7 +221,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 	
 	@Override
 	public void parseCMD(byte[] info, int index) {
-		if(mg == null) return; 
+		if(mg == null) return;
 		
 		ByteArrayInputStream inputStream = null;
 		ObjectInputStream objIn;
