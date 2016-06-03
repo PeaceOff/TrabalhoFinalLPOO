@@ -22,11 +22,11 @@ public class Player extends GameObject {
 	private final static double elast = 0.5;
 	private iMinigameTools myTools;
 	private final Vector2 sDrag = new Vector2(1000,1000);
-	private final Vector2 vCap = new Vector2(150,300);
+	private final Vector2 vCap = new Vector2(200,200);
 	public Mira mira;
 	private double tempo = 0;
 	private Vector2 lastDir = new Vector2();
-	private int vida = 5;
+	private int vida = 3;
 	
 	public Player(Input i, int _id , Vector2 pos,iMinigameTools t,Mira m){
 		super(new CircleCollider(size,elast, pos, "Player" + _id, true, 70),i,new Obj(new Rectangulo(), "players.png", new Rectangulo(_id*1/8f, 0, 1/8f ,1))); 
@@ -41,7 +41,7 @@ public class Player extends GameObject {
 	public void update(float timeLapsed){
 		
 		if(vida <= 0){
-			vida = 5;
+			vida = 3;
 			myTools.resetGameObject(this);
 			myTools.scoreReceived(1, (id%2 == 0)? 1:0);
 			tempo = 0;
@@ -74,7 +74,7 @@ public class Player extends GameObject {
 
 	public void shoot(Vector2 dir){
 		GameObject gO = new Bala(m_Collider.getPosition(),myTools,id);
-		dir.multiply(170);
+		dir.multiply(200);
 		gO.getCollider().setVelocity(dir);
 		myTools.newGameObject(gO);
 	}
