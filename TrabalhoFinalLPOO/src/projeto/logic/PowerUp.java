@@ -1,5 +1,10 @@
 package projeto.logic;
 
+import projeto.minigames.soccer.BiggerState;
+import projeto.minigames.soccer.FasterState;
+import projeto.minigames.soccer.SlowerState;
+import projeto.minigames.soccer.SmallerState;
+
 public class PowerUp extends GameObject {
 	
 	private State escolhido;
