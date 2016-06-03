@@ -1,7 +1,6 @@
 package projeto.minigames.soccer;
 
 import projeto.logic.GameObjectState;
-import projeto.logic.NormalState;
 import projeto.logic.State;
 import projeto.logic.Vector2;
 

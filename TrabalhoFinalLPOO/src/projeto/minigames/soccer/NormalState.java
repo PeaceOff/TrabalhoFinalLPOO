@@ -1,4 +1,8 @@
-package projeto.logic;
+package projeto.minigames.soccer;
+
+import projeto.logic.CircleCollider;
+import projeto.logic.GameObjectState;
+import projeto.logic.State;
 
 public class NormalState implements State {
 	
@@ -10,7 +14,7 @@ public class NormalState implements State {
 			return;
 		}
 		((CircleCollider)gO.getCollider()).setRadius(gO.getSize());
-		gO.m_Collider.setVelCap(gO.getCap());
+		gO.getCollider().setVelCap(gO.getCap());
 
 		once = 1;
 	}

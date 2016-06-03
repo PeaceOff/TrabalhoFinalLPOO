@@ -1,5 +1,7 @@
 package projeto.logic;
 
+import projeto.minigames.soccer.NormalState;
+
 public abstract class GameObjectState extends GameObject{
 
 	protected State m_State;

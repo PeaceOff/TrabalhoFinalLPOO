@@ -2,7 +2,6 @@ package projeto.minigames.soccer;
 
 import projeto.logic.CircleCollider;
 import projeto.logic.GameObjectState;
-import projeto.logic.NormalState;
 import projeto.logic.State;
 
 public class SmallerState implements State {
