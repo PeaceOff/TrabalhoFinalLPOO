@@ -98,7 +98,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);	
 		
 		
-		g2.setRenderingHints(hints);
+		//g2.setRenderingHints(hints);
 		
 		g2.setColor(Color.black);
 		g2.fillRect(0, 0, getWidth(), getHeight());

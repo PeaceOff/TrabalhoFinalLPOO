@@ -7,8 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import javafx.scene.layout.Border;
-
 public class MainWindow extends JFrame {
 
 	/**

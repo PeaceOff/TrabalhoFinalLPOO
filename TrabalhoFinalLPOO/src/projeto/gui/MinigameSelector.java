@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Random;
 
-import com.oracle.webservices.internal.api.EnvelopeStyle.Style;
-
 import projeto.logic.Input;
 import projeto.logic.Minigame;
 import projeto.logic.iMinigameAlert;
@@ -65,7 +63,7 @@ public class MinigameSelector {
 				randomMinigame();
 			}
 		}else{
-			nextMg = 0;
+			//nextMg = 2;
 			String proximoJogo = "O Proximo jogo é: ";
 			switch(nextMg){
 			case 0:
