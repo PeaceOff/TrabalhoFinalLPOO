@@ -10,7 +10,7 @@ import projeto.logic.Vector2;
 
 public class Asteroide extends GameObject {
 
-	private static int gravity = 100;
+	private static int gravity = 1;
 	private int toques = 10;
 	private int raioMaximo = 10;
 	private int raio = 0;
@@ -29,7 +29,7 @@ public class Asteroide extends GameObject {
 	@Override
 	public void update(float timeLapsed) {
 		
-		m_Collider.addVelocity(new Vector2(0, 1));
+		m_Collider.addVelocity(new Vector2(0, gravity));
 		
 	}
 	
