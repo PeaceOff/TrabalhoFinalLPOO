@@ -85,7 +85,7 @@ public class TCPClient extends TCPBasic implements Runnable {
 	 * @param ip
 	 * @throws IOException 
 	 */
-	public void rebindConnection(String ip) throws IOException{
+	private void rebindConnection(String ip) throws IOException{
 		DataInputStream in = new DataInputStream(socket.getInputStream());
 		int newPort = in.readInt();
 		if(newPort == 0){
