@@ -1,9 +1,6 @@
 package projeto.network;
 
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import java.util.LinkedList;
 
 
@@ -18,11 +15,8 @@ public class InformationParser {
 
 	private final int id;
 	private LinkedList<Byte> information = new LinkedList<Byte>();
-	private ByteArrayInputStream buffer = null;
 	private ICommandReceived m_ICommandReceived;
-	int counter = 0;
 	private int tamanhoMSG = 0;
-	private int messageSize = 0;
 	
 	public InformationParser(int id, ICommandReceived rc){
 		this.id = id;

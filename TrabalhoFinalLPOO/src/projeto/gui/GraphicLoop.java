@@ -108,6 +108,7 @@ public class GraphicLoop extends JPanel implements Runnable , CommandParser, ISe
 		StringBuilder sb = new StringBuilder();
 		
 		synchronized(Minigame.class){
+			if(mg == null) return;
 			ArrayList<GameObject> go = mg.getGame_objects();
 			assertDim(g2.getDeviceConfiguration().getBounds().getWidth(),g2.getDeviceConfiguration().getBounds().getHeight());
 			
