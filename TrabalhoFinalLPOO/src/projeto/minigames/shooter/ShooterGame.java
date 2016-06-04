@@ -163,7 +163,7 @@ public class ShooterGame extends Minigame {
 	
 	@Override
 	public String getDica() {
-		return "BOOM! Headshot!";
+		return "BOOM! Headshot!\nUtiliza o Joystick esquerdo para te movimentares.\nUtiliza o Joystick direito para apontar.";
 	}
 
 	@Override

@@ -204,7 +204,7 @@ public class SoccerGame extends Minigame {
 	
 	@Override
 	public String getDica() {
-		return "Acredita em ti mesmo, tu consegues!";
+		return "Acredita em ti mesmo, tu consegues!\nUtiliza o JoyStick para te mover.";
 	}
 
 	@Override

@@ -147,7 +147,7 @@ public class SurvivalMinigame extends Minigame {
 
 	@Override
 	public String getDica() {
-		return "Corre! Nao te deixes falecer";
+		return "Corre! Nao te deixes falecer\nUtiliza os botões para te movimentares para a esquerda e direita";
 	}
 
 	@Override
