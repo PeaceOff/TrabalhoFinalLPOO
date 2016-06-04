@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
 		
 		
 		
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
 		setUndecorated(true);
 		//setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -48,5 +48,7 @@ public class MainWindow extends JFrame {
 		(new Thread(gameLoop)).start();
 		
 	}
-
+	
+	
+	
 }
