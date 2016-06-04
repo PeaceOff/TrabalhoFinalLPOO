@@ -1,6 +1,7 @@
 package projeto.logic;
 
 import projeto.minigames.soccer.NormalState;
+import projeto.minigames.soccer.PowerUp;
 
 public abstract class GameObjectState extends GameObject{
 
