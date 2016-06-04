@@ -10,7 +10,6 @@ import projeto.logic.Input;
 import projeto.logic.Minigame;
 import projeto.logic.Obj;
 import projeto.logic.Parede;
-import projeto.logic.PowerUp;
 import projeto.logic.Rectangulo;
 import projeto.logic.Vector2;
 import projeto.logic.IMinigameAlert;

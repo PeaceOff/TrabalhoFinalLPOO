@@ -1,9 +1,12 @@
-package projeto.logic;
+package projeto.minigames.soccer;
 
-import projeto.minigames.soccer.BiggerState;
-import projeto.minigames.soccer.FasterState;
-import projeto.minigames.soccer.SlowerState;
-import projeto.minigames.soccer.SmallerState;
+import projeto.logic.CircleCollider;
+import projeto.logic.Collider;
+import projeto.logic.GameObject;
+import projeto.logic.Obj;
+import projeto.logic.Rectangulo;
+import projeto.logic.State;
+import projeto.logic.Vector2;
 
 public class PowerUp extends GameObject {
 	
@@ -20,7 +23,7 @@ public class PowerUp extends GameObject {
 		double y = (Math.random() * (largura * 0.9)) + (largura * 0.05);
 		super.getCollider().setPosition(new Vector2(x,y));
 		m_Collider.addListener(this);
-		m_Collider.trigger = true;
+		m_Collider.setTrigger(true);
 		int choice =(int)(Math.random() * 4); 
 		  
 		switch(choice){
