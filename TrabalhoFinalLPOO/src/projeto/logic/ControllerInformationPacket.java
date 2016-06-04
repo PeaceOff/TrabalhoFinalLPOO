@@ -3,7 +3,9 @@ package projeto.logic;
 import java.io.Serializable;
 
 /**
- * Created by Joao on 31-05-2016.
+ * @author João e David
+ * @version 1.0
+ * @created 31-mai-2016 15:30:32.
  */
 public class ControllerInformationPacket implements Serializable {
 
