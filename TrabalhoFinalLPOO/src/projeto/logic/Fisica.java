@@ -3,19 +3,25 @@ package projeto.logic;
 import java.util.ArrayList;
 
 /**
- * Singleton
- * @author David
+ * @author Joao e David
  * @version 1.0
  * @created 03-mai-2016 15:30:34
  */
 public class Fisica {
 
 	public ArrayList<Collider> objects;
-	 
+	
+	/**
+	 * Construtor da classe
+	 */
 	public Fisica(){
 		objects = new ArrayList<Collider>();
 	}
 	
+	/**
+	 * Funcao para adicionar um novo collider
+	 * @param c novo collider
+	 */
 	public void addObject(Collider c){
 		if(c == null)
 			return;
@@ -24,6 +30,10 @@ public class Fisica {
 		}
 	}
 	 
+	/**
+	 * Funcao para remover um collider
+	 * @param c collider a remover
+	 */
 	public void removeObject(Collider c){
 		if(c == null)
 			return;
@@ -32,6 +42,12 @@ public class Fisica {
 		}
 	}
 	
+	/**
+	 * Funcao para verificar se existe colisao entre dois colliders
+	 * @param c1
+	 * @param c2
+	 * @return true se estiverem a colidir
+	 */
 	public boolean checkColision(Collider c1, Collider c2){
 		
 		Rectangulo rect1 = c1.getBoundingBox();
@@ -102,6 +118,11 @@ public class Fisica {
 		return (distCenters <= distMin);
 	}
 
+	/**
+	 * Funcao para atualizar a fisica e os seus objectos
+	 * Funcao alerta os objecto sobre colisoes e resolve-as
+	 * @param timeLapsed tempo decorrido desde a ultima atualizacao
+	 */
 	public void update(float timeLapsed){
 		
 		synchronized(objects){
@@ -128,6 +149,11 @@ public class Fisica {
 		}
 	}
 	
+	/**
+	 * Funcao que resolve situacoes de colisao entre dois colliders
+	 * @param c1
+	 * @param c2
+	 */
 	public void dealWithCollision(Collider c1, Collider c2){
 		if(c1.getClass() == CircleCollider.class && c2.getClass() == CircleCollider.class){
 			dealWithCollision((CircleCollider)c1, (CircleCollider)c2);
